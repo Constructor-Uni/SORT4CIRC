@@ -1,321 +1,350 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="480" viewBox="0 0 1200 480"
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560"
   role="img"
-  aria-label="SORT4CIRC textile Digital Product Passport workflow. One garment and one EPC move through a UHF RFID read zone. The passport resolves with garment class, composition and technical flags. ISO 1833 laboratory and near-infrared observations disagree and both remain independently retained. A versioned rule set routes the garment within the reference configuration targets of a 920 millisecond software budget and a 1600 millisecond actuation deadline. Separately, a SHA-256 digest follows an asynchronous evidence path to a Hyperledger Besu anchor after the routing decision, outside the time-critical sorting path.">
+  aria-label="SORT4CIRC textile Digital Product Passport workflow. In a synchronized sixteen-second loop, one garment enters a conveyor, pauses beneath a UHF RFID read zone for one EPC capture, continues to a resolved passport record containing independently retained ISO 1833 laboratory and near-infrared observations, passes a versioned routing decision, and enters the mechanical recycling fibre sorting bay. After the route is issued, a separate asynchronous evidence lane calculates a SHA-256 digest and confirms a Hyperledger Besu anchor outside the time-critical sorting path. The 920 millisecond software budget and 1600 millisecond actuation deadline are reference-configuration targets, not universal measured performance.">
   <title>SORT4CIRC textile Digital Product Passport sorting workflow</title>
   <desc>
-    A continuously looping dark diagram follows a garment from UHF RFID capture through passport
-    resolution, independently retained laboratory and near-infrared observations, a versioned sorting
-    decision and a sorting bay. A separate evidence lane calculates a SHA-256 digest and anchors it to
-    Besu asynchronously after routing. The 920 millisecond software budget and 1600 millisecond
-    actuation deadline are explicitly labelled as reference-configuration targets.
+    A dark animated systems diagram follows one garment through four aligned stations: UHF RFID
+    capture, Digital Product Passport resolution, a versioned routing decision and a sorting bay.
+    The passport retains disagreeing laboratory and near-infrared observations independently. A
+    separate evidence lane moves from an integrity view to a SHA-256 digest and then to a Besu
+    anchor only after routing. Reduced-motion mode presents the complete final workflow statically.
   </desc>
 
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#080912"/>
-      <stop offset="0.48" stop-color="#111126"/>
-      <stop offset="1" stop-color="#07161a"/>
-    </linearGradient>
-    <linearGradient id="headerLine" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#9d72ff" stop-opacity="0"/>
-      <stop offset="0.23" stop-color="#9d72ff"/>
-      <stop offset="0.58" stop-color="#ff5db1"/>
-      <stop offset="0.88" stop-color="#3ee8d3"/>
-      <stop offset="1" stop-color="#3ee8d3" stop-opacity="0"/>
-    </linearGradient>
-    <linearGradient id="belt" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#2d3150"/>
-      <stop offset="1" stop-color="#171a31"/>
+      <stop offset="0" stop-color="#090a13"/>
+      <stop offset="0.55" stop-color="#101326"/>
+      <stop offset="1" stop-color="#091a1c"/>
     </linearGradient>
     <linearGradient id="garmentFill" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#b998ff"/>
-      <stop offset="0.52" stop-color="#9d72ff"/>
-      <stop offset="1" stop-color="#ff5db1"/>
-    </linearGradient>
-    <linearGradient id="decisionFill" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#1c1836"/>
-      <stop offset="1" stop-color="#102b2d"/>
+      <stop offset="0" stop-color="#b69aff"/>
+      <stop offset="0.55" stop-color="#956cff"/>
+      <stop offset="1" stop-color="#f65bab"/>
     </linearGradient>
     <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
-      <path d="M32 0H0V32" fill="none" stroke="#8b8eac" stroke-opacity=".055"/>
+      <path d="M32 0H0V32" fill="none" stroke="#b2b6d0" stroke-opacity=".035"/>
     </pattern>
-    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="5" result="blur"/>
+    <filter id="activeGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="2.2" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <filter id="smallGlow" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur stdDeviation="2.4" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <clipPath id="canvasClip"><rect width="1200" height="480" rx="22"/></clipPath>
+    <marker id="arrowNeutral" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 8 4 0 8Z" fill="#646b8b"/>
+    </marker>
+    <marker id="arrowEvidence" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 8 4 0 8Z" fill="#65708c"/>
+    </marker>
+    <clipPath id="canvasClip"><rect width="1200" height="560" rx="22"/></clipPath>
     <style>
-      text { font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, sans-serif; }
-      .label { fill: #c7c9df; font-size: 10px; font-weight: 700; letter-spacing: 1.15px; }
-      .tiny { fill: #9195b2; font-size: 9px; font-weight: 600; letter-spacing: .5px; }
-      .value { fill: #f5f2ff; font-size: 11px; font-weight: 650; }
-      .muted { fill: #a9acc7; }
-      .panel { fill: #11152a; stroke: #383d62; stroke-width: 1; }
-      .flow-line { fill: none; stroke: #6b7199; stroke-width: 1.4; stroke-dasharray: 4 7; }
-      .belt-dashes { animation: beltShift 14s linear infinite; }
-      .garment-move { animation: garmentFlow 14s cubic-bezier(.42,0,.58,1) infinite; }
-      .scan-one { animation: scanPulse 14s ease-out infinite; }
-      .scan-two { animation: scanPulse 14s 180ms ease-out infinite; }
-      .scan-three { animation: scanPulse 14s 360ms ease-out infinite; }
-      .epc-chip { animation: epcResolve 14s ease-in-out infinite; }
-      .passport-card { animation: passportResolve 14s ease-in-out infinite; }
-      .lab-card { animation: labObserve 14s ease-in-out infinite; }
-      .nir-card { animation: nirObserve 14s ease-in-out infinite; }
-      .retain-mark { animation: retainBoth 14s ease-in-out infinite; }
-      .decision-card { animation: decide 14s ease-in-out infinite; }
-      .route-pulse { animation: routePulse 14s ease-in-out infinite; }
-      .bay-pulse { animation: bayPulse 14s ease-in-out infinite; }
-      .evidence-packet { animation: evidenceFlow 14s cubic-bezier(.4,0,.2,1) infinite; }
-      .digest-pulse { animation: digestPulse 14s ease-in-out infinite; }
-      .anchor-pulse { animation: anchorPulse 14s ease-in-out infinite; }
-      .status-dot { animation: statusBlink 14s ease-in-out infinite; }
+      text { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, sans-serif; }
+      .station { fill: #111528; stroke: #3b405e; stroke-width: 1.25; }
+      .station-purple { stroke: #574775; }
+      .station-teal { stroke: #315f61; }
+      .station-title { fill: #d4d6e8; font-size: 10px; font-weight: 750; letter-spacing: 1.15px; }
+      .label { fill: #a4a8c2; font-size: 9px; font-weight: 700; letter-spacing: .85px; }
+      .value { fill: #f4f2fc; font-size: 11px; font-weight: 650; }
+      .caption { fill: #8f94b0; font-size: 9px; font-weight: 600; letter-spacing: .45px; }
+      .divider { stroke: #353a57; stroke-width: 1; }
+      .station-arrow { fill: none; stroke: #646b8b; stroke-width: 1.4; marker-end: url(#arrowNeutral); }
+      .belt-dashes { animation: beltShift 16s linear infinite; }
+      .garment-move { animation: garmentFlow 16s linear infinite; }
+      .rfid-station { animation: rfidStation 16s linear infinite; }
+      .passport-station { animation: passportStation 16s linear infinite; }
+      .decision-station { animation: decisionStation 16s linear infinite; }
+      .bay-station { animation: bayStation 16s linear infinite; }
+      .rfid-status { animation: rfidStatus 16s linear infinite; }
+      .passport-status { animation: passportStatus 16s linear infinite; }
+      .decision-status { animation: decisionStatus 16s linear infinite; }
+      .bay-status { animation: bayStatus 16s linear infinite; }
+      .scan-field { animation: scanField 16s linear infinite; }
+      .epc-result { animation: epcResult 16s linear infinite; }
+      .observation-state { animation: observationState 16s linear infinite; }
+      .route-state { animation: routeState 16s linear infinite; }
+      .packet-record-digest { animation: packetRecordDigest 16s linear infinite; }
+      .digest-token { animation: digestToken 16s linear infinite; }
+      .packet-digest-anchor { animation: packetDigestAnchor 16s linear infinite; }
+      .anchor-status { animation: anchorStatus 16s linear infinite; }
 
-      @keyframes beltShift { to { transform: translateX(54px); } }
+      @keyframes beltShift { to { transform: translateX(52px); } }
       @keyframes garmentFlow {
-        0%, 2% { transform: translateX(-105px); opacity: 0; }
-        5% { transform: translateX(-60px); opacity: 1; }
-        17% { transform: translateX(135px); opacity: 1; }
-        31% { transform: translateX(332px); opacity: 1; }
-        47% { transform: translateX(554px); opacity: 1; }
-        62% { transform: translateX(760px); opacity: 1; }
-        74%, 80% { transform: translateX(966px); opacity: 1; }
-        85%, 100% { transform: translateX(1015px); opacity: 0; }
+        0% { transform: translateX(-80px); opacity: 0; }
+        2% { transform: translateX(-56px); opacity: 1; }
+        12%, 25% { transform: translateX(114px); opacity: 1; }
+        30%, 45% { transform: translateX(426px); opacity: 1; }
+        50%, 63% { transform: translateX(792px); opacity: 1; }
+        75%, 82% { transform: translateX(1060px); opacity: 1; }
+        88% { transform: translateX(1060px); opacity: 0; }
+        100% { transform: translateX(-80px); opacity: 0; }
       }
-      @keyframes scanPulse {
-        0%, 9%, 26%, 100% { opacity: .16; transform: scaleX(.45); }
-        14%, 20% { opacity: .9; transform: scaleX(1); }
+      @keyframes rfidStation {
+        0%, 11%, 26%, 100% { stroke: #574775; }
+        13%, 24% { stroke: #a77cff; }
       }
-      @keyframes epcResolve {
-        0%, 14%, 31%, 100% { opacity: .36; transform: translateY(4px); }
-        18%, 27% { opacity: 1; transform: translateY(0); }
+      @keyframes passportStation {
+        0%, 24%, 46%, 100% { stroke: #574775; }
+        27%, 44% { stroke: #a77cff; }
       }
-      @keyframes passportResolve {
-        0%, 20%, 48%, 100% { stroke: #383d62; filter: none; }
-        26%, 43% { stroke: #a980ff; filter: url(#smallGlow); }
+      @keyframes decisionStation {
+        0%, 44%, 64%, 100% { stroke: #315f61; }
+        47%, 62% { stroke: #3ee8d3; }
       }
-      @keyframes labObserve {
-        0%, 25%, 50%, 100% { opacity: .64; }
-        31%, 46% { opacity: 1; }
+      @keyframes bayStation {
+        0%, 62%, 82%, 100% { stroke: #315f61; }
+        66%, 80% { stroke: #3ee8d3; }
       }
-      @keyframes nirObserve {
-        0%, 30%, 52%, 100% { opacity: .58; }
-        37%, 49% { opacity: 1; }
+      @keyframes rfidStatus {
+        0%, 11%, 26%, 100% { fill: #5e527a; filter: none; }
+        14%, 23% { fill: #b391ff; filter: url(#activeGlow); }
       }
-      @keyframes retainBoth {
-        0%, 36%, 56%, 100% { opacity: .38; }
-        42%, 52% { opacity: 1; filter: url(#smallGlow); }
+      @keyframes passportStatus {
+        0%, 24%, 46%, 100% { fill: #5e527a; filter: none; }
+        28%, 43% { fill: #b391ff; filter: url(#activeGlow); }
       }
-      @keyframes decide {
-        0%, 44%, 70%, 100% { stroke: #3d4960; filter: none; }
-        52%, 66% { stroke: #3ee8d3; filter: url(#smallGlow); }
+      @keyframes decisionStatus {
+        0%, 44%, 64%, 100% { fill: #345e60; filter: none; }
+        48%, 61% { fill: #3ee8d3; filter: url(#activeGlow); }
       }
-      @keyframes routePulse {
-        0%, 49%, 71%, 100% { opacity: .28; }
-        57%, 67% { opacity: 1; }
+      @keyframes bayStatus {
+        0%, 62%, 84%, 100% { fill: #345e60; filter: none; }
+        67%, 81% { fill: #3ee8d3; filter: url(#activeGlow); }
       }
-      @keyframes bayPulse {
-        0%, 62%, 85%, 100% { opacity: .5; }
-        70%, 81% { opacity: 1; filter: url(#smallGlow); }
+      @keyframes scanField {
+        0%, 11%, 26%, 100% { opacity: .22; }
+        14%, 23% { opacity: 1; }
       }
-      @keyframes evidenceFlow {
-        0%, 64% { transform: translateX(0); opacity: 0; }
-        67% { transform: translateX(25px); opacity: 1; }
-        79% { transform: translateX(300px); opacity: 1; }
-        91%, 96% { transform: translateX(560px); opacity: 1; }
-        100% { transform: translateX(585px); opacity: 0; }
+      @keyframes epcResult {
+        0%, 13%, 27%, 100% { opacity: .45; }
+        17%, 25% { opacity: 1; }
       }
-      @keyframes digestPulse {
-        0%, 70%, 87%, 100% { opacity: .52; }
-        76%, 84% { opacity: 1; filter: url(#smallGlow); }
+      @keyframes observationState {
+        0%, 24%, 46%, 100% { opacity: .62; }
+        28%, 44% { opacity: 1; }
       }
-      @keyframes anchorPulse {
-        0%, 83%, 100% { opacity: .52; }
-        90%, 97% { opacity: 1; filter: url(#smallGlow); }
+      @keyframes routeState {
+        0%, 44%, 65%, 100% { opacity: .52; }
+        49%, 63% { opacity: 1; }
       }
-      @keyframes statusBlink {
-        0%, 88%, 100% { fill: #545978; }
-        92%, 97% { fill: #3ee8d3; filter: url(#softGlow); }
+      @keyframes packetRecordDigest {
+        0%, 70% { transform: translateX(0); opacity: 0; }
+        72% { transform: translateX(0); opacity: 1; }
+        78% { transform: translateX(98px); opacity: 1; }
+        80%, 100% { transform: translateX(98px); opacity: 0; }
+      }
+      @keyframes digestToken {
+        0%, 77%, 90%, 100% { fill: #5f527d; filter: none; }
+        80%, 88% { fill: #b391ff; filter: url(#activeGlow); }
+      }
+      @keyframes packetDigestAnchor {
+        0%, 87% { transform: translateX(0); opacity: 0; }
+        89% { transform: translateX(0); opacity: 1; }
+        95% { transform: translateX(98px); opacity: 1; }
+        97%, 100% { transform: translateX(98px); opacity: 0; }
+      }
+      @keyframes anchorStatus {
+        0%, 93%, 100% { fill: #345e60; filter: none; }
+        96%, 99% { fill: #3ee8d3; filter: url(#activeGlow); }
       }
       @media (prefers-reduced-motion: reduce) {
         * { animation: none !important; }
-        .garment-move { transform: translateX(966px); opacity: 1; }
-        .evidence-packet { transform: translateX(560px); opacity: 1; }
-        .passport-card { stroke: #a980ff; }
-        .decision-card { stroke: #3ee8d3; }
-        .status-dot { fill: #3ee8d3; }
+        .garment-move { transform: translateX(1060px); opacity: 1; }
+        .packet-record-digest { opacity: 0; }
+        .packet-digest-anchor { transform: translateX(98px); opacity: 1; }
+        .digest-token { fill: #b391ff; }
+        .anchor-status { fill: #3ee8d3; }
       }
     </style>
   </defs>
 
   <g clip-path="url(#canvasClip)">
-    <rect width="1200" height="480" rx="22" fill="url(#background)"/>
-    <rect width="1200" height="480" fill="url(#grid)"/>
-    <circle cx="175" cy="-42" r="220" fill="#7e55e7" opacity=".08"/>
-    <circle cx="1110" cy="410" r="230" fill="#23c8bd" opacity=".06"/>
-    <rect x=".5" y=".5" width="1199" height="479" rx="21.5" fill="none" stroke="#343852"/>
+    <rect width="1200" height="560" rx="22" fill="url(#background)"/>
+    <rect width="1200" height="560" fill="url(#grid)"/>
+    <rect x=".5" y=".5" width="1199" height="559" rx="21.5" fill="none" stroke="#34384e"/>
 
-    <!-- Project identity and reference-configuration targets -->
-    <g aria-label="Project title">
-      <text x="34" y="42" fill="#ffffff" font-size="25" font-weight="800" letter-spacing="1.2">SORT4CIRC</text>
-      <text x="34" y="63" fill="#aeb1ca" font-size="12.5" font-weight="600">Textile Digital Product Passport</text>
-      <rect x="34" y="75" width="1132" height="2" rx="1" fill="url(#headerLine)"/>
-      <text x="1166" y="41" text-anchor="end" class="label">SPECIFICATION - API - CONFORMANCE</text>
-      <text x="1166" y="61" text-anchor="end" class="tiny">REFERENCE IMPLEMENTATION</text>
+    <!-- Header and identity: y 28 to 105 -->
+    <g aria-label="Project identity and reference configuration targets">
+      <text x="32" y="48" fill="#ffffff" font-size="26" font-weight="800" letter-spacing="1.2">SORT4CIRC</text>
+      <text x="32" y="69" fill="#b3b6cc" font-size="12.5" font-weight="600">Textile Digital Product Passport</text>
+      <text x="1168" y="47" text-anchor="end" class="station-title">SPECIFICATION - API - CONFORMANCE</text>
+      <text x="1168" y="68" text-anchor="end" class="caption">REFERENCE IMPLEMENTATION</text>
+
+      <text x="32" y="91" class="label" fill="#c2c5d7">REFERENCE CONFIGURATION TARGETS</text>
+      <text x="32" y="103" class="caption">ONE GARMENT - ONE EPC · NOT UNIVERSAL MEASUREMENTS</text>
+
+      <rect x="672" y="80" width="212" height="24" rx="12" fill="#1d1932" stroke="#67508e"/>
+      <circle cx="688" cy="92" r="3.5" fill="#b391ff"/>
+      <text x="700" y="96" class="label" fill="#d8cdf9">920 MS SOFTWARE BUDGET</text>
+
+      <rect x="908" y="80" width="260" height="24" rx="12" fill="#102729" stroke="#326b68"/>
+      <circle cx="924" cy="92" r="3.5" fill="#3ee8d3"/>
+      <text x="936" y="96" class="label" fill="#b8eee9">1600 MS ACTUATION DEADLINE - TARGET</text>
     </g>
 
-    <g aria-label="Reference configuration target badges">
-      <rect x="745" y="88" width="166" height="24" rx="12" fill="#211c3b" stroke="#7356b6"/>
-      <circle cx="760" cy="100" r="3.2" fill="#b998ff"/>
-      <text x="770" y="104" class="tiny" fill="#d8cbff">920 MS SOFTWARE BUDGET</text>
-      <rect x="920" y="88" width="246" height="24" rx="12" fill="#102b2d" stroke="#246961"/>
-      <circle cx="935" cy="100" r="3.2" fill="#3ee8d3"/>
-      <text x="945" y="104" class="tiny" fill="#b4f7ef">1600 MS ACTUATION DEADLINE - TARGET</text>
-    </g>
+    <!-- Main processing stations: y 128 to 310 -->
+    <g aria-label="Four aligned processing stations">
+      <path d="M196 219H220" class="station-arrow"/>
+      <path d="M632 219H656" class="station-arrow"/>
+      <path d="M928 219H952" class="station-arrow"/>
 
-    <text x="34" y="105" class="label">ONE GARMENT - ONE EPC - 920 MS SOFTWARE BUDGET</text>
-    <text x="34" y="119" class="tiny">REFERENCE-CONFIGURATION TARGETS, NOT MEASURED UNIVERSAL PERFORMANCE</text>
+      <!-- Station 1: UHF RFID -->
+      <g aria-label="UHF RFID read zone captures one EPC">
+        <rect class="station station-purple rfid-station" x="32" y="128" width="164" height="182" rx="14"/>
+        <circle class="rfid-status" cx="48" cy="148" r="4" fill="#5e527a"/>
+        <text x="60" y="151" class="station-title" fill="#ddd5f5">
+          <tspan x="60">UHF RFID</tspan>
+          <tspan x="60" dy="13">READ ZONE</tspan>
+        </text>
+        <path d="M48 175H180" class="divider"/>
 
-    <!-- Sorting line -->
-    <path d="M48 302H1150" class="flow-line"/>
-    <rect x="34" y="288" width="1132" height="32" rx="16" fill="url(#belt)" stroke="#383d62"/>
-    <g class="belt-dashes" opacity=".48">
-      <path d="M-40 304h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25m29 0h25"
-        stroke="#8e94bd" stroke-width="3" stroke-linecap="round"/>
-    </g>
+        <path d="M84 190V252M144 190V252" stroke="#8e69d6" stroke-width="3" stroke-linecap="round"/>
+        <g class="scan-field" opacity=".22">
+          <path d="M94 197c23 13 23 35 0 48M134 197c-23 13-23 35 0 48" fill="none" stroke="#f65bab" stroke-width="2"/>
+          <path d="M102 204c14 10 14 24 0 34M126 204c-14 10-14 24 0 34" fill="none" stroke="#3ee8d3" stroke-width="2"/>
+          <circle cx="114" cy="221" r="4" fill="#f6f3ff"/>
+        </g>
 
-    <!-- UHF RFID capture -->
-    <g aria-label="UHF read zone captures one EPC">
-      <rect x="213" y="132" width="92" height="148" rx="16" fill="#15152b" stroke="#7057a9"/>
-      <text x="259" y="151" text-anchor="middle" class="label" fill="#d8cbff">UHF READ ZONE</text>
-      <path d="M236 174v70M282 174v70" stroke="#9d72ff" stroke-width="3" stroke-linecap="round"/>
-      <path class="scan-one" d="M246 180c17 10 17 48 0 58" fill="none" stroke="#ff5db1" stroke-width="2" transform-origin="246px 209px"/>
-      <path class="scan-two" d="M272 180c-17 10-17 48 0 58" fill="none" stroke="#3ee8d3" stroke-width="2" transform-origin="272px 209px"/>
-      <path class="scan-three" d="M252 188c9 7 9 35 0 42M266 188c-9 7-9 35 0 42" fill="none" stroke="#f0eaff" stroke-width="1.4" transform-origin="259px 209px"/>
-      <circle cx="259" cy="209" r="4.5" fill="#ffffff" filter="url(#smallGlow)"/>
-      <g class="epc-chip">
-        <rect x="199" y="251" width="120" height="21" rx="10.5" fill="#2a2146" stroke="#8c68d3"/>
-        <text x="259" y="265" text-anchor="middle" class="tiny" fill="#eee7ff">1 EPC CAPTURED</text>
+        <g class="epc-result" opacity=".45">
+          <rect x="48" y="272" width="132" height="24" rx="12" fill="#241d3a" stroke="#7055a1"/>
+          <text x="114" y="288" text-anchor="middle" class="label" fill="#e2d9fa">1 EPC CAPTURED</text>
+        </g>
+      </g>
+
+      <!-- Station 2: Passport -->
+      <g aria-label="Resolved passport record retains disagreeing observations independently">
+        <rect class="station station-purple passport-station" x="220" y="128" width="412" height="182" rx="14"/>
+        <circle class="passport-status" cx="236" cy="150" r="4" fill="#5e527a"/>
+        <text x="248" y="153" class="station-title" fill="#ddd5f5">PASSPORT - RECORD</text>
+        <text x="616" y="153" text-anchor="end" class="caption">v1 · RESOLVED</text>
+        <path d="M236 164H616" class="divider"/>
+
+        <text x="236" y="182" class="label">GARMENT CLASS</text>
+        <text x="342" y="182" class="value">upperBodyKnitwear</text>
+        <text x="236" y="199" class="label">TECHNICAL FLAG</text>
+        <text x="342" y="199" class="value" fill="#f893c7">carbonBlackPresent</text>
+
+        <g class="observation-state" opacity=".62">
+          <rect x="236" y="211" width="178" height="50" rx="9" fill="#1f1933" stroke="#65508b"/>
+          <text x="248" y="228" class="label" fill="#d8cdf4">LABORATORY - ISO 1833</text>
+          <text x="248" y="246" class="value">POLYESTER 95%</text>
+          <text x="248" y="257" class="caption">ELASTANE 5%</text>
+
+          <rect x="438" y="211" width="178" height="50" rx="9" fill="#10292b" stroke="#306966"/>
+          <text x="450" y="228" class="label" fill="#b6ebe6">NEAR-INFRARED</text>
+          <text x="450" y="246" class="value">POLYESTER 93.4%</text>
+          <text x="450" y="257" class="caption">CONFIDENCE 0.87</text>
+
+          <rect x="316" y="273" width="220" height="24" rx="12" fill="#301a30" stroke="#88416a"/>
+          <path d="M332 285h14m-5-4 5 4-5 4" fill="none" stroke="#f65bab" stroke-width="1.4"/>
+          <text x="356" y="289" class="label" fill="#f4b4d5">DISAGREE - BOTH RETAINED</text>
+        </g>
+      </g>
+
+      <!-- Station 3: Decision -->
+      <g aria-label="Versioned rule set issues the sorting route">
+        <rect class="station station-teal decision-station" x="656" y="128" width="272" height="182" rx="14"/>
+        <circle class="decision-status" cx="672" cy="150" r="4" fill="#345e60"/>
+        <text x="684" y="151" class="station-title" fill="#c5eee9">
+          <tspan x="684">DECISION</tspan>
+          <tspan x="684" dy="13">- VERSIONED RULESET</tspan>
+        </text>
+        <path d="M672 174H912" class="divider"/>
+
+        <text x="672" y="194" class="label">RULE SET</text>
+        <text x="912" y="194" text-anchor="end" class="value">pssr-line-01 v3.2.0</text>
+        <text x="672" y="213" class="label">OBSERVATIONS</text>
+        <text x="912" y="213" text-anchor="end" class="value">LAB + NIR</text>
+
+        <g class="route-state" opacity=".52">
+          <rect x="672" y="228" width="240" height="66" rx="9" fill="#0d282a" stroke="#31726d"/>
+          <text x="684" y="245" class="label" fill="#9fe7df">ROUTE ISSUED</text>
+          <text x="684" y="265" class="value" fill="#ffffff">
+            <tspan x="684">MECHANICAL RECYCLING</tspan>
+            <tspan x="684" dy="15">- FIBRE</tspan>
+          </text>
+        </g>
+      </g>
+
+      <!-- Station 4: Sorting bay -->
+      <g aria-label="Selected mechanical recycling fibre sorting bay">
+        <rect class="station station-teal bay-station" x="952" y="128" width="216" height="182" rx="14" fill="#0e2026"/>
+        <circle class="bay-status" cx="968" cy="150" r="4" fill="#345e60"/>
+        <text x="980" y="153" class="station-title" fill="#c5eee9">SORTING BAY</text>
+        <path d="M968 164H1152" class="divider"/>
+
+        <path d="M976 181H1144M976 194H1144" stroke="#2c5d60"/>
+        <path d="M988 208V282H1132V208" fill="#10292c" stroke="#31726d"/>
+        <text x="1060" y="232" text-anchor="middle" class="label" fill="#b6ebe6">MECHANICAL</text>
+        <text x="1060" y="250" text-anchor="middle" class="label" fill="#b6ebe6">RECYCLING - FIBRE</text>
+        <path d="M1010 269H1110" stroke="#3ee8d3" stroke-width="1.5"/>
+        <path d="M1020 264 1010 269 1020 274M1100 264 1110 269 1100 274" fill="none" stroke="#3ee8d3" stroke-width="1.5"/>
       </g>
     </g>
 
-    <!-- Passport record and disagreeing observations -->
-    <g aria-label="Resolved passport record with independently retained observations">
-      <rect class="panel passport-card" x="345" y="127" width="366" height="148" rx="15"/>
-      <circle cx="363" cy="146" r="4" fill="#9d72ff"/>
-      <text x="375" y="150" class="label" fill="#e4dcff">PASSPORT - RECORD</text>
-      <text x="691" y="150" text-anchor="end" class="tiny">v1 · RESOLVED</text>
-      <path d="M359 160H697" stroke="#373b59"/>
-
-      <text x="359" y="178" class="tiny">GARMENT CLASS</text>
-      <text x="470" y="178" class="value">upperBodyKnitwear</text>
-      <text x="359" y="195" class="tiny">TECHNICAL FLAG</text>
-      <text x="470" y="195" class="value" fill="#ff9bce">carbonBlackPresent</text>
-
-      <g class="lab-card">
-        <rect x="359" y="205" width="160" height="55" rx="9" fill="#211b39" stroke="#7c5db7"/>
-        <text x="369" y="220" class="tiny" fill="#d7c9ff">LABORATORY - ISO 1833</text>
-        <text x="369" y="238" class="value">POLYESTER 95%</text>
-        <text x="369" y="252" class="tiny">ELASTANE 5%</text>
+    <!-- Conveyor and garment: y 326 to 370 -->
+    <g aria-label="Conveyor carrying one garment through the stations">
+      <rect x="32" y="330" width="1136" height="36" rx="18" fill="#1a1e35" stroke="#3a405f"/>
+      <g class="belt-dashes" opacity=".5">
+        <path d="M-36 348h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24m28 0h24"
+          fill="none" stroke="#777e9f" stroke-width="3" stroke-linecap="round"/>
       </g>
-      <g class="nir-card">
-        <rect x="537" y="205" width="160" height="55" rx="9" fill="#112e31" stroke="#287e75"/>
-        <text x="547" y="220" class="tiny" fill="#adf1e9">NEAR-INFRARED</text>
-        <text x="547" y="238" class="value">POLYESTER 93.4%</text>
-        <text x="547" y="252" class="tiny">CONFIDENCE 0.87</text>
-      </g>
-      <g class="retain-mark">
-        <path d="M520 226h15M527 222l-7 4 7 4M530 241l7-4-7-4" stroke="#ff79bd" stroke-width="1.4" fill="none"/>
-        <rect x="456" y="265" width="143" height="19" rx="9.5" fill="#351d38" stroke="#8e3e70"/>
-        <text x="527.5" y="278" text-anchor="middle" class="tiny" fill="#ffc1df">DISAGREE - BOTH RETAINED</text>
+
+      <g class="garment-move" aria-label="Garment travelling on the conveyor" opacity="0">
+        <ellipse cx="0" cy="359" rx="34" ry="5" fill="#070912" opacity=".65"/>
+        <path d="M-16 333-29 341-38 329-50 339-35 359h10v8h50v-8h10l15-20-12-10-9 12-13-8c-5 7-27 7-32 0Z"
+          fill="url(#garmentFill)" stroke="#d8ccf5" stroke-width="1.2"/>
+        <path d="M-9 335c4 6 14 6 18 0" fill="none" stroke="#f4efff" stroke-width="1.1"/>
+        <rect x="20" y="344" width="15" height="9" rx="2" fill="#f7f4ff"/>
+        <path d="M23 347h9M23 350h6" stroke="#6b4d9f"/>
       </g>
     </g>
 
-    <!-- Versioned routing decision -->
-    <g aria-label="Versioned sorting rule issues a route">
-      <rect class="panel decision-card" x="738" y="127" width="229" height="148" rx="15" fill="url(#decisionFill)"/>
-      <circle cx="756" cy="146" r="4" fill="#3ee8d3"/>
-      <text x="768" y="150" class="label" fill="#c2fbf4">DECISION - VERSIONED RULESET</text>
-      <path d="M752 160H953" stroke="#3b4c54"/>
-      <text x="752" y="181" class="tiny">RULE SET</text>
-      <text x="953" y="181" text-anchor="end" class="value">pssr-line-01 v3.2.0</text>
-      <text x="752" y="201" class="tiny">OBSERVATIONS</text>
-      <text x="953" y="201" text-anchor="end" class="value">LAB + NIR</text>
-      <rect x="752" y="215" width="201" height="45" rx="9" fill="#0e282b" stroke="#2a776f"/>
-      <text x="765" y="233" class="tiny" fill="#9be9df">ROUTE ISSUED</text>
-      <text x="765" y="250" class="value" fill="#ffffff">MECHANICAL RECYCLING - FIBRE</text>
-      <path class="route-pulse" d="M967 239H1010m-9-7 9 7-9 7" fill="none" stroke="#3ee8d3" stroke-width="2"/>
-    </g>
+    <!-- Asynchronous evidence lane: y 392 to 530 -->
+    <g aria-label="Asynchronous evidence path outside the critical sorting path">
+      <path d="M32 392H1168" stroke="#343a55"/>
+      <text x="32" y="408" class="station-title">EVIDENCE PATH - ASYNCHRONOUS - OFF THE CRITICAL PATH</text>
+      <text x="1168" y="408" text-anchor="end" class="caption">STARTS AFTER ROUTE ISSUED</text>
 
-    <!-- Sorting bay -->
-    <g class="bay-pulse" aria-label="Garment enters the selected sorting bay">
-      <path d="M1021 149v126h140V149" fill="#0e2228" stroke="#2e756f" stroke-width="1.5"/>
-      <path d="M1031 160h120M1031 173h120" stroke="#244e50"/>
-      <text x="1091" y="193" text-anchor="middle" class="label" fill="#aaf4eb">SORTING BAY</text>
-      <text x="1091" y="211" text-anchor="middle" class="tiny">MECHANICAL</text>
-      <text x="1091" y="225" text-anchor="middle" class="tiny">RECYCLING - FIBRE</text>
-      <path d="M1044 250h94" stroke="#3ee8d3" stroke-width="2" stroke-linecap="round"/>
-      <path d="M1056 243l-12 7 12 7M1126 243l12 7-12 7" fill="none" stroke="#3ee8d3" stroke-width="1.5"/>
-    </g>
+      <path d="M360 453H470" fill="none" stroke="#65708c" stroke-width="1.5" stroke-dasharray="5 6" marker-end="url(#arrowEvidence)"/>
+      <path d="M730 453H840" fill="none" stroke="#65708c" stroke-width="1.5" stroke-dasharray="5 6" marker-end="url(#arrowEvidence)"/>
 
-    <!-- Moving garment remains recognisable when animation is disabled -->
-    <g class="garment-move" aria-label="Garment travelling on the sorting line">
-      <ellipse cx="94" cy="306" rx="34" ry="7" fill="#070911" opacity=".55"/>
-      <path d="M78 267l-15 10-12-15-15 12 20 27h12v11h52v-11h12l20-27-15-12-12 15-15-10c-5 8-27 8-32 0Z"
-        fill="url(#garmentFill)" stroke="#e2d8ff" stroke-width="1.2" filter="url(#smallGlow)"/>
-      <path d="M85 271c4 7 14 7 18 0" fill="none" stroke="#f7f2ff" stroke-width="1.2"/>
-      <rect x="112" y="284" width="16" height="10" rx="2" fill="#f8f5ff"/>
-      <path d="M115 287h10M115 290h7" stroke="#6c4ab0" stroke-width="1"/>
-    </g>
-
-    <!-- Evidence is deliberately separated from the sorting deadline -->
-    <g aria-label="Asynchronous evidence lane outside the critical path">
-      <path d="M34 346H1166" stroke="#343b55" stroke-width="1"/>
-      <text x="34" y="366" class="label" fill="#c7c9df">EVIDENCE PATH - ASYNCHRONOUS - OFF THE CRITICAL PATH</text>
-      <text x="1166" y="366" text-anchor="end" class="tiny">STARTS AFTER ROUTE ISSUED</text>
-
-      <path d="M386 409H1055" fill="none" stroke="#44506a" stroke-width="1.5" stroke-dasharray="5 7"/>
-      <path d="M1047 404l9 5-9 5" fill="none" stroke="#63708d" stroke-width="1.5"/>
-
-      <g transform="translate(385 383)">
-        <rect width="126" height="54" rx="11" fill="#171a30" stroke="#495070"/>
-        <path d="M15 15h25l8 8v17H15Z" fill="#211d39" stroke="#8a6bc3"/>
-        <path d="M40 15v8h8" fill="none" stroke="#8a6bc3"/>
-        <text x="60" y="23" class="tiny">RECORD</text>
-        <text x="60" y="38" class="value">INTEGRITY VIEW</text>
+      <g aria-label="Record integrity view evidence card">
+        <rect x="100" y="424" width="260" height="58" rx="11" fill="#15192c" stroke="#48506c"/>
+        <path d="M116 439h25l8 8v20h-33Z" fill="#211b35" stroke="#8467b0"/>
+        <path d="M141 439v8h8" fill="none" stroke="#8467b0"/>
+        <text x="164" y="447" class="label">RECORD</text>
+        <text x="164" y="466" class="value">INTEGRITY VIEW</text>
       </g>
 
-      <g class="digest-pulse" transform="translate(665 383)">
-        <rect width="148" height="54" rx="11" fill="#221a38" stroke="#7659b0"/>
-        <circle cx="24" cy="27" r="13" fill="#9d72ff" opacity=".16"/>
-        <path d="M18 22h12M18 27h12M18 32h12" stroke="#cbb8ff" stroke-width="1.6"/>
-        <text x="45" y="23" class="label" fill="#d9ceff">SHA-256</text>
-        <text x="45" y="39" class="tiny">DIGEST CALCULATED</text>
+      <g aria-label="SHA-256 digest evidence card">
+        <rect x="470" y="424" width="260" height="58" rx="11" fill="#1e1931" stroke="#65508b"/>
+        <circle class="digest-token" cx="494" cy="453" r="12" fill="#5f527d"/>
+        <path d="M488 448h12M488 453h12M488 458h12" stroke="#ddd3f7" stroke-width="1.4"/>
+        <text x="518" y="447" class="label" fill="#d8cdf4">SHA-256</text>
+        <text x="518" y="466" class="value">DIGEST CALCULATED</text>
       </g>
 
-      <g class="anchor-pulse" transform="translate(934 383)">
-        <rect width="176" height="54" rx="11" fill="#102b2d" stroke="#287b72"/>
-        <path d="M15 33l12 7 12-7V19l-12-7-12 7Zm0-14 12 7 12-7M27 26v14" fill="none" stroke="#70eee0" stroke-width="1.3"/>
-        <text x="50" y="23" class="label" fill="#b7f7ef">BESU</text>
-        <text x="50" y="39" class="tiny">ANCHOR CONFIRMED</text>
-        <circle class="status-dot" cx="158" cy="27" r="5" fill="#545978"/>
+      <g aria-label="Besu confirmed anchor evidence card">
+        <rect x="840" y="424" width="260" height="58" rx="11" fill="#10282a" stroke="#306966"/>
+        <path d="M858 460l12 7 12-7v-14l-12-7-12 7Zm0-14 12 7 12-7M870 453v14" fill="none" stroke="#75ddd4" stroke-width="1.3"/>
+        <text x="898" y="447" class="label" fill="#b6ebe6">BESU</text>
+        <text x="898" y="466" class="value">ANCHOR CONFIRMED</text>
+        <circle class="anchor-status" cx="1076" cy="453" r="5" fill="#345e60"/>
       </g>
 
-      <g class="evidence-packet" transform="translate(485 409)">
-        <circle r="7" fill="#ff5db1" stroke="#ffe1f0" stroke-width="1.2" filter="url(#smallGlow)"/>
-        <circle r="2" fill="#ffffff"/>
+      <g class="packet-record-digest" transform="translate(366 453)" opacity="0" aria-label="Evidence packet moving to digest calculation">
+        <circle r="5" fill="#f65bab" stroke="#f8c5df"/>
       </g>
-      <text x="34" y="453" class="tiny">ROUTING DEADLINE</text>
-      <path d="M145 450h177" stroke="#ff5db1" stroke-width="2"/>
-      <circle cx="322" cy="450" r="3.5" fill="#ff5db1"/>
-      <text x="337" y="453" class="tiny" fill="#ffc1df">ROUTE ISSUED</text>
-      <path d="M424 450h560" stroke="#3ee8d3" stroke-width="2" stroke-dasharray="4 6" opacity=".58"/>
-      <circle cx="984" cy="450" r="3.5" fill="#3ee8d3"/>
-      <text x="999" y="453" class="tiny" fill="#aef5ed">ANCHOR LATER</text>
+      <g class="packet-digest-anchor" transform="translate(736 453)" opacity="0" aria-label="Evidence packet moving to Besu anchoring">
+        <circle r="5" fill="#3ee8d3" stroke="#c0f5ef"/>
+      </g>
+
+      <text x="32" y="518" class="caption">ROUTING DEADLINE</text>
+      <path d="M158 514H410" stroke="#f65bab" stroke-width="2"/>
+      <circle cx="410" cy="514" r="3.5" fill="#f65bab"/>
+      <text x="424" y="518" class="caption" fill="#f4b4d5">ROUTE ISSUED</text>
+      <path d="M520 514H1044" stroke="#3ee8d3" stroke-width="2" stroke-dasharray="5 7" opacity=".62"/>
+      <circle cx="1044" cy="514" r="3.5" fill="#3ee8d3"/>
+      <text x="1058" y="518" class="caption" fill="#b6ebe6">ANCHOR LATER</text>
     </g>
   </g>
 </svg>
