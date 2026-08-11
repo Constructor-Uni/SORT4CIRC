@@ -1,0 +1,13 @@
+Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+The specification artefacts in spec/ and the documentation in docs/ are licensed
+under the Creative Commons Attribution 4.0 International License.
+
+Full licence text: https://creativecommons.org/licenses/by/4.0/legalcode
+
+Attribution: SORT4CIRC consortium, deliverable D4.3 "DPP development
+guidelines", Constructor University, work package 4. Funded by the European
+Union under Horizon Europe grant agreement number 101181988.
+
+Source code in src/, tests/, tools/ and examples/ is licensed separately under
+the Apache License 2.0; see LICENSE.

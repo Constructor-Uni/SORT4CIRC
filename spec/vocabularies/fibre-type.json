@@ -1,0 +1,194 @@
+{
+  "$id": "https://data.sort4circ.eu/vocabulary/fibre-type/1.0.0",
+  "name": "fibre-type",
+  "version": "1.0.0",
+  "released": "2026-08-10",
+  "owner": "Constructor University, SORT4CIRC WP4",
+  "note": "For consumer-facing composition the legal fibre names of Regulation (EU) No 1007/2011 apply and take precedence over the token.",
+  "terms": [
+    {
+      "token": "cotton",
+      "legalName": "Cotton",
+      "family": "natural cellulosic",
+      "definition": "Cotton, natural cellulosic fibre.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "flax",
+      "legalName": "Flax (linen)",
+      "family": "natural cellulosic",
+      "definition": "Flax (linen), natural cellulosic fibre.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "hemp",
+      "legalName": "Hemp",
+      "family": "natural cellulosic",
+      "definition": "Hemp, natural cellulosic fibre.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "jute",
+      "legalName": "Jute",
+      "family": "natural cellulosic",
+      "definition": "Jute, natural cellulosic fibre.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "wool",
+      "legalName": "Wool",
+      "family": "natural protein",
+      "definition": "Wool, natural protein fibre.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "cashmere",
+      "legalName": "Cashmere",
+      "family": "natural protein",
+      "definition": "Cashmere, natural protein fibre.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "mohair",
+      "legalName": "Mohair",
+      "family": "natural protein",
+      "definition": "Mohair, natural protein fibre.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "alpaca",
+      "legalName": "Alpaca",
+      "family": "natural protein",
+      "definition": "Alpaca, natural protein fibre.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "silk",
+      "legalName": "Silk",
+      "family": "natural protein",
+      "definition": "Silk, natural protein fibre.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "viscose",
+      "legalName": "Viscose",
+      "family": "manufactured cellulosic",
+      "definition": "Viscose, manufactured cellulosic fibre.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "modal",
+      "legalName": "Modal",
+      "family": "manufactured cellulosic",
+      "definition": "Modal, manufactured cellulosic fibre.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "lyocell",
+      "legalName": "Lyocell",
+      "family": "manufactured cellulosic",
+      "definition": "Lyocell, manufactured cellulosic fibre.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "cupro",
+      "legalName": "Cupro",
+      "family": "manufactured cellulosic",
+      "definition": "Cupro, manufactured cellulosic fibre.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "acetate",
+      "legalName": "Acetate",
+      "family": "manufactured cellulosic",
+      "definition": "Acetate, manufactured cellulosic fibre.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "polyester",
+      "legalName": "Polyester",
+      "family": "synthetic",
+      "definition": "Polyester, synthetic fibre.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "polyamide",
+      "legalName": "Polyamide",
+      "family": "synthetic",
+      "definition": "Polyamide, synthetic fibre.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "acrylic",
+      "legalName": "Acrylic",
+      "family": "synthetic",
+      "definition": "Acrylic, synthetic fibre.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "polypropylene",
+      "legalName": "Polypropylene",
+      "family": "synthetic",
+      "definition": "Polypropylene, synthetic fibre.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "polyethylene",
+      "legalName": "Polyethylene",
+      "family": "synthetic",
+      "definition": "Polyethylene, synthetic fibre.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "elastane",
+      "legalName": "Elastane",
+      "family": "synthetic",
+      "definition": "Elastane, synthetic fibre.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "polyurethaneCoating",
+      "legalName": null,
+      "family": "coating",
+      "definition": "A coating, recorded as a material only where a distinguishable layer is formed.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "blendUnresolved",
+      "legalName": null,
+      "family": "indeterminate",
+      "definition": "The instrument detected a blend that could not be decomposed. Distinct from unknown.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "otherDeclared",
+      "legalName": null,
+      "family": "other",
+      "definition": "A fibre outside this list; the legal name is carried in an accompanying field.",
+      "deprecated": false,
+      "replacedBy": null
+    }
+  ]
+}

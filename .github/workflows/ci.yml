@@ -1,0 +1,97 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test on Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install
+        run: python -m pip install --upgrade pip && pip install -e ".[dev]"
+
+      - name: Lint
+        run: ruff check src tests tools examples
+
+      - name: Test
+        run: pytest -q
+
+      - name: Validate fixtures
+        run: python tools/validate_fixtures.py
+
+      - name: Worked example
+        run: python examples/worked_example.py
+
+  spec:
+    name: Specification artefacts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install
+        run: pip install -e ".[dev]"
+
+      - name: Ontology parses without error
+        run: |
+          python - <<'PY'
+          from rdflib import Graph
+          g = Graph().parse("spec/ontology/sort4circ-1.0.0.ttl", format="turtle")
+          print(f"{len(g)} triples")
+          assert len(g) > 200, "the ontology lost content"
+          PY
+
+      - name: Every JSON artefact parses
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          for path in sorted(pathlib.Path("spec").rglob("*.json")):
+              json.loads(path.read_text(encoding="utf-8"))
+              print("ok", path)
+          PY
+
+      - name: The OpenAPI contract is up to date
+        run: |
+          python tools/gen_openapi.py
+          git diff --exit-code spec/openapi/ || {
+            echo "::error::spec/openapi is stale. Run 'make openapi' and commit the result."
+            exit 1
+          }
+
+  conformance:
+    name: Conformance report
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e ".[dev]"
+      - run: python tools/conformance_report.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: conformance-report
+          path: conformance-report.json

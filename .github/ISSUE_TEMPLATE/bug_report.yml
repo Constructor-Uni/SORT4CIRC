@@ -1,0 +1,36 @@
+name: Bug report
+description: The reference implementation behaves differently from the specification
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Where the code and `spec/` disagree, the specification governs. Point at
+        the clause or artefact the behaviour contradicts if possible.
+  - type: textarea
+    id: expected
+    attributes:
+      label: What the specification requires
+      description: Name the artefact, field, endpoint or reason code.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happens instead
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Smallest reproduction
+      description: A failing payload or a short script is ideal.
+      render: shell
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+    validations:
+      required: true

@@ -1,0 +1,21 @@
+{
+  "$id": "https://data.sort4circ.eu/vocabulary/percentage-basis/1.0.0",
+  "name": "percentage-basis",
+  "version": "1.0.0",
+  "released": "2026-08-10",
+  "owner": "Constructor University, SORT4CIRC WP4",
+  "terms": [
+    {
+      "token": "mass",
+      "definition": "Mass fraction of the article or component.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "declaredLabel",
+      "definition": "As declared on the label.",
+      "deprecated": false,
+      "replacedBy": null
+    }
+  ]
+}

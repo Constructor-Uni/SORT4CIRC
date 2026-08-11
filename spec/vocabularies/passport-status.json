@@ -1,0 +1,33 @@
+{
+  "$id": "https://data.sort4circ.eu/vocabulary/passport-status/1.0.0",
+  "name": "passport-status",
+  "version": "1.0.0",
+  "released": "2026-08-10",
+  "owner": "Constructor University, SORT4CIRC WP4",
+  "terms": [
+    {
+      "token": "draft",
+      "definition": "Not yet active.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "active",
+      "definition": "Current and authoritative.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "superseded",
+      "definition": "Replaced by a successor passport.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "retired",
+      "definition": "No longer current; retained and retrievable.",
+      "deprecated": false,
+      "replacedBy": null
+    }
+  ]
+}

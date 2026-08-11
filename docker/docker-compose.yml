@@ -1,0 +1,31 @@
+# Development stack: the reference service, plus an optional Besu node for
+# exercising the anchoring path against a real permissioned network.
+services:
+  dpp:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      S4C_ALLOW_HEADER_AUTH: "1"   # development stand-in only, never in production
+      S4C_LEDGER_NETWORK: "s4c-reference"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request;urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+  # Optional. Start with: docker compose --profile ledger up
+  besu:
+    image: hyperledger/besu:latest
+    profiles: ["ledger"]
+    command:
+      - --network=dev
+      - --rpc-http-enabled
+      - --rpc-http-host=0.0.0.0
+      - --rpc-http-cors-origins=all
+      - --host-allowlist=*
+      - --min-gas-price=0
+    ports:
+      - "8545:8545"

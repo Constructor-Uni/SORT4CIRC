@@ -1,0 +1,34 @@
+{
+  "dppId": "urn:sort4circ:dpp:000001",
+  "schemaVersion": "1.0.0",
+  "recordVersion": 1,
+  "status": "active",
+  "createdAt": "2026-06-18T11:00:00Z",
+  "updatedAt": "2026-08-10T09:12:44Z",
+  "responsibleOperatorId": "urn:sort4circ:org:brand-a",
+  "identity": {
+    "granularity": "item",
+    "itemId": "urn:sort4circ:item:000001",
+    "epc": "urn:epc:id:sgtin:0614141.112345.400",
+    "sampleId": "TXHO-WP3-B01-001"
+  },
+  "product": {
+    "articleClass": "upperBodyKnitwear",
+    "fabricConstruction": "knitted",
+    "colourPrimary": "dark",
+    "technicalFlags": [
+      "carbonBlackPresent",
+      "hardPointZipMetal"
+    ]
+  },
+  "materialObservations": [
+    {
+      "observationId": "urn:sort4circ:obs:unknown",
+      "fibreType": "blendUnresolved",
+      "valueStatus": "unknown",
+      "method": "nirSpectroscopy",
+      "sourceOrganisationId": "urn:sort4circ:org:pssr-a",
+      "observedAt": "2026-08-10T09:00:00Z"
+    }
+  ]
+}

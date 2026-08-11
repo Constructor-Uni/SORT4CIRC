@@ -1,0 +1,45 @@
+{
+  "$id": "https://data.sort4circ.eu/vocabulary/condition/1.0.0",
+  "name": "condition",
+  "version": "1.0.0",
+  "released": "2026-08-10",
+  "owner": "Constructor University, SORT4CIRC WP4",
+  "terms": [
+    {
+      "token": "asNew",
+      "definition": "Unworn or indistinguishable from unworn.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "good",
+      "definition": "Light wear, fully usable.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "wornUsable",
+      "definition": "Visible wear, still usable.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "damagedRepairable",
+      "definition": "Damage that repair can address.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "damagedUnrepairable",
+      "definition": "Damage beyond economic repair.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "contaminated",
+      "definition": "Soiling or contamination preventing reuse.",
+      "deprecated": false,
+      "replacedBy": null
+    }
+  ]
+}

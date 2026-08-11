@@ -1,0 +1,40 @@
+name: Specification question or change
+description: The specification is unclear, incomplete or wrong
+labels: ["specification"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A change under `spec/` changes what conformance means for everyone who
+        has already implemented it. Discussion first, patch second.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind
+      options:
+        - The text is ambiguous
+        - The rule is unimplementable as written
+        - The rule is implementable but wrong
+        - Something required is missing
+        - A new controlled value is needed
+    validations:
+      required: true
+  - type: textarea
+    id: artefact
+    attributes:
+      label: Which artefact and clause
+    validations:
+      required: true
+  - type: textarea
+    id: consequence
+    attributes:
+      label: What breaks if it stays as it is
+      description: Give a concrete case, with data if possible.
+    validations:
+      required: true
+  - type: textarea
+    id: migration
+    attributes:
+      label: What happens to records already written under the current rule
+    validations:
+      required: true

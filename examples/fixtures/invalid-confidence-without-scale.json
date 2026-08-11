@@ -1,0 +1,50 @@
+{
+  "dppId": "urn:sort4circ:dpp:000001",
+  "schemaVersion": "1.0.0",
+  "recordVersion": 1,
+  "status": "active",
+  "createdAt": "2026-06-18T11:00:00Z",
+  "updatedAt": "2026-08-10T09:12:44Z",
+  "responsibleOperatorId": "urn:sort4circ:org:brand-a",
+  "identity": {
+    "granularity": "item",
+    "itemId": "urn:sort4circ:item:000001",
+    "epc": "urn:epc:id:sgtin:0614141.112345.400",
+    "sampleId": "TXHO-WP3-B01-001"
+  },
+  "product": {
+    "articleClass": "upperBodyKnitwear",
+    "fabricConstruction": "knitted",
+    "colourPrimary": "dark",
+    "technicalFlags": [
+      "carbonBlackPresent",
+      "hardPointZipMetal"
+    ]
+  },
+  "materialObservations": [
+    {
+      "observationId": "urn:sort4circ:obs:000001",
+      "fibreType": "polyester",
+      "percentage": 95,
+      "percentageBasis": "mass",
+      "valueStatus": "supplied",
+      "method": "labQuantitativeIso1833",
+      "sourceOrganisationId": "urn:sort4circ:org:txho",
+      "observedAt": "2026-06-18T11:02:10Z",
+      "confidence": {
+        "value": 0.9
+      }
+    },
+    {
+      "observationId": "urn:sort4circ:obs:000002",
+      "fibreType": "elastane",
+      "percentage": 5,
+      "percentageBasis": "mass",
+      "valueStatus": "supplied",
+      "method": "labQuantitativeIso1833",
+      "sourceOrganisationId": "urn:sort4circ:org:txho",
+      "observedAt": "2026-06-18T11:02:10Z"
+    }
+  ],
+  "$expect": "S4C-PAYLOAD-SCHEMA-INVALID"
+}

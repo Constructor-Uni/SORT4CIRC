@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sort4circ-dpp"
+version = "1.0.0"
+description = "Reference implementation of the SORT4CIRC textile Digital Product Passport (deliverable D4.3)"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Constructor University, SORT4CIRC WP4" }]
+keywords = ["digital product passport", "dpp", "espr", "textile", "circularity", "traceability"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering",
+]
+dependencies = [
+  "fastapi>=0.110",
+  "uvicorn[standard]>=0.27",
+  "jsonschema>=4.21",
+  "pydantic>=2.6",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "httpx>=0.27", "ruff>=0.5", "rdflib>=7.0", "pyyaml>=6.0"]
+
+[project.scripts]
+s4c-dpp = "sort4circ_dpp.cli:main"
+
+[project.urls]
+Homepage = "https://sort4circ.eu"
+Repository = "https://github.com/Constructor-Uni/SORT4CIRC"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+sort4circ_dpp = ["py.typed"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+src = ["src", "tests", "tools"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "C4", "SIM"]
+ignore = ["E501", "B008"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E731"]

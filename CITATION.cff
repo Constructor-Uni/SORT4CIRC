@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+title: SORT4CIRC Textile Digital Product Passport reference implementation
+message: Please cite the deliverable when using this specification or code.
+type: software
+authors:
+  - name: SORT4CIRC consortium, work package 4
+    website: https://sort4circ.eu
+  - name: Constructor University
+    city: Bremen
+    country: DE
+version: 1.0.0
+license: Apache-2.0
+repository-code: https://github.com/Constructor-Uni/SORT4CIRC
+url: https://sort4circ.eu
+keywords:
+  - digital product passport
+  - ESPR
+  - textile circularity
+  - traceability
+  - semantic interoperability
+references:
+  - type: report
+    title: "SORT4CIRC Deliverable D4.3: DPP development guidelines"
+    authors:
+      - name: Constructor University, SORT4CIRC WP4
+    year: 2026
+    institution:
+      name: SORT4CIRC consortium
+    notes: >-
+      Work package 4, task 4.2. Public deliverable, due month 12. Verifies
+      milestone MS4, Eco-Friendly DPP Blockchain-based Architecture Framework.
