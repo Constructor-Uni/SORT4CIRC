@@ -69,7 +69,7 @@ def create_app(
 
     @app.exception_handler(DppError)
     async def _dpp_error_handler(request: Request, exc: DppError) -> JSONResponse:
-        correlation = _correlation(request.headers.get("x-correlation-id"))
+        correlation = request.state.correlation_id
         return JSONResponse(
             status_code=exc.http_status,
             content=exc.problem(instance=str(request.url.path), correlation_id=correlation),
@@ -80,6 +80,7 @@ def create_app(
     @app.middleware("http")
     async def _correlate(request: Request, call_next: Callable) -> Response:
         correlation = _correlation(request.headers.get("x-correlation-id"))
+        request.state.correlation_id = correlation
         response = await call_next(request)
         response.headers["X-Correlation-Id"] = correlation
         return response

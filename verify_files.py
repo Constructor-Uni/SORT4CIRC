@@ -6,7 +6,7 @@ Run from the repository root, with MANIFEST.sha256 in the same folder:
     python verify_files.py --write    # regenerate the manifest from the tree
 
 Reports missing files, extra files and content mismatches. Exit code 0 means
-the checkout is byte-for-byte identical to what was delivered.
+the checkout is byte-for-byte identical to the manifest.
 
 Lines in the manifest that begin with "#" are header comments and are skipped.
 
@@ -46,7 +46,8 @@ IGNORE_NAMES = {MANIFEST_NAME, "conformance-report.json", ".coverage"}
 
 HEADER = (
     "# SORT4CIRC textile Digital Product Passport, deliverable D4.3",
-    "# Release 1.1.1, see tag v1.1.1",
+    "# Development snapshot based on software release 1.1.1.",
+    "# Describes the current main tree; it is not the exact contents of tag v1.1.1.",
     "# sha256 of every delivered file, paths relative to the repository root.",
     "# Verify with: python verify_files.py, regenerate with: python verify_files.py --write",
     "# MANIFEST.sha256 itself is not listed: it cannot contain its own digest.",
@@ -135,10 +136,10 @@ def main(argv: list[str]) -> int:
             for item in items:
                 print(f"  {item}")
 
-    ok = not missing and not changed
+    ok = not missing and not changed and not extra
     print(f"\n{len(expected)} expected, {len(present)} found, "
           f"{len(missing)} missing, {len(changed)} changed, {len(extra)} extra")
-    print("RESULT:", "identical to the delivered files" if ok else "does not match")
+    print("RESULT:", "identical to the manifest" if ok else "does not match")
     return 0 if ok else 1
 
 

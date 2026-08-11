@@ -374,3 +374,21 @@ def test_rows_requiring_human_evidence_are_reported_not_hidden():
     assert REQUIRES_HUMAN_EVIDENCE, "the list must never be emptied to make a run look complete"
     for identifier, evidence in REQUIRES_HUMAN_EVIDENCE.items():
         assert evidence, f"{identifier} names no evidence that would decide it"
+
+
+def test_report_attributes_automated_passes_only_when_the_suite_passes():
+    from tools.conformance_report import build_report
+
+    rows = {
+        "API-01": {"tier": TIER_1, "decidedBy": "automated test"},
+        "SEC-06": {"tier": "", "decidedBy": "human evidence"},
+    }
+    human = {"SEC-06": "release security scan"}
+
+    passed = build_report(rows, human, True)
+    failed = build_report(rows, human, False)
+
+    assert passed["automatedRows"] == ["API-01"]
+    assert passed["automatedRowsPassed"] == ["API-01"]
+    assert failed["automatedRows"] == ["API-01"]
+    assert failed["automatedRowsPassed"] is None

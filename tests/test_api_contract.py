@@ -20,6 +20,22 @@ def test_every_response_echoes_the_correlation_identifier(client, dpp_id):
     assert response.headers["X-Correlation-Id"] == correlation
 
 
+def test_an_unsupplied_correlation_identifier_is_generated_once_and_reused(client, monkeypatch):
+    generated = []
+
+    def fake_uuid4():
+        value = f"generated-{len(generated) + 1}"
+        generated.append(value)
+        return value
+
+    monkeypatch.setattr("sort4circ_dpp.api.uuid.uuid4", fake_uuid4)
+    response = client.get("/v1/dpps/urn:sort4circ:dpp:missing", headers=HEADERS["brand"])
+
+    assert generated == ["generated-1"]
+    assert response.headers["X-Correlation-Id"] == "generated-1"
+    assert response.json()["correlationId"] == "generated-1"
+
+
 def test_errors_are_rfc9457_problem_documents(client):
     response = client.get("/v1/dpps/urn:sort4circ:dpp:missing", headers=HEADERS["brand"])
     assert response.status_code == 404
