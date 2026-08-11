@@ -3,6 +3,34 @@
 Format follows Keep a Changelog. Versions follow semantic versioning, applied
 independently to each artefact under `spec/`.
 
+## [1.1.1] - 2026-08-11
+
+Presentation and release-integrity maintenance for the software package. No
+normative specification artefact changed.
+
+### Added
+
+- A self-contained animated SVG overview of the implemented sorting workflow,
+  including RFID capture, passport resolution, independently retained material
+  observations, a versioned routing decision and asynchronous integrity
+  anchoring outside the critical sorting path.
+- Automated coverage that keeps `MANIFEST.sha256` aligned with the delivered
+  tree, plus an explicit `python verify_files.py --write` regeneration command.
+
+### Fixed
+
+- Aligned the Python package, runtime module, citation metadata and Docker image
+  target on software release 1.1.1.
+- Added a compact CI, Python support and dual-license badge row to the project
+  overview, and declared Python 3.13 in the package classifiers to match CI.
+
+### Unchanged
+
+Nothing under `spec/` changed. The payload schema, ontology, access policy,
+controlled vocabularies and OpenAPI v1 contract retain their intentional 1.0.0
+versions. This patch release changes software and documentation only; no record
+migration is required.
+
 ## [1.1.0] - 2026-08-11
 
 Measurement harnesses and one defect fix in the read path. No normative

@@ -28,7 +28,7 @@ lint:  ## Static checks
 	python3 -m ruff check src tests tools examples
 
 docker:  ## Build the container image
-	docker build -f docker/Dockerfile -t sort4circ/dpp:1.0.0 .
+	docker build -f docker/Dockerfile -t sort4circ/dpp:1.1.1 .
 
 clean:
 	rm -rf .pytest_cache **/__pycache__ conformance-report.json

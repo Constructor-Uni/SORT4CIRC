@@ -41,11 +41,14 @@ make lint
 make test
 make validate
 make example
+python3 verify_files.py
 ```
 
 A change touching the API must regenerate the contract with `make openapi` and
 commit the result, so the published contract stays a description of the service
-rather than a claim about it.
+rather than a claim about it. Any delivered-file change must regenerate
+`MANIFEST.sha256` with `python3 verify_files.py --write`, then run the verifier
+again before committing.
 
 ## Adding a test
 

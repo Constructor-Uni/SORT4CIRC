@@ -12,5 +12,5 @@ in this package.
 from .canonical import canonicalise, digest, integrity_projection  # noqa: F401
 from .config import API_MAJOR, SCHEMA_VERSION  # noqa: F401
 
-__version__ = "1.0.0"
+__version__ = "1.1.1"
 __all__ = ["canonicalise", "digest", "integrity_projection", "SCHEMA_VERSION", "API_MAJOR"]

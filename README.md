@@ -1,5 +1,19 @@
 # SORT4CIRC Textile Digital Product Passport
 
+<p align="center">
+  <img
+    src="docs/assets/sort4circ-hero-dark.svg"
+    alt="SORT4CIRC garment flow from RFID capture through passport resolution, sorting decision and asynchronous integrity anchoring."
+    width="100%">
+</p>
+
+<p align="center">
+  <a href="https://github.com/Constructor-Uni/SORT4CIRC/actions/workflows/ci.yml"><img alt="CI status" src="https://github.com/Constructor-Uni/SORT4CIRC/actions/workflows/ci.yml/badge.svg"></a>
+  <img alt="Python 3.11, 3.12 and 3.13" src="https://img.shields.io/badge/Python-3.11%20%7C%203.12%20%7C%203.13-3776AB?logo=python&amp;logoColor=white">
+  <a href="LICENSE"><img alt="Code license: Apache 2.0" src="https://img.shields.io/badge/code-Apache--2.0-7e57c2"></a>
+  <a href="LICENSE-DOCS"><img alt="Specification and documentation license: CC BY 4.0" src="https://img.shields.io/badge/spec%20%26%20docs-CC%20BY%204.0-20a89a"></a>
+</p>
+
 Reference implementation and normative specification artefacts for the textile
 Digital Product Passport (DPP) developed in SORT4CIRC work package 4, task 4.2,
 and published in deliverable **D4.3, DPP development guidelines**.

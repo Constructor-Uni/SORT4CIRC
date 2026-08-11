@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sort4circ-dpp"
-version = "1.1.0"
+version = "1.1.1"
 description = "Reference implementation of the SORT4CIRC textile Digital Product Passport (deliverable D4.3)"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -17,6 +17,7 @@ classifiers = [
   "License :: OSI Approved :: Apache Software License",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Topic :: Scientific/Engineering",
 ]
 dependencies = [
