@@ -3,6 +3,49 @@
 Format follows Keep a Changelog. Versions follow semantic versioning, applied
 independently to each artefact under `spec/`.
 
+## [1.1.0] - 2026-08-11
+
+Measurement harnesses and one defect fix in the read path. No normative
+artefact changed, so an implementation conformant to 1.0.0 remains conformant.
+
+### Added
+
+- `tools/loadtest.py`, which measures the reference service under concurrent
+  load across resolution, the sorting projection, observation submission and
+  search, and reports the outbox drain separately because it is not on the
+  sorting path. The executed campaign is published under `docs/benchmarks/`.
+- `tools/anchor_bench.py`, which measures anchoring submission latency, time to
+  confirmation, fee and metered energy per ledger platform, with a four-platform
+  configuration example in `docs/benchmarks/anchor-targets.example.json`. A
+  platform it cannot reach is reported as `notReached` rather than modelled, and
+  an energy figure is withheld unless a meter log and a matching idle log are
+  supplied.
+- `tests/test_index_staleness.py`, covering the projection staleness behaviour
+  corrected below.
+
+### Fixed
+
+- **Projection staleness was measured against the wall clock.** The read index
+  bounded the age of a sorting projection against the staleness limit whether or
+  not the authoritative record had changed, so a line idle for longer than the
+  limit had every sorting read refused with `S4C-DEP-UNAVAILABLE` until the next
+  write. Idleness is not an error and the refusal stopped sorting for a
+  condition that was not a fault. The limit now bounds the interval by which the
+  projector trails the source: `PassportStore` records the monotonic time of its
+  most recent commit, `ReadIndex` records the moment it last caught up, and
+  `ReadIndex.backlog_ms()` is the difference. A projection nothing has
+  invalidated is served; a projector that stopped while writes continued is
+  still refused. The problem document now carries `backlogMs` alongside
+  `indexLagMs`, so the two conditions are distinguishable by the caller.
+
+### Unchanged
+
+Nothing under `spec/` changed in this release. The payload schema stays
+`dpp-1.0.0`, the ontology stays `sort4circ-1.0.0`, every controlled vocabulary
+keeps the version it carried at 1.0.0, and `SCHEMA_VERSION` stays `1.0.0`. The
+version bump is to the software package only; records written against 1.0.0 are
+read and written identically by 1.1.0, and no migration is required.
+
 ## [1.0.0] - 2026-08-10
 
 First public release, accompanying deliverable D4.3 "DPP development

@@ -1,0 +1,47 @@
+{
+  "environment": {
+    "platform": "Linux-6.18.5-fc-v20-x86_64-with-glibc2.39",
+    "python": "3.11.15",
+    "capturedAt": "2026-08-11T10:45:31Z",
+    "harness": "tools/anchor_bench.py",
+    "selfTest": true
+  },
+  "runs": 25,
+  "digest": "dd14a3f2487f2b22deda4a7bc2b37e775f378e05d60dc1e6ad26fdf26038ae9f",
+  "payloadBytes": 871,
+  "platforms": [
+    {
+      "platform": "in-memory-reference",
+      "status": "measured",
+      "networkId": "s4c-reference",
+      "finality": "not applicable, no network",
+      "submitLatency": {
+        "n": 25,
+        "meanMs": 0.02,
+        "p50Ms": 0.02,
+        "p95Ms": 0.03,
+        "p99Ms": 0.05,
+        "maxMs": 0.05
+      },
+      "timeToConfirmation": {
+        "n": 25,
+        "meanMs": 0.02,
+        "p50Ms": 0.02,
+        "p95Ms": 0.03,
+        "p99Ms": 0.05,
+        "maxMs": 0.05
+      },
+      "unconfirmedAtTimeout": 0,
+      "failures": {},
+      "fee": {
+        "status": "notCaptured",
+        "reason": "the adapter receipt carried no fee field"
+      }
+    }
+  ],
+  "energy": {
+    "status": "notMeasured",
+    "reason": "an energy figure requires a meter log of the campaign and an idle log of the same hardware with the service stopped; one or both were not supplied"
+  },
+  "caveat": "self test against the in-memory adapter; these figures describe this process and nothing about any distributed ledger"
+}

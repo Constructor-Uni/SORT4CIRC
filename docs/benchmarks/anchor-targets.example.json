@@ -1,0 +1,43 @@
+{
+  "runs": 50,
+  "confirmationTimeoutSeconds": 300,
+  "pollIntervalSeconds": 1.0,
+  "platforms": [
+    {
+      "name": "besu-permissioned",
+      "adapter": "sort4circ_dpp.ledger.besu:BesuLedger",
+      "options": {},
+      "finality": "deterministic",
+      "notes": "IBFT 2.0 validator set. Configure through S4C_BESU_RPC, S4C_BESU_CONTRACT and S4C_BESU_FROM. Signing is delegated to the node or to an external signer; no key is read by the harness."
+    },
+    {
+      "name": "ebsi-pilot",
+      "adapter": "consortium_adapters.ebsi:EbsiLedger",
+      "options": {},
+      "finality": "deterministic",
+      "notes": "Requires onboarding to the EBSI pilot environment and a registered decentralised identifier. Write access is granted per organisation, so this entry cannot be exercised without that grant."
+    },
+    {
+      "name": "algorand-testnet",
+      "adapter": "consortium_adapters.algorand:AlgorandLedger",
+      "options": {},
+      "finality": "deterministic",
+      "notes": "Anchoring through a note field or an application call. Requires a funded account and a reachable algod endpoint."
+    },
+    {
+      "name": "iota-testnet",
+      "adapter": "consortium_adapters.iota:IotaLedger",
+      "options": {},
+      "finality": "deterministic",
+      "notes": "Requires a reachable node and, depending on the network configuration, an account able to pay storage costs."
+    },
+    {
+      "name": "ethereum-sepolia",
+      "adapter": "consortium_adapters.ethereum:EthereumLedger",
+      "options": {},
+      "finality": "probabilistic",
+      "confirmationDepth": 12,
+      "notes": "Confirmation is probabilistic, so the adapter decides at what depth it reports confirmed. Record that depth: a time to confirmation measured at depth 1 is not comparable with one measured at depth 12."
+    }
+  ]
+}

@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import copy
 import threading
+import time
 import uuid
 from collections.abc import Callable, Iterator
 from dataclasses import dataclass, field
@@ -98,6 +99,11 @@ class PassportStore:
     outbox: list[OutboxEntry] = field(default_factory=list)
     _lock: threading.RLock = field(default_factory=threading.RLock)
     on_commit: Callable[[str, int], None] | None = None
+    #: Monotonic milliseconds at the most recent commit, recorded before any
+    #: projector is notified. A projector compares this against the moment it
+    #: last caught up, which is how a projector that has stopped is told apart
+    #: from a line on which nothing has happened.
+    last_commit_ms: float = 0.0
 
     # ---------------------------------------------------------------- helpers
 
@@ -346,6 +352,7 @@ class PassportStore:
         self._history.setdefault(record["dppId"], []).append(copy.deepcopy(record))
         entry.state = "queued"
         self.outbox.append(entry)
+        self.last_commit_ms = time.monotonic() * 1000.0
         if self.on_commit is not None:
             self.on_commit(record["dppId"], record["recordVersion"])
 
