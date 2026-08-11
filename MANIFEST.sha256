@@ -1,9 +1,10 @@
 # SORT4CIRC textile Digital Product Passport, deliverable D4.3
-# Release 1.0.0, commit 9221cd6
+# Release 1.0.0, see tag v1.0.0
 # sha256 of every delivered file, paths relative to the repository root.
 # Verify with: python verify_files.py
 # MANIFEST.sha256 itself is not listed: it cannot contain its own digest.
 eb61ee9e7c4b66eae81df1b5c3dd2136e3b712d53763c10a4eb79530c9dd9a79  .editorconfig
+d60f352d0db1404c70afb4bb8b2ca3fd1c610572aa40720e8a0b7baa7885418c  .gitattributes
 494d59a7aa60885e07899e85902df5e83eb5635b4ebbc7d5054720d331bbf58f  .github/ISSUE_TEMPLATE/bug_report.yml
 7a944f036df7bdf8ee80791dff09c9621d226a0e0a6b864ec6636f464e65a941  .github/ISSUE_TEMPLATE/spec_question.yml
 3dd89a6e914899c25e3c055c0f54d3596a5d0431536f86d1b1b07df05014c132  .github/PULL_REQUEST_TEMPLATE.md
