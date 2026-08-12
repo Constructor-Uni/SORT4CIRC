@@ -1,0 +1,33 @@
+{
+  "$id": "https://data.sort4circ.eu/vocabulary/carrier-type/1.0.0",
+  "name": "carrier-type",
+  "version": "1.0.0",
+  "released": "2026-08-10",
+  "owner": "Constructor University, SORT4CIRC WP4",
+  "terms": [
+    {
+      "token": "uhfRfid",
+      "definition": "UHF RFID transponder.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "nfc",
+      "definition": "NFC tag.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "qrCode",
+      "definition": "QR code.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "dataMatrix",
+      "definition": "Data Matrix code.",
+      "deprecated": false,
+      "replacedBy": null
+    }
+  ]
+}

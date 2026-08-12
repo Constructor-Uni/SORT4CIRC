@@ -1,0 +1,39 @@
+{
+  "$id": "https://data.sort4circ.eu/vocabulary/value-status/1.0.0",
+  "name": "value-status",
+  "version": "1.0.0",
+  "released": "2026-08-10",
+  "owner": "Constructor University, SORT4CIRC WP4",
+  "terms": [
+    {
+      "token": "supplied",
+      "definition": "A value is present and is asserted by the named source using the named method.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "notMeasured",
+      "definition": "The property is applicable and no measurement was attempted.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "unknown",
+      "definition": "A measurement or enquiry was attempted and produced no usable result.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "notApplicable",
+      "definition": "The property does not apply to this product.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "withheld",
+      "definition": "A value exists and the requesting role is not entitled to receive it.",
+      "deprecated": false,
+      "replacedBy": null
+    }
+  ]
+}

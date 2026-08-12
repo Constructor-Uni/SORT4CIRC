@@ -1,0 +1,75 @@
+{
+  "$id": "https://data.sort4circ.eu/vocabulary/component-type/1.0.0",
+  "name": "component-type",
+  "version": "1.0.0",
+  "released": "2026-08-10",
+  "owner": "Constructor University, SORT4CIRC WP4",
+  "terms": [
+    {
+      "token": "fabric",
+      "definition": "A textile surface.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "yarn",
+      "definition": "An assembly of fibres or filaments.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "filament",
+      "definition": "A continuous fibre.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "fibre",
+      "definition": "The smallest textile unit represented.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "lining",
+      "definition": "An inner fabric layer.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "trim",
+      "definition": "Decorative or functional trim.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "zip",
+      "definition": "Zip fastener.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "button",
+      "definition": "Button.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "rivet",
+      "definition": "Rivet.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "label",
+      "definition": "Care or brand label.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "padding",
+      "definition": "Padding or fill.",
+      "deprecated": false,
+      "replacedBy": null
+    }
+  ]
+}

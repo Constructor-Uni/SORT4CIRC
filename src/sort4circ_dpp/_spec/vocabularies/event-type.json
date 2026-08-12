@@ -1,0 +1,87 @@
+{
+  "$id": "https://data.sort4circ.eu/vocabulary/event-type/1.0.0",
+  "name": "event-type",
+  "version": "1.0.0",
+  "released": "2026-08-10",
+  "owner": "Constructor University, SORT4CIRC WP4",
+  "terms": [
+    {
+      "token": "production",
+      "definition": "Manufacture of the product.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "collection",
+      "definition": "Entry into a post-consumer collection stream.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "transfer",
+      "definition": "Change of custody without transformation.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "receipt",
+      "definition": "Receipt at a facility.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "identification",
+      "definition": "Capture of the identifier at a read point.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "inspection",
+      "definition": "Human or instrumented examination.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "materialObservation",
+      "definition": "A material observation was recorded.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "sortingDecision",
+      "definition": "A sorting outcome was issued or confirmed.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "reusePreparation",
+      "definition": "Preparation for reuse.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "resale",
+      "definition": "Sale on a secondary market.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "recyclingInput",
+      "definition": "Entry into a recycling process.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "transformation",
+      "definition": "Inputs consumed, distinct outputs produced.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "retirement",
+      "definition": "The product left the tracked system.",
+      "deprecated": false,
+      "replacedBy": null
+    }
+  ]
+}

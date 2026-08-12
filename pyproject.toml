@@ -41,7 +41,12 @@ Repository = "https://github.com/Constructor-Uni/SORT4CIRC"
 where = ["src"]
 
 [tool.setuptools.package-data]
-sort4circ_dpp = ["py.typed"]
+sort4circ_dpp = [
+  "py.typed",
+  "_spec/*.json",
+  "_spec/schemas/*.json",
+  "_spec/vocabularies/*.json",
+]
 
 [tool.ruff]
 line-length = 120

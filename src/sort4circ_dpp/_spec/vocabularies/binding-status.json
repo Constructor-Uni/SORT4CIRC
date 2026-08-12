@@ -1,0 +1,33 @@
+{
+  "$id": "https://data.sort4circ.eu/vocabulary/binding-status/1.0.0",
+  "name": "binding-status",
+  "version": "1.0.0",
+  "released": "2026-08-10",
+  "owner": "Constructor University, SORT4CIRC WP4",
+  "terms": [
+    {
+      "token": "commissioned",
+      "definition": "Active binding. At most one per passport.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "replaced",
+      "definition": "Superseded by a later binding.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "retired",
+      "definition": "Closed without replacement.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "failed",
+      "definition": "Commissioning did not complete.",
+      "deprecated": false,
+      "replacedBy": null
+    }
+  ]
+}

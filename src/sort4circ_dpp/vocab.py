@@ -38,7 +38,7 @@ class Vocabulary:
 
 @cache
 def load(name: str) -> Vocabulary:
-    path = VOCAB_DIR / f"{name}.json"
+    path = VOCAB_DIR.joinpath(f"{name}.json")
     if not path.exists():
         raise KeyError(f"vocabulary {name!r} is not published")
     doc = json.loads(path.read_text(encoding="utf-8"))
@@ -54,7 +54,7 @@ def load(name: str) -> Vocabulary:
 
 @lru_cache(maxsize=1)
 def published() -> tuple[str, ...]:
-    return tuple(sorted(p.stem for p in VOCAB_DIR.glob("*.json")))
+    return tuple(sorted(p.name.removesuffix(".json") for p in VOCAB_DIR.iterdir() if p.name.endswith(".json")))
 
 
 #: Field path to vocabulary name. Every coded field in the profile appears here;
@@ -144,7 +144,7 @@ def evidence_weight(method: str) -> int:
     passport, and a rule set is free to apply a different ordering provided the
     ordering is versioned with the rule set.
     """
-    doc = json.loads((VOCAB_DIR / "method.json").read_text(encoding="utf-8"))
+    doc = json.loads(VOCAB_DIR.joinpath("method.json").read_text(encoding="utf-8"))
     for term in doc["terms"]:
         if term["token"] == method:
             return int(term.get("evidenceWeight", 0))

@@ -1,0 +1,93 @@
+{
+  "$id": "https://data.sort4circ.eu/vocabulary/technical-flag/1.0.0",
+  "name": "technical-flag",
+  "version": "1.0.0",
+  "released": "2026-08-10",
+  "owner": "Constructor University, SORT4CIRC WP4",
+  "terms": [
+    {
+      "token": "carbonBlackPresent",
+      "definition": "Carbon black pigment present; degrades near-infrared identification.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "metallicThread",
+      "definition": "Metallic thread present.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "coatingPolyurethane",
+      "definition": "Polyurethane coating present.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "coatingPvc",
+      "definition": "PVC coating present.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "membraneLaminate",
+      "definition": "Laminated membrane present.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "flameRetardantFinish",
+      "definition": "Flame-retardant finish applied.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "waterRepellentFinish",
+      "definition": "Water-repellent finish applied.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "hardPointZipMetal",
+      "definition": "Metal zip present.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "hardPointZipPolymer",
+      "definition": "Polymer zip present.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "hardPointButtonMetal",
+      "definition": "Metal button present.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "hardPointRivet",
+      "definition": "Rivet present.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "printedGraphicLarge",
+      "definition": "Large printed graphic present.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "elastanePresent",
+      "definition": "Elastane present.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "multiLayerConstruction",
+      "definition": "More than one bonded layer.",
+      "deprecated": false,
+      "replacedBy": null
+    }
+  ]
+}

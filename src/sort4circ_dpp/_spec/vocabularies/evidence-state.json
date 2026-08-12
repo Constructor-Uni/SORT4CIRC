@@ -1,0 +1,45 @@
+{
+  "$id": "https://data.sort4circ.eu/vocabulary/evidence-state/1.0.0",
+  "name": "evidence-state",
+  "version": "1.0.0",
+  "released": "2026-08-10",
+  "owner": "Constructor University, SORT4CIRC WP4",
+  "terms": [
+    {
+      "token": "created",
+      "definition": "Created inside the write transaction.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "queued",
+      "definition": "Durably queued for submission.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "submitted",
+      "definition": "Broadcast to the ledger; outcome not yet known.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "confirmed",
+      "definition": "Confirmed by the ledger.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "retryableFailed",
+      "definition": "Failed in a way that permits retry with the same evidence identifier.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "terminalFailed",
+      "definition": "Failed permanently; requires operator action.",
+      "deprecated": false,
+      "replacedBy": null
+    }
+  ]
+}

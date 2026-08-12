@@ -1,0 +1,51 @@
+{
+  "$id": "https://data.sort4circ.eu/vocabulary/colour-family/1.0.0",
+  "name": "colour-family",
+  "version": "1.0.0",
+  "released": "2026-08-10",
+  "owner": "Constructor University, SORT4CIRC WP4",
+  "terms": [
+    {
+      "token": "light",
+      "definition": "Light shade.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "mid",
+      "definition": "Mid shade.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "dark",
+      "definition": "Dark shade.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "black",
+      "definition": "Black.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "white",
+      "definition": "White.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "patterned",
+      "definition": "Multi-colour or patterned.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "unknownColour",
+      "definition": "Not determined.",
+      "deprecated": false,
+      "replacedBy": null
+    }
+  ]
+}
