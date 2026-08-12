@@ -95,3 +95,126 @@ jobs:
         with:
           name: conformance-report
           path: conformance-report.json
+
+  wheel-smoke:
+    name: Installed wheel smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Build wheel outside the checkout
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/s4c-wheel"
+          mkdir -p "$RUNNER_TEMP/s4c-wheel-smoke"
+          python -m pip wheel . --no-deps --wheel-dir "$RUNNER_TEMP/s4c-wheel"
+
+      - name: Inspect packaged runtime resources
+        run: |
+          python - <<'PY'
+          import os
+          import pathlib
+          import zipfile
+
+          root = pathlib.Path.cwd()
+          wheel = next((pathlib.Path(os.environ["RUNNER_TEMP"]) / "s4c-wheel").glob("*.whl"))
+          expected = {
+              "access-matrix.json",
+              "reason-codes.json",
+              "schemas/dpp-1.0.0.schema.json",
+              *(path.relative_to(root / "spec").as_posix()
+                for path in (root / "spec" / "vocabularies").glob("*.json")),
+          }
+          with zipfile.ZipFile(wheel) as archive:
+              prefix = "sort4circ_dpp/_spec/"
+              actual = {
+                  name.removeprefix(prefix)
+                  for name in archive.namelist()
+                  if name.startswith(prefix) and not name.endswith("/")
+              }
+          assert actual == expected, (sorted(actual), sorted(expected))
+          print(f"verified {len(actual)} runtime resources")
+          PY
+
+      - name: Install wheel in a clean environment
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/s4c-wheel-venv"
+          "$RUNNER_TEMP/s4c-wheel-venv/bin/python" -m pip install \
+            "$(find "$RUNNER_TEMP/s4c-wheel" -name '*.whl' -print -quit)"
+
+      - name: Exercise installed wheel outside the checkout
+        env:
+          WHEEL_VENV: ${{ runner.temp }}/s4c-wheel-venv
+        working-directory: ${{ runner.temp }}/s4c-wheel-smoke
+        run: |
+          set -euo pipefail
+          test ! -e spec
+          "$WHEEL_VENV/bin/python" - <<'PY'
+          import asyncio
+          import os
+          import pathlib
+          import sys
+
+          import sort4circ_dpp
+          from fastapi import FastAPI
+          from sort4circ_dpp.api import create_app
+          from sort4circ_dpp.reasons import released_codes
+          from sort4circ_dpp.validation import schema, validate_schema
+          from sort4circ_dpp.vocab import load
+
+          origin = pathlib.Path(sort4circ_dpp.__file__).resolve()
+          prefix = pathlib.Path(sys.prefix).resolve()
+          assert origin.is_relative_to(prefix), (origin, prefix)
+          assert released_codes()
+          assert load("article-class").tokens
+          assert schema()["$schema"]
+          try:
+              validate_schema({})
+          except Exception:
+              pass
+          else:
+              raise AssertionError("an empty payload unexpectedly passed schema validation")
+
+          app = create_app()
+          assert isinstance(app, FastAPI)
+          messages = []
+
+          async def receive():
+              return {"type": "http.request", "body": b"", "more_body": False}
+
+          async def send(message):
+              messages.append(message)
+
+          scope = {
+              "type": "http",
+              "asgi": {"version": "3.0", "spec_version": "2.0"},
+              "method": "GET",
+              "path": "/health",
+              "raw_path": b"/health",
+              "query_string": b"",
+              "headers": [],
+              "http_version": "1.1",
+              "client": ("127.0.0.1", 1),
+              "server": ("test", 80),
+              "scheme": "http",
+              "root_path": "",
+          }
+
+          asyncio.run(app(scope, receive, send))
+          response = next(message for message in messages if message["type"] == "http.response.start")
+          assert response["status"] == 200
+          print("installed wheel smoke passed")
+          PY
+
+      - name: Clean temporary wheel resources
+        if: always()
+        run: |
+          rm -rf "$RUNNER_TEMP/s4c-wheel" \
+                 "$RUNNER_TEMP/s4c-wheel-venv" \
+                 "$RUNNER_TEMP/s4c-wheel-smoke"
