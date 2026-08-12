@@ -8,6 +8,7 @@
 The normative artefacts live in [`../spec/`](../spec). Where this documentation
 and those artefacts disagree, the artefacts govern.
 
-The full guideline is deliverable D4.3, "DPP development guidelines", a public
-deliverable of SORT4CIRC work package 4, task 4.2, led by Constructor
-University.
+D4.3 — DPP Development Guidelines is the public SORT4CIRC deliverable led by
+Constructor University (CU), with contributions from the CU WP4 team. This
+repository provides specifications and reference software supporting its
+sanitised implementation profile.

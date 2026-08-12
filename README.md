@@ -1,4 +1,4 @@
-# SORT4CIRC Textile Digital Product Passport
+# SORT4CIRC DPP Development Guidelines & Reference Implementation
 
 <p align="center">
   <img
@@ -17,6 +17,12 @@
 Reference implementation and normative specification artefacts for the textile
 Digital Product Passport (DPP) developed in SORT4CIRC work package 4, task 4.2,
 and published in deliverable **D4.3, DPP development guidelines**.
+
+Deliverable **D4.3 — DPP Development Guidelines** is the public SORT4CIRC
+deliverable led by Constructor University (CU), with contributions from the CU
+WP4 team. This repository provides specifications and reference software
+supporting the sanitised D4.3 implementation profile; it is not the submitted
+deliverable itself.
 
 The repository has two halves that serve different purposes.
 
@@ -203,14 +209,21 @@ See [`CITATION.cff`](CITATION.cff).
 
 ## Funding
 
-SORT4CIRC, Intelligent Textile SORting for enabling CIRCularity, is funded by
-the European Union under Horizon Europe, call HORIZON-CL6-2024-CIRCBIO-02,
-grant agreement number 101181988. Work package 4 is led by Constructor
-University, which is also the lead beneficiary for deliverable D4.3.
+**Funded by the European Union**
 
-Views and opinions expressed are those of the authors only and do not
-necessarily reflect those of the European Union or the European Research
-Executive Agency. Neither the European Union nor the granting authority can be
-held responsible for them.
+| Project metadata | Authority text |
+| --- | --- |
+| Formal project name | SORT4CIRC - Intelligent Textile SORting for enable CIRCularity |
+| Grant agreement | 101181988 |
+| Programme | Horizon Europe |
+| Call | HORIZON-CL6-2024-CIRCBIO-02 |
+| Topic | HORIZON-CL6-2024-CircBio-02-1-two-stage |
+| Type of action | HORIZON-RIA |
+| Coordinator | CONSTRUCTOR UNIVERSITY BREMEN GGMBH (CU) |
+| Project start | 1 December 2025 |
+| Duration | 36 months |
+| Project website | <https://sort4circ.eu> |
 
-Project website: <https://sort4circ.eu>
+Views and opinions expressed are however those of the author(s) only and do
+not necessarily reflect those of the European Union or REA. Neither the
+European Union nor the granting authority can be held responsible for them.

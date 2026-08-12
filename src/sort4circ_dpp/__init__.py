@@ -1,8 +1,9 @@
-"""SORT4CIRC Textile Digital Product Passport reference implementation.
+"""SORT4CIRC Textile Digital Product Passport reference software.
 
-This package implements the guidelines published in SORT4CIRC deliverable D4.3,
-"DPP development guidelines" (WP4, Task 4.2, Constructor University). It is a
-reference implementation intended to be read and reused, not a product.
+This package provides reference software supporting the sanitised implementation
+profile described in SORT4CIRC deliverable D4.3, "DPP Development Guidelines"
+(WP4, Task 4.2, Constructor University). It is intended to be read and reused,
+not a product.
 
 The specification artefacts in ``spec/`` are normative. Where this code and the
 specification disagree, the specification governs and the disagreement is a bug
