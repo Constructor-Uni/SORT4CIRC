@@ -124,7 +124,9 @@ class BesuLedger(LedgerAdapter):
         return confirmed
 
     def anchored_digest(self, evidence_id: str) -> str | None:
-        return self._digests.get(evidence_id)
+        # The submitted digest is only a local cache; without independent
+        # contract readback it cannot support an integrity verdict.
+        return None
 
 
 def _bytes32(value: str) -> str:
