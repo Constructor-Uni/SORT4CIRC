@@ -25,7 +25,9 @@ def main() -> int:
         "url": "https://sort4circ.eu",
     }
     target = ROOT / "spec" / "openapi" / "dpp-api-v1.json"
-    target.write_text(json.dumps(document, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    # Write bytes explicitly so generated output is LF-canonical on Windows
+    # and Linux alike, matching the Git-delivered artifact and manifest.
+    target.write_bytes((json.dumps(document, indent=2, sort_keys=True) + "\n").encode("utf-8"))
     print(f"wrote {target.relative_to(ROOT)} with {len(document['paths'])} paths")
     return 0
 

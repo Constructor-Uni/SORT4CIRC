@@ -32,7 +32,7 @@ jobs:
         run: ruff check src tests tools examples
 
       - name: Test
-        run: pytest -q
+        run: python -m pytest -q
 
       - name: Validate fixtures
         run: python tools/validate_fixtures.py
