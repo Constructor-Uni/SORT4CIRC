@@ -21,6 +21,8 @@ from typing import Any
 from urllib.parse import unquote
 
 from fastapi import Depends, FastAPI, Header, Query, Request, Response
+from fastapi.exception_handlers import request_validation_exception_handler
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
 from . import canonical
@@ -75,6 +77,27 @@ def create_app(
             content=exc.problem(instance=str(request.url.path), correlation_id=correlation),
             media_type="application/problem+json",
             headers={"X-Correlation-Id": correlation},
+        )
+
+    @app.exception_handler(RequestValidationError)
+    async def _request_validation_error_handler(request: Request, exc: RequestValidationError) -> Response:
+        errors = exc.errors()
+        if not errors or any(not error.get("loc") or error["loc"][0] != "body" for error in errors):
+            return await request_validation_exception_handler(request, exc)
+
+        problem = DppError(
+            "S4C-PAYLOAD-SCHEMA-INVALID",
+            "request body failed schema validation",
+            fields=["body"],
+        ).problem(
+            instance=str(request.url.path),
+            correlation_id=request.state.correlation_id,
+        )
+        return JSONResponse(
+            status_code=422,
+            content=problem,
+            media_type="application/problem+json",
+            headers={"X-Correlation-Id": request.state.correlation_id},
         )
 
     @app.middleware("http")

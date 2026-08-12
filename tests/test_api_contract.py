@@ -43,6 +43,56 @@ def test_errors_are_rfc9457_problem_documents(client):
     assert response.json()["type"].startswith("https://data.sort4circ.eu/problems/")
 
 
+def test_malformed_json_body_uses_the_payload_problem_contract(client):
+    response = client.post(
+        "/v1/dpps",
+        content="{",
+        headers={**HEADERS["brand"], "Content-Type": "application/json"},
+    )
+    body = response.json()
+
+    assert response.status_code == 422
+    assert response.headers["content-type"] == "application/problem+json"
+    assert body["reasonCode"] == "S4C-PAYLOAD-SCHEMA-INVALID"
+    assert body["status"] == 422
+    assert body["errors"] == [{"path": "body"}]
+    assert body["correlationId"] == response.headers["X-Correlation-Id"]
+
+
+def test_missing_body_uses_the_payload_problem_contract(client):
+    response = client.post("/v1/dpps", headers=HEADERS["brand"])
+    body = response.json()
+
+    assert response.status_code == 422
+    assert response.headers["content-type"] == "application/problem+json"
+    assert body["reasonCode"] == "S4C-PAYLOAD-SCHEMA-INVALID"
+    assert body["status"] == 422
+    assert body["errors"] == [{"path": "body"}]
+    assert body["correlationId"] == response.headers["X-Correlation-Id"]
+
+
+def test_invalid_query_parameter_keeps_fastapi_validation_behavior(client):
+    response = client.get("/v1/dpps?limit=not-an-int")
+    body = response.json()
+
+    assert response.status_code == 422
+    assert response.headers["content-type"] == "application/json"
+    assert "reasonCode" not in body
+    assert "correlationId" not in body
+    assert body["detail"][0]["loc"] == ["query", "limit"]
+
+
+def test_empty_object_remains_application_schema_validation(client):
+    response = client.post("/v1/dpps", json={}, headers=HEADERS["brand"])
+    body = response.json()
+
+    assert response.status_code == 422
+    assert response.headers["content-type"] == "application/problem+json"
+    assert body["reasonCode"] == "S4C-PAYLOAD-SCHEMA-INVALID"
+    assert body["errors"]
+    assert body["correlationId"] == response.headers["X-Correlation-Id"]
+
+
 def test_conditional_get_returns_not_modified(client, dpp_id):
     first = client.get(f"/v1/dpps/{dpp_id}", headers=HEADERS["brand"])
     again = client.get(f"/v1/dpps/{dpp_id}", headers={**HEADERS["brand"], "If-None-Match": first.headers["ETag"]})
