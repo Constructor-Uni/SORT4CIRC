@@ -42,6 +42,12 @@ def _correlation(supplied: str | None) -> str:
     return supplied or str(uuid.uuid4())
 
 
+def _scoped_idempotency_key(operation: str, resource: str, key: str | None) -> str | None:
+    if key is None:
+        return None
+    return f"{operation}|{resource}|{key}"
+
+
 def create_app(
     store: PassportStore | None = None,
     ledger: LedgerAdapter | None = None,
@@ -153,14 +159,15 @@ def create_app(
         idempotency_key: str | None = Header(default=None, alias="Idempotency-Key"),
     ) -> dict[str, Any]:
         require_scope(principal, "dpp.write")
-        cached = store.idempotent(idempotency_key, payload)
+        scoped_key = _scoped_idempotency_key("create-dpp", "create", idempotency_key)
+        cached = store.idempotent(scoped_key, payload)
         if cached is not None:
             response.status_code = 201
             response.headers["Location"] = f"{BASE}/dpps/{cached['dppId']}"
             return cached
         record = store.create(payload)
         result = project(record, "full", principal)
-        store.remember(idempotency_key, payload, result)
+        store.remember(scoped_key, payload, result)
         response.headers["Location"] = f"{BASE}/dpps/{record['dppId']}"
         response.headers["ETag"] = etag(record)
         return result
@@ -234,7 +241,8 @@ def create_app(
         idempotency_key: str | None = Header(default=None, alias="Idempotency-Key"),
     ) -> dict[str, Any]:
         require_scope(principal, "dpp.event")
-        cached = store.idempotent(idempotency_key, payload)
+        scoped_key = _scoped_idempotency_key("add-event", dpp_id, idempotency_key)
+        cached = store.idempotent(scoped_key, payload)
         if cached is not None:
             return cached
         event = dict(payload)
@@ -243,7 +251,7 @@ def create_app(
         event.setdefault("actorOrganisationId", principal.organisation_id or f"urn:sort4circ:org:{principal.role}")
         record = store.append(dpp_id, "lifecycleEvents", event, "eventId")
         result = {"eventId": event["eventId"], "dppId": dpp_id, "recordVersion": record["recordVersion"]}
-        store.remember(idempotency_key, payload, result)
+        store.remember(scoped_key, payload, result)
         response.headers["Location"] = f"{BASE}/dpps/{dpp_id}/events/{event['eventId']}"
         response.headers["ETag"] = etag(record)
         return result
@@ -257,7 +265,8 @@ def create_app(
         idempotency_key: str | None = Header(default=None, alias="Idempotency-Key"),
     ) -> dict[str, Any]:
         require_scope(principal, "observation.write")
-        cached = store.idempotent(idempotency_key, payload)
+        scoped_key = _scoped_idempotency_key("add-observation", dpp_id, idempotency_key)
+        cached = store.idempotent(scoped_key, payload)
         if cached is not None:
             return cached
         observation = {k: v for k, v in payload.items() if k not in ("observationType", "basedOnRecordVersion", "schemaVersion")}
@@ -268,7 +277,7 @@ def create_app(
             "dppId": dpp_id,
             "recordVersion": record["recordVersion"],
         }
-        store.remember(idempotency_key, payload, result)
+        store.remember(scoped_key, payload, result)
         response.headers["Location"] = f"{BASE}/dpps/{dpp_id}/observations/{observation['observationId']}"
         response.headers["ETag"] = etag(record)
         return result
@@ -282,7 +291,8 @@ def create_app(
         idempotency_key: str | None = Header(default=None, alias="Idempotency-Key"),
     ) -> dict[str, Any]:
         require_scope(principal, "dpp.write")
-        cached = store.idempotent(idempotency_key, payload)
+        scoped_key = _scoped_idempotency_key("commission-carrier", dpp_id, idempotency_key)
+        cached = store.idempotent(scoped_key, payload)
         if cached is not None:
             return cached
         record = store.commission_carrier(dpp_id, payload)
@@ -291,7 +301,7 @@ def create_app(
             "recordVersion": record["recordVersion"],
             "carriers": record["carriers"],
         }
-        store.remember(idempotency_key, payload, result)
+        store.remember(scoped_key, payload, result)
         response.headers["ETag"] = etag(record)
         return result
 

@@ -138,6 +138,80 @@ def test_idempotency_repeats_the_outcome_and_refuses_a_changed_body(client):
     assert changed.json()["reasonCode"] == "S4C-STATE-IDEMPOTENCY-CONFLICT"
 
 
+def test_idempotency_same_key_is_independent_per_dpp_for_events(client, dpp_id):
+    second_dpp = client.post(
+        "/v1/dpps", json=passport_payload(identity={"granularity": "item", "itemId": "urn:sort4circ:item:000002"}), headers=HEADERS["brand"]
+    ).json()["dppId"]
+    event = {
+        "eventType": "collection",
+        "eventTime": "2026-08-10T09:00:00Z",
+        "eventTimeZoneOffset": "+02:00",
+        "sourceSystemId": "urn:sort4circ:system:depot",
+    }
+    headers = {**HEADERS["collector"], "Idempotency-Key": "same-event-key"}
+
+    first = client.post(f"/v1/dpps/{dpp_id}/events", json=event, headers=headers)
+    second = client.post(f"/v1/dpps/{second_dpp}/events", json=event, headers=headers)
+
+    assert first.status_code == second.status_code == 201
+    assert first.json()["dppId"] == dpp_id
+    assert second.json()["dppId"] == second_dpp
+
+
+def test_idempotency_same_key_does_not_cross_replay_between_operations(client, dpp_id):
+    headers = {**HEADERS["brand"], "Idempotency-Key": "operation-key"}
+    event = {
+        "eventType": "collection",
+        "eventTime": "2026-08-10T09:00:00Z",
+        "eventTimeZoneOffset": "+02:00",
+        "sourceSystemId": "urn:sort4circ:system:depot",
+    }
+    observation = {
+        "observationId": "urn:sort4circ:obs:cross-operation",
+        "fibreType": "polyester",
+        "percentage": 100,
+        "percentageBasis": "mass",
+        "valueStatus": "supplied",
+        "method": "nirSpectroscopy",
+        "sourceOrganisationId": "urn:sort4circ:org:brand-a",
+        "observedAt": "2026-08-10T09:14:01.902Z",
+        "confidence": {"value": 0.87, "scale": "unitInterval"},
+    }
+
+    event_response = client.post(f"/v1/dpps/{dpp_id}/events", json=event, headers=headers)
+    observation_response = client.post(
+        f"/v1/dpps/{dpp_id}/observations", json=observation, headers=headers
+    )
+
+    assert event_response.status_code == observation_response.status_code == 201
+    assert "eventId" in event_response.json()
+    assert "observationId" in observation_response.json()
+
+
+def test_idempotency_same_key_does_not_cross_replay_create_and_resource_operation(client, dpp_id):
+    key = "create-and-event-key"
+    created = client.post(
+        "/v1/dpps",
+        json=passport_payload(identity={"granularity": "item", "itemId": "urn:sort4circ:item:000003"}),
+        headers={**HEADERS["brand"], "Idempotency-Key": key},
+    )
+    event = {
+        "eventType": "collection",
+        "eventTime": "2026-08-10T09:00:00Z",
+        "eventTimeZoneOffset": "+02:00",
+        "sourceSystemId": "urn:sort4circ:system:depot",
+    }
+    event_response = client.post(
+        f"/v1/dpps/{dpp_id}/events",
+        json=event,
+        headers={**HEADERS["collector"], "Idempotency-Key": key},
+    )
+
+    assert created.status_code == 201
+    assert event_response.status_code == 201
+    assert event_response.json()["dppId"] == dpp_id
+
+
 def test_an_invalid_payload_names_the_failing_path(client):
     bad = passport_payload()
     del bad["product"]["articleClass"]
