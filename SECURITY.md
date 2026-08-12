@@ -2,14 +2,17 @@
 
 ## Reporting a vulnerability
 
-Report suspected vulnerabilities privately through GitHub's security advisory
-form on this repository, or by contacting the work package 4 lead at
-Constructor University. Do not open a public issue for an unpatched
-vulnerability.
+Report suspected vulnerabilities privately through GitHub Security Advisories:
+open this repository's Security tab and use the private vulnerability reporting
+form if it is enabled. Do not open a public issue for an unpatched
+vulnerability. If private reporting is unavailable, do not publish sensitive
+vulnerability details publicly. An approved project contact can be added later
+when one exists.
 
-Expect an acknowledgement within five working days and an assessment within
-fifteen. Reports that concern the reference implementation and reports that
-concern the specification are handled differently: a defect in `spec/` may
+The maintainers will acknowledge and assess reports as resources permit and
+will coordinate disclosure with the reporter where appropriate. Reports that
+concern the reference implementation and reports that concern the specification
+are handled differently: a defect in `spec/` may
 affect every implementation of it and is disclosed with more notice.
 
 ## Scope
@@ -17,10 +20,12 @@ affect every implementation of it and is disclosed with more notice.
 In scope: the reference service in `src/`, the specification artefacts in
 `spec/`, and the container definitions in `docker/`.
 
-Out of scope: the development authentication stand-in in `api.py`, which is
-disabled unless `S4C_ALLOW_HEADER_AUTH` is set and is documented as a stand-in
-for an OAuth 2.0 or OIDC profile. Deployments replace it. Reporting it as a
-vulnerability is not useful.
+The intentionally documented development-only header-auth stand-in itself is
+not a vulnerability. Reports remain in scope for unintended enablement,
+authentication or authorization bypass, privilege escalation, information
+disclosure, or production exposure involving that mechanism. It is disabled
+unless `S4C_ALLOW_HEADER_AUTH` is set and is documented as a stand-in for an
+OAuth 2.0 or OIDC profile; deployments replace it.
 
 ## Deployment expectations
 
