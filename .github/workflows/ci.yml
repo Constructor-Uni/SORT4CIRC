@@ -26,7 +26,7 @@ jobs:
           cache: pip
 
       - name: Install
-        run: python -m pip install --upgrade pip && pip install -e ".[dev]"
+        run: python -m pip install -c constraints-py311-py312-py313.txt -e ".[dev]"
 
       - name: Lint
         run: ruff check src tests tools examples
@@ -52,7 +52,7 @@ jobs:
           cache: pip
 
       - name: Install
-        run: pip install -e ".[dev]"
+        run: pip install -c constraints-py311-py312-py313.txt -e ".[dev]"
 
       - name: Ontology parses without error
         run: |
@@ -89,7 +89,7 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
-      - run: pip install -e ".[dev]"
+      - run: pip install -c constraints-py311-py312-py313.txt -e ".[dev]"
       - run: python tools/conformance_report.py
       - uses: actions/upload-artifact@v4
         with:
@@ -146,6 +146,7 @@ jobs:
           set -euo pipefail
           python -m venv "$RUNNER_TEMP/s4c-wheel-venv"
           "$RUNNER_TEMP/s4c-wheel-venv/bin/python" -m pip install \
+            -c "$GITHUB_WORKSPACE/constraints-py311-py312-py313.txt" \
             "$(find "$RUNNER_TEMP/s4c-wheel" -name '*.whl' -print -quit)"
 
       - name: Exercise installed wheel outside the checkout
