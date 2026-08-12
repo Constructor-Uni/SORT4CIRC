@@ -3,7 +3,7 @@
 Format follows Keep a Changelog. Versions follow semantic versioning, applied
 independently to each artefact under `spec/`.
 
-## [1.1.2] - 2026-08-12
+## [1.1.2] - 2026-08-13
 
 Correctness, packaging, reproducibility and documentation maintenance for the
 reference implementation. Normative specification artefacts are unchanged.
