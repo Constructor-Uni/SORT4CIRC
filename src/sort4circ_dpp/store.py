@@ -1,8 +1,8 @@
 """Passport repository, version history, carrier bindings and the outbox.
 
-The store is in-memory with an optional JSON snapshot. It is deliberately simple
+The reference store is process-local and in-memory. It is deliberately simple
 so the invariants stay visible; a production deployment replaces it with a
-database while keeping the same invariants, which are:
+durable database while keeping the same invariants, which are:
 
 * every accepted write increments ``recordVersion`` and retains the prior version;
 * material observations, lifecycle events, sorting decisions and integrity

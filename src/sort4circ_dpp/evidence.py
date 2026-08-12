@@ -1,9 +1,9 @@
 """Evidence state machine and the asynchronous anchoring worker.
 
 Blockchain submission is separated from the sorting response. The evidence item
-is created inside the write transaction, queued durably, and advanced by a
-worker. The garment is routed long before any of this completes, which is the
-whole reason for the separation.
+is created inside the write transaction, placed in the reference implementation's
+process-local in-memory outbox, and advanced by a worker. The garment is routed
+long before any of this completes, which is the whole reason for the separation.
 """
 
 from __future__ import annotations

@@ -13,9 +13,11 @@ The **evidence path** is: record the lifecycle event, compute the digest, queue
 the evidence, submit to the ledger, record the confirmation. It has no deadline
 at all.
 
-Coupling them makes line throughput depend on consensus timing. The
-transactional outbox is what keeps them apart: the passport write and its
-evidence-queue entry commit together, and everything after that is asynchronous.
+Coupling them makes line throughput depend on consensus timing. The reference
+implementation's process-local in-memory outbox keeps them apart:
+the passport write and its evidence-queue entry are recorded together, and
+everything after that is asynchronous. A production deployment must provide
+durable persistence if restart survival is required.
 
 ## Components
 
@@ -69,7 +71,10 @@ envelope design, not to any platform: a design that placed passport content on a
 public ledger would fail the confidentiality requirement for every public
 platform, and the failure would be the design's, not the platform's.
 
-Verification retrieves the exact version the evidence cited, recomputes the
-digest and compares. Verifying against the current version instead would report
-a mismatch for every record that has legitimately changed since, which is why
-`subjectVersion` is mandatory.
+The reference adapter retrieves the exact version the evidence cited, recomputes
+the digest and compares. External adapters must independently retrieve the
+anchored digest before making that comparison; the current Besu adapter does not
+implement that readback and therefore reports verification as `unverifiable`.
+Verifying against the current version instead would report a mismatch for every
+record that has legitimately changed since, which is why `subjectVersion` is
+mandatory.

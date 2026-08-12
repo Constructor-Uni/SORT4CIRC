@@ -1,9 +1,11 @@
 """RESTful passport API.
 
-Implements the interface contract of D4.3 Annex B. Every response carries the
-correlation identifier the caller supplied, every error is an RFC 9457 problem
-document carrying a released reason code, and every representation carries the
-record version it was produced from.
+Implements the interface contract of D4.3 Annex B. Every response carries a
+correlation identifier. Application errors and body-level
+request-validation errors use the repository's RFC 9457 problem format and a
+released reason code; non-body validation and routing responses retain their
+FastAPI/Starlette framework behavior. Every representation carries the record
+version it was produced from.
 
 Authentication here is a header-based stand-in for the OAuth 2.0 or OIDC profile
 the security guideline requires. It is confined to :func:`principal_from_request`
@@ -63,9 +65,11 @@ def create_app(
         version=SCHEMA_VERSION,
         description=(
             "Reference implementation of the API requirements developed under "
-            "SORT4CIRC Task 4.2 and published in deliverable D4.3. Errors use "
-            "RFC 9457 problem details and carry a reason code from the released "
-            "catalogue in spec/reason-codes.json."
+            "SORT4CIRC Task 4.2 and published in deliverable D4.3. Application "
+            "and body-validation errors use RFC 9457 problem details and a "
+            "reason code from the released catalogue in spec/reason-codes.json; "
+            "other framework validation and routing responses retain their "
+            "FastAPI/Starlette behavior."
         ),
     )
     app.state.store = store

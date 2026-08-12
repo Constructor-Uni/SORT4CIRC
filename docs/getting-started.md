@@ -83,3 +83,9 @@ cannot be justified to anyone who asks how it was derived.
 | Who may see what | `spec/access-matrix.json` |
 | What the API does | `spec/openapi/dpp-api-v1.json`, or `/docs` on the running service |
 | What conformance means | [`conformance.md`](conformance.md) |
+
+`Idempotency-Key` is scoped by API operation and resource in the reference
+implementation. A same-scope key with the same body replays the original
+outcome; a different body conflicts. Principal/organisation scope is not
+defined, `IDEMPOTENCY_WINDOW_SECONDS` is not enforced, and concurrent first-use
+duplicate suppression is not guaranteed.

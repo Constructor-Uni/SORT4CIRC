@@ -20,8 +20,8 @@ and published in deliverable **D4.3, DPP development guidelines**.
 
 The repository has two halves that serve different purposes.
 
-**`spec/` is normative.** It holds the field dictionary, JSON Schema, ontology,
-controlled vocabularies, reason-code catalogue and access matrix that define
+**`spec/` is normative.** It holds the JSON Schema, ontology, controlled
+vocabularies, reason-code catalogue and access matrix that define
 what a conformant passport is. An implementation in any language conforms by
 satisfying these artefacts.
 
@@ -63,7 +63,18 @@ make serve            # API on http://localhost:8000, docs at /docs
 The worked example is the fastest way to understand the model. It follows one
 garment through creation, carrier commissioning, a read at the sorting gate,
 resolution, a routing decision, a second technology that disagrees with the
-first, digest calculation, anchoring and independent verification.
+first, digest calculation, anchoring and verification using the deterministic
+reference adapter. Besu submission/status support exists, but independent
+on-chain digest readback is not implemented.
+
+## Idempotency semantics
+
+The reference implementation scopes an `Idempotency-Key` by API operation and
+resource. Within the same scope, reusing a key with the same body replays the
+original outcome; reusing it with a different body returns an idempotency
+conflict. Principal or organisation scoping is not currently defined,
+`IDEMPOTENCY_WINDOW_SECONDS` is not enforced, and concurrent first-use duplicate
+suppression is not guaranteed.
 
 ## The three conformance tiers
 
@@ -159,12 +170,17 @@ one 100 times asserting zero uncontrolled commands.
 The evidence envelope carries a reference and a digest and no passport content.
 That single property is the reason a public ledger can satisfy the
 confidentiality requirement at all; it belongs to the envelope design and not to
-any platform. Anchoring runs asynchronously through a transactional outbox, so
+any platform. Anchoring runs asynchronously through the reference
+implementation's process-local in-memory outbox, so
 an unavailable ledger never stops the line.
 
 The repository ships a deterministic reference adapter and a Hyperledger Besu
-adapter behind one contract, and the contract test suite runs against both. The
-Besu profile is an implementation of the anchoring flow and is **not the outcome
+adapter behind one contract. The generic ledger contract tests exercise
+`InMemoryLedger`; Besu has focused unit tests, not live end-to-end
+contract/network coverage. Besu submission/status support exists, but
+independent on-chain digest readback is not implemented, so unsupported digest
+verification fails closed as `unverifiable`. The Besu profile is an implementation
+of the anchoring flow and is **not the outcome
 of the assessment** procedure defined in D4.3 for EBSI, Algorand, IOTA and
 Ethereum; that comparative benchmark and its TOPSIS ranking are scheduled work
 and no ranking is claimed here.
