@@ -200,8 +200,12 @@ because removal would invalidate records already written by other parties.
 
 ## Licensing
 
-- Code under `src/`, `tests/`, `tools/` and `examples/`: **Apache License 2.0**, see [`LICENSE`](LICENSE).
-- Specification artefacts under `spec/` and documentation under `docs/`: **CC BY 4.0**, see [`LICENSE-DOCS`](LICENSE-DOCS).
+| Path / content | License |
+| --- | --- |
+| Python implementation under `src/` (excluding `src/sort4circ_dpp/_spec/`), tests, tools, examples, Docker, `.github/`, and repository build/development/configuration files | Apache License 2.0 |
+| Generated API artifact under `spec/openapi/` | Apache License 2.0 |
+| Specifications under `spec/` (excluding `spec/openapi/`) and documentation under `docs/` | Creative Commons Attribution 4.0 International |
+| Packaged resources under `src/sort4circ_dpp/_spec/` | Creative Commons Attribution 4.0 International; byte-for-byte distribution copies of the corresponding specification files |
 
 ## Citation
 
