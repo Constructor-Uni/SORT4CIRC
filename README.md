@@ -61,7 +61,7 @@ may not be claimed.
 git clone https://github.com/Constructor-Uni/SORT4CIRC.git
 cd SORT4CIRC
 make install          # installs into the active environment
-make test             # full suite, roughly 200 checks
+make test             # full test suite
 make example          # the D4.3 Annex G worked example, end to end
 make serve            # API on http://localhost:8000, docs at /docs
 ```
@@ -131,7 +131,7 @@ spec/           normative artefacts
   openapi/      generated OpenAPI 3.1 contract
 src/sort4circ_dpp/
   canonical.py  RFC 8785 canonicalisation, the integrity projection and the digest
-  store.py      versioning, append-only collections, carrier bindings, transactional outbox
+  store.py      versioning, append-only collections, carrier bindings, in-memory outbox
   access.py     role, scope and view enforcement
   index.py      the read projection for the time-critical path, publishing its own lag
   evidence.py   the evidence state machine and the anchoring worker
