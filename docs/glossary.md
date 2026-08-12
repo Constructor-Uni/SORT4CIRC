@@ -46,8 +46,10 @@ actuator is engaged.
 and decision publication for one garment, derived from conveyor speed, actuator
 distance and the fixed overheads.
 
-**Transactional outbox.** The mechanism by which a passport write and its
-evidence-queue entry commit as one logical operation.
+**In-memory outbox.** Process-local queue state maintained alongside
+reference-implementation passport writes. It demonstrates asynchronous
+evidence handling but does not provide durable transactional persistence across
+process restarts. Durable persistence is deployment work.
 
 **TVC.** Textile Value Chain.
 
