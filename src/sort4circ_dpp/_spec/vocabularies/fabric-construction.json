@@ -1,0 +1,51 @@
+{
+  "$id": "https://data.sort4circ.eu/vocabulary/fabric-construction/1.0.0",
+  "name": "fabric-construction",
+  "version": "1.0.0",
+  "released": "2026-08-10",
+  "owner": "Constructor University, SORT4CIRC WP4",
+  "terms": [
+    {
+      "token": "knitted",
+      "definition": "Knitted structure.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "woven",
+      "definition": "Woven structure.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "nonwoven",
+      "definition": "Nonwoven structure.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "pile",
+      "definition": "Pile structure.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "laminated",
+      "definition": "Laminated structure.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "mixedConstruction",
+      "definition": "More than one construction.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "unknownConstruction",
+      "definition": "Construction not determined.",
+      "deprecated": false,
+      "replacedBy": null
+    }
+  ]
+}

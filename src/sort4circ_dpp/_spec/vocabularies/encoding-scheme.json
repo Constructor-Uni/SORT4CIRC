@@ -1,0 +1,33 @@
+{
+  "$id": "https://data.sort4circ.eu/vocabulary/encoding-scheme/1.0.0",
+  "name": "encoding-scheme",
+  "version": "1.0.0",
+  "released": "2026-08-10",
+  "owner": "Constructor University, SORT4CIRC WP4",
+  "terms": [
+    {
+      "token": "gs1Sgtin96",
+      "definition": "GS1 SGTIN-96 EPC encoding.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "gs1Sgtin198",
+      "definition": "GS1 SGTIN-198 EPC encoding.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "gs1DigitalLink",
+      "definition": "GS1 Digital Link URI.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "proprietary",
+      "definition": "Documented proprietary scheme.",
+      "deprecated": false,
+      "replacedBy": null
+    }
+  ]
+}

@@ -1,6 +1,9 @@
 cff-version: 1.2.0
 title: SORT4CIRC Textile Digital Product Passport reference implementation
-message: Please cite the deliverable when using this specification or code.
+message: >-
+  Cite this software release when using the SORT4CIRC reference implementation.
+  Cite SORT4CIRC Deliverable D4.3, DPP Development Guidelines, when using the
+  guidelines or specification.
 type: software
 authors:
   - name: SORT4CIRC consortium, work package 4

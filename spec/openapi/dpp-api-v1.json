@@ -61,7 +61,7 @@
     "url": "https://sort4circ.eu"
   },
   "info": {
-    "description": "Reference implementation of the API requirements developed under SORT4CIRC Task 4.2 and published in deliverable D4.3. Errors use RFC 9457 problem details and carry a reason code from the released catalogue in spec/reason-codes.json.",
+    "description": "Reference implementation of the API requirements developed under SORT4CIRC Task 4.2 and published in deliverable D4.3. Application and body-validation errors use RFC 9457 problem details and a reason code from the released catalogue in spec/reason-codes.json; other framework validation and routing responses retain their FastAPI/Starlette behavior.",
     "license": {
       "identifier": "Apache-2.0",
       "name": "Apache-2.0"

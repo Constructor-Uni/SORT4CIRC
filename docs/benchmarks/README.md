@@ -5,6 +5,12 @@ measurements behind them, the harnesses that produced them, and an explicit
 statement of what has not been measured and why. A target with no measurement
 next to it is a target, not a result, and the two are kept apart here.
 
+> **Provenance notice.** The load-campaign result records commit `d870cc9`,
+> which is not reachable in the published repository history. The historical
+> measurements below and in `loadtest-results.json` are preserved unchanged,
+> but they cannot be independently reproduced from that recorded revision. A
+> future campaign must record a reachable full commit SHA.
+
 Two harnesses live in `tools/`:
 
 | Harness | Measures | Runs where |

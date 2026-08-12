@@ -1,7 +1,15 @@
 Creative Commons Attribution 4.0 International (CC BY 4.0)
 
-The specification artefacts in spec/ and the documentation in docs/ are licensed
-under the Creative Commons Attribution 4.0 International License.
+The specification artefacts under spec/, excluding spec/openapi/, and the
+documentation under docs/ are licensed under the Creative Commons Attribution
+4.0 International License.
+
+The generated API artefact under spec/openapi/ is licensed under the Apache
+License 2.0.
+
+The runtime resource copies under src/sort4circ_dpp/_spec/ are byte-for-byte
+distribution copies of CC BY 4.0 specification resources and remain licensed
+under CC BY 4.0; their location under src/ does not change their license.
 
 Full licence text: https://creativecommons.org/licenses/by/4.0/legalcode
 
@@ -9,5 +17,7 @@ Attribution: SORT4CIRC consortium, deliverable D4.3 "DPP development
 guidelines", Constructor University, work package 4. Funded by the European
 Union under Horizon Europe grant agreement number 101181988.
 
-Source code in src/, tests/, tools/ and examples/ is licensed separately under
-the Apache License 2.0; see LICENSE.
+Implementation source under src/, excluding src/sort4circ_dpp/_spec/, together
+with tests, tools, examples, Docker files, GitHub configuration and repository
+development/build configuration, is licensed separately under the Apache
+License 2.0; see LICENSE.

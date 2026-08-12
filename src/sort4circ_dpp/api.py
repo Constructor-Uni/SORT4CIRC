@@ -1,9 +1,11 @@
 """RESTful passport API.
 
-Implements the interface contract of D4.3 Annex B. Every response carries the
-correlation identifier the caller supplied, every error is an RFC 9457 problem
-document carrying a released reason code, and every representation carries the
-record version it was produced from.
+Implements the interface contract of D4.3 Annex B. Every response carries a
+correlation identifier. Application errors and body-level
+request-validation errors use the repository's RFC 9457 problem format and a
+released reason code; non-body validation and routing responses retain their
+FastAPI/Starlette framework behavior. Every representation carries the record
+version it was produced from.
 
 Authentication here is a header-based stand-in for the OAuth 2.0 or OIDC profile
 the security guideline requires. It is confined to :func:`principal_from_request`
@@ -21,6 +23,8 @@ from typing import Any
 from urllib.parse import unquote
 
 from fastapi import Depends, FastAPI, Header, Query, Request, Response
+from fastapi.exception_handlers import request_validation_exception_handler
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
 from . import canonical
@@ -40,6 +44,12 @@ def _correlation(supplied: str | None) -> str:
     return supplied or str(uuid.uuid4())
 
 
+def _scoped_idempotency_key(operation: str, resource: str, key: str | None) -> str | None:
+    if key is None:
+        return None
+    return f"{operation}|{resource}|{key}"
+
+
 def create_app(
     store: PassportStore | None = None,
     ledger: LedgerAdapter | None = None,
@@ -55,9 +65,11 @@ def create_app(
         version=SCHEMA_VERSION,
         description=(
             "Reference implementation of the API requirements developed under "
-            "SORT4CIRC Task 4.2 and published in deliverable D4.3. Errors use "
-            "RFC 9457 problem details and carry a reason code from the released "
-            "catalogue in spec/reason-codes.json."
+            "SORT4CIRC Task 4.2 and published in deliverable D4.3. Application "
+            "and body-validation errors use RFC 9457 problem details and a "
+            "reason code from the released catalogue in spec/reason-codes.json; "
+            "other framework validation and routing responses retain their "
+            "FastAPI/Starlette behavior."
         ),
     )
     app.state.store = store
@@ -69,7 +81,7 @@ def create_app(
 
     @app.exception_handler(DppError)
     async def _dpp_error_handler(request: Request, exc: DppError) -> JSONResponse:
-        correlation = _correlation(request.headers.get("x-correlation-id"))
+        correlation = request.state.correlation_id
         return JSONResponse(
             status_code=exc.http_status,
             content=exc.problem(instance=str(request.url.path), correlation_id=correlation),
@@ -77,9 +89,31 @@ def create_app(
             headers={"X-Correlation-Id": correlation},
         )
 
+    @app.exception_handler(RequestValidationError)
+    async def _request_validation_error_handler(request: Request, exc: RequestValidationError) -> Response:
+        errors = exc.errors()
+        if not errors or any(not error.get("loc") or error["loc"][0] != "body" for error in errors):
+            return await request_validation_exception_handler(request, exc)
+
+        problem = DppError(
+            "S4C-PAYLOAD-SCHEMA-INVALID",
+            "request body failed schema validation",
+            fields=["body"],
+        ).problem(
+            instance=str(request.url.path),
+            correlation_id=request.state.correlation_id,
+        )
+        return JSONResponse(
+            status_code=422,
+            content=problem,
+            media_type="application/problem+json",
+            headers={"X-Correlation-Id": request.state.correlation_id},
+        )
+
     @app.middleware("http")
     async def _correlate(request: Request, call_next: Callable) -> Response:
         correlation = _correlation(request.headers.get("x-correlation-id"))
+        request.state.correlation_id = correlation
         response = await call_next(request)
         response.headers["X-Correlation-Id"] = correlation
         return response
@@ -129,14 +163,15 @@ def create_app(
         idempotency_key: str | None = Header(default=None, alias="Idempotency-Key"),
     ) -> dict[str, Any]:
         require_scope(principal, "dpp.write")
-        cached = store.idempotent(idempotency_key, payload)
+        scoped_key = _scoped_idempotency_key("create-dpp", "create", idempotency_key)
+        cached = store.idempotent(scoped_key, payload)
         if cached is not None:
             response.status_code = 201
             response.headers["Location"] = f"{BASE}/dpps/{cached['dppId']}"
             return cached
         record = store.create(payload)
         result = project(record, "full", principal)
-        store.remember(idempotency_key, payload, result)
+        store.remember(scoped_key, payload, result)
         response.headers["Location"] = f"{BASE}/dpps/{record['dppId']}"
         response.headers["ETag"] = etag(record)
         return result
@@ -210,7 +245,8 @@ def create_app(
         idempotency_key: str | None = Header(default=None, alias="Idempotency-Key"),
     ) -> dict[str, Any]:
         require_scope(principal, "dpp.event")
-        cached = store.idempotent(idempotency_key, payload)
+        scoped_key = _scoped_idempotency_key("add-event", dpp_id, idempotency_key)
+        cached = store.idempotent(scoped_key, payload)
         if cached is not None:
             return cached
         event = dict(payload)
@@ -219,7 +255,7 @@ def create_app(
         event.setdefault("actorOrganisationId", principal.organisation_id or f"urn:sort4circ:org:{principal.role}")
         record = store.append(dpp_id, "lifecycleEvents", event, "eventId")
         result = {"eventId": event["eventId"], "dppId": dpp_id, "recordVersion": record["recordVersion"]}
-        store.remember(idempotency_key, payload, result)
+        store.remember(scoped_key, payload, result)
         response.headers["Location"] = f"{BASE}/dpps/{dpp_id}/events/{event['eventId']}"
         response.headers["ETag"] = etag(record)
         return result
@@ -233,7 +269,8 @@ def create_app(
         idempotency_key: str | None = Header(default=None, alias="Idempotency-Key"),
     ) -> dict[str, Any]:
         require_scope(principal, "observation.write")
-        cached = store.idempotent(idempotency_key, payload)
+        scoped_key = _scoped_idempotency_key("add-observation", dpp_id, idempotency_key)
+        cached = store.idempotent(scoped_key, payload)
         if cached is not None:
             return cached
         observation = {k: v for k, v in payload.items() if k not in ("observationType", "basedOnRecordVersion", "schemaVersion")}
@@ -244,7 +281,7 @@ def create_app(
             "dppId": dpp_id,
             "recordVersion": record["recordVersion"],
         }
-        store.remember(idempotency_key, payload, result)
+        store.remember(scoped_key, payload, result)
         response.headers["Location"] = f"{BASE}/dpps/{dpp_id}/observations/{observation['observationId']}"
         response.headers["ETag"] = etag(record)
         return result
@@ -258,7 +295,8 @@ def create_app(
         idempotency_key: str | None = Header(default=None, alias="Idempotency-Key"),
     ) -> dict[str, Any]:
         require_scope(principal, "dpp.write")
-        cached = store.idempotent(idempotency_key, payload)
+        scoped_key = _scoped_idempotency_key("commission-carrier", dpp_id, idempotency_key)
+        cached = store.idempotent(scoped_key, payload)
         if cached is not None:
             return cached
         record = store.commission_carrier(dpp_id, payload)
@@ -267,7 +305,7 @@ def create_app(
             "recordVersion": record["recordVersion"],
             "carriers": record["carriers"],
         }
-        store.remember(idempotency_key, payload, result)
+        store.remember(scoped_key, payload, result)
         response.headers["ETag"] = etag(record)
         return result
 

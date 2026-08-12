@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560"
   role="img"
-  aria-label="SORT4CIRC textile Digital Product Passport workflow. In a synchronized sixteen-second loop, one garment enters a conveyor, pauses beneath a UHF RFID read zone for one EPC capture, continues to a resolved passport record containing independently retained ISO 1833 laboratory and near-infrared observations, passes a versioned routing decision, and enters the mechanical recycling fibre sorting bay. After the route is issued, a separate asynchronous evidence lane calculates a SHA-256 digest and confirms a Hyperledger Besu anchor outside the time-critical sorting path. The 920 millisecond software budget and 1600 millisecond actuation deadline are reference-configuration targets, not universal measured performance.">
+  aria-label="SORT4CIRC textile Digital Product Passport workflow. In a synchronized sixteen-second loop, one garment enters a conveyor, pauses beneath a UHF RFID read zone for one EPC capture, continues to a resolved passport record containing independently retained ISO 1833 laboratory and near-infrared observations, passes a versioned routing decision, and enters the mechanical recycling fibre sorting bay. After the route is issued, a separate asynchronous evidence lane calculates a SHA-256 digest and submits a digest to Hyperledger Besu; independent digest readback is not implemented outside the time-critical sorting path. The 920 millisecond software budget and 1600 millisecond actuation deadline are reference-configuration targets, not universal measured performance.">
   <title>SORT4CIRC textile Digital Product Passport sorting workflow</title>
   <desc>
     A dark animated systems diagram follows one garment through four aligned stations: UHF RFID
     capture, Digital Product Passport resolution, a versioned routing decision and a sorting bay.
     The passport retains disagreeing laboratory and near-infrared observations independently. A
-    separate evidence lane moves from an integrity view to a SHA-256 digest and then to a Besu
-    anchor only after routing. Reduced-motion mode presents the complete final workflow statically.
+    separate evidence lane moves from an integrity view to a SHA-256 digest and then submits to
+    Besu after routing; independent digest readback is not implemented. Reduced-motion mode presents
+    the complete final workflow statically.
   </desc>
 
   <defs>
@@ -323,18 +324,18 @@
         <text x="518" y="466" class="value">DIGEST CALCULATED</text>
       </g>
 
-      <g aria-label="Besu confirmed anchor evidence card">
+      <g aria-label="Besu submission evidence card">
         <rect x="840" y="424" width="260" height="58" rx="11" fill="#10282a" stroke="#306966"/>
         <path d="M858 460l12 7 12-7v-14l-12-7-12 7Zm0-14 12 7 12-7M870 453v14" fill="none" stroke="#75ddd4" stroke-width="1.3"/>
         <text x="898" y="447" class="label" fill="#b6ebe6">BESU</text>
-        <text x="898" y="466" class="value">ANCHOR CONFIRMED</text>
+        <text x="898" y="466" class="value">SUBMISSION CONFIRMED</text>
         <circle class="anchor-status" cx="1076" cy="453" r="5" fill="#345e60"/>
       </g>
 
       <g class="packet-record-digest" transform="translate(366 453)" opacity="0" aria-label="Evidence packet moving to digest calculation">
         <circle r="5" fill="#f65bab" stroke="#f8c5df"/>
       </g>
-      <g class="packet-digest-anchor" transform="translate(736 453)" opacity="0" aria-label="Evidence packet moving to Besu anchoring">
+      <g class="packet-digest-anchor" transform="translate(736 453)" opacity="0" aria-label="Evidence packet moving to Besu submission">
         <circle r="5" fill="#3ee8d3" stroke="#c0f5ef"/>
       </g>
 

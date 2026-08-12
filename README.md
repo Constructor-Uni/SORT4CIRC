@@ -1,4 +1,4 @@
-# SORT4CIRC Textile Digital Product Passport
+# SORT4CIRC DPP Development Guidelines & Reference Implementation
 
 <p align="center">
   <img
@@ -18,10 +18,16 @@ Reference implementation and normative specification artefacts for the textile
 Digital Product Passport (DPP) developed in SORT4CIRC work package 4, task 4.2,
 and published in deliverable **D4.3, DPP development guidelines**.
 
+Deliverable **D4.3 — DPP Development Guidelines** is the public SORT4CIRC
+deliverable led by Constructor University (CU), with contributions from the CU
+WP4 team. This repository provides specifications and reference software
+supporting the sanitised D4.3 implementation profile; it is not the submitted
+deliverable itself.
+
 The repository has two halves that serve different purposes.
 
-**`spec/` is normative.** It holds the field dictionary, JSON Schema, ontology,
-controlled vocabularies, reason-code catalogue and access matrix that define
+**`spec/` is normative.** It holds the JSON Schema, ontology, controlled
+vocabularies, reason-code catalogue and access matrix that define
 what a conformant passport is. An implementation in any language conforms by
 satisfying these artefacts.
 
@@ -55,7 +61,7 @@ may not be claimed.
 git clone https://github.com/Constructor-Uni/SORT4CIRC.git
 cd SORT4CIRC
 make install          # installs into the active environment
-make test             # full suite, roughly 200 checks
+make test             # full test suite
 make example          # the D4.3 Annex G worked example, end to end
 make serve            # API on http://localhost:8000, docs at /docs
 ```
@@ -63,7 +69,18 @@ make serve            # API on http://localhost:8000, docs at /docs
 The worked example is the fastest way to understand the model. It follows one
 garment through creation, carrier commissioning, a read at the sorting gate,
 resolution, a routing decision, a second technology that disagrees with the
-first, digest calculation, anchoring and independent verification.
+first, digest calculation, anchoring and verification using the deterministic
+reference adapter. Besu submission/status support exists, but independent
+on-chain digest readback is not implemented.
+
+## Idempotency semantics
+
+The reference implementation scopes an `Idempotency-Key` by API operation and
+resource. Within the same scope, reusing a key with the same body replays the
+original outcome; reusing it with a different body returns an idempotency
+conflict. Principal or organisation scoping is not currently defined,
+`IDEMPOTENCY_WINDOW_SECONDS` is not enforced, and concurrent first-use duplicate
+suppression is not guaranteed.
 
 ## The three conformance tiers
 
@@ -114,7 +131,7 @@ spec/           normative artefacts
   openapi/      generated OpenAPI 3.1 contract
 src/sort4circ_dpp/
   canonical.py  RFC 8785 canonicalisation, the integrity projection and the digest
-  store.py      versioning, append-only collections, carrier bindings, transactional outbox
+  store.py      versioning, append-only collections, carrier bindings, in-memory outbox
   access.py     role, scope and view enforcement
   index.py      the read projection for the time-critical path, publishing its own lag
   evidence.py   the evidence state machine and the anchoring worker
@@ -159,12 +176,17 @@ one 100 times asserting zero uncontrolled commands.
 The evidence envelope carries a reference and a digest and no passport content.
 That single property is the reason a public ledger can satisfy the
 confidentiality requirement at all; it belongs to the envelope design and not to
-any platform. Anchoring runs asynchronously through a transactional outbox, so
+any platform. Anchoring runs asynchronously through the reference
+implementation's process-local in-memory outbox, so
 an unavailable ledger never stops the line.
 
 The repository ships a deterministic reference adapter and a Hyperledger Besu
-adapter behind one contract, and the contract test suite runs against both. The
-Besu profile is an implementation of the anchoring flow and is **not the outcome
+adapter behind one contract. The generic ledger contract tests exercise
+`InMemoryLedger`; Besu has focused unit tests, not live end-to-end
+contract/network coverage. Besu submission/status support exists, but
+independent on-chain digest readback is not implemented, so unsupported digest
+verification fails closed as `unverifiable`. The Besu profile is an implementation
+of the anchoring flow and is **not the outcome
 of the assessment** procedure defined in D4.3 for EBSI, Algorand, IOTA and
 Ethereum; that comparative benchmark and its TOPSIS ranking are scheduled work
 and no ranking is claimed here.
@@ -178,8 +200,12 @@ because removal would invalidate records already written by other parties.
 
 ## Licensing
 
-- Code under `src/`, `tests/`, `tools/` and `examples/`: **Apache License 2.0**, see [`LICENSE`](LICENSE).
-- Specification artefacts under `spec/` and documentation under `docs/`: **CC BY 4.0**, see [`LICENSE-DOCS`](LICENSE-DOCS).
+| Path / content | License |
+| --- | --- |
+| Python implementation under `src/` (excluding `src/sort4circ_dpp/_spec/`), tests, tools, examples, Docker, `.github/`, and repository build/development/configuration files | Apache License 2.0 |
+| Generated API artifact under `spec/openapi/` | Apache License 2.0 |
+| Specifications under `spec/` (excluding `spec/openapi/`) and documentation under `docs/` | Creative Commons Attribution 4.0 International |
+| Packaged resources under `src/sort4circ_dpp/_spec/` | Creative Commons Attribution 4.0 International; byte-for-byte distribution copies of the corresponding specification files |
 
 ## Citation
 
@@ -187,14 +213,21 @@ See [`CITATION.cff`](CITATION.cff).
 
 ## Funding
 
-SORT4CIRC, Intelligent Textile SORting for enabling CIRCularity, is funded by
-the European Union under Horizon Europe, call HORIZON-CL6-2024-CIRCBIO-02,
-grant agreement number 101181988. Work package 4 is led by Constructor
-University, which is also the lead beneficiary for deliverable D4.3.
+**Funded by the European Union**
 
-Views and opinions expressed are those of the authors only and do not
-necessarily reflect those of the European Union or the European Research
-Executive Agency. Neither the European Union nor the granting authority can be
-held responsible for them.
+| Project metadata | Authority text |
+| --- | --- |
+| Formal project name | SORT4CIRC - Intelligent Textile SORting for enable CIRCularity |
+| Grant agreement | 101181988 |
+| Programme | Horizon Europe |
+| Call | HORIZON-CL6-2024-CIRCBIO-02 |
+| Topic | HORIZON-CL6-2024-CircBio-02-1-two-stage |
+| Type of action | HORIZON-RIA |
+| Coordinator | CONSTRUCTOR UNIVERSITY BREMEN GGMBH (CU) |
+| Project start | 1 December 2025 |
+| Duration | 36 months |
+| Project website | <https://sort4circ.eu> |
 
-Project website: <https://sort4circ.eu>
+Views and opinions expressed are however those of the author(s) only and do
+not necessarily reflect those of the European Union or REA. Neither the
+European Union nor the granting authority can be held responsible for them.

@@ -3,14 +3,31 @@
 from __future__ import annotations
 
 import os
+from importlib.resources import files
 from pathlib import Path
+from typing import Any
 
 PACKAGE_DIR = Path(__file__).resolve().parent
 REPO_ROOT = PACKAGE_DIR.parents[1]
-SPEC_DIR = Path(os.environ.get("S4C_SPEC_DIR", REPO_ROOT / "spec"))
-SCHEMA_DIR = SPEC_DIR / "schemas"
-VOCAB_DIR = SPEC_DIR / "vocabularies"
-ONTOLOGY_DIR = SPEC_DIR / "ontology"
+
+
+def _child(root: Any, name: str) -> Any:
+    return root / name if isinstance(root, Path) else root.joinpath(name)
+
+
+_override = os.environ.get("S4C_SPEC_DIR")
+if _override is not None:
+    SPEC_DIR = Path(_override)
+    if not _override or not SPEC_DIR.is_dir():
+        raise FileNotFoundError(f"S4C_SPEC_DIR does not name a directory: {SPEC_DIR}")
+elif (REPO_ROOT / "spec").is_dir():
+    SPEC_DIR = REPO_ROOT / "spec"
+else:
+    SPEC_DIR = files("sort4circ_dpp").joinpath("_spec")
+
+SCHEMA_DIR = _child(SPEC_DIR, "schemas")
+VOCAB_DIR = _child(SPEC_DIR, "vocabularies")
+ONTOLOGY_DIR = _child(SPEC_DIR, "ontology")
 
 SCHEMA_VERSION = "1.0.0"
 ONTOLOGY_VERSION = "1.0.0"

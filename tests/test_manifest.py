@@ -26,6 +26,24 @@ verify_files = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(verify_files)
 
 
+def test_manifest_identifies_the_current_tree_as_a_development_snapshot():
+    lines = (ROOT / verify_files.MANIFEST_NAME).read_text(encoding="utf-8").splitlines()
+    assert lines[: len(verify_files.HEADER)] == list(verify_files.HEADER)
+    assert "not the exact contents of tag v1.1.1" in "\n".join(lines[: len(verify_files.HEADER)])
+
+
+def test_verifier_fails_when_an_extra_file_is_present(tmp_path, monkeypatch, capsys):
+    monkeypatch.chdir(tmp_path)
+    (tmp_path / "expected.txt").write_text("expected\n", encoding="utf-8")
+    verify_files.write(tmp_path)
+    (tmp_path / "extra.txt").write_text("extra\n", encoding="utf-8")
+
+    assert verify_files.main([]) == 1
+    output = capsys.readouterr().out
+    assert "EXTRA (1):" in output
+    assert "RESULT: does not match" in output
+
+
 def test_manifest_lists_every_delivered_file_with_a_matching_digest():
     manifest = ROOT / verify_files.MANIFEST_NAME
     if not manifest.exists():

@@ -73,7 +73,7 @@ class DppError(Exception):
 
 @lru_cache(maxsize=1)
 def _document() -> dict[str, Any]:
-    return json.loads((SPEC_DIR / "reason-codes.json").read_text(encoding="utf-8"))
+    return json.loads(SPEC_DIR.joinpath("reason-codes.json").read_text(encoding="utf-8"))
 
 
 @lru_cache(maxsize=1)

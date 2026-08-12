@@ -17,6 +17,30 @@ sys.path.insert(0, str(ROOT / "tests"))
 sys.path.insert(0, str(ROOT / "src"))
 
 
+def build_report(
+    rows: dict[str, dict[str, str]],
+    human_evidence: dict[str, str],
+    passed: bool,
+) -> dict[str, object]:
+    """Build a report without attributing a suite failure to individual rows."""
+    automated_rows = sorted(k for k, v in rows.items() if v["decidedBy"] == "automated test")
+    return {
+        "specification": "SORT4CIRC D4.3, DPP development guidelines",
+        "suiteResult": "pass" if passed else "fail",
+        "automatedRows": automated_rows,
+        "automatedRowsPassed": automated_rows if passed else None,
+        "rowsRequiringHumanEvidence": sorted(human_evidence),
+        "rows": dict(sorted(rows.items())),
+        "note": (
+            "automatedRows identifies rows that have automated tests, not their individual outcomes. "
+            "When the full suite passes, automatedRowsPassed lists those rows. When the suite fails, "
+            "automatedRowsPassed is null because this suite-level report does not attribute the failure "
+            "to individual rows. Rows requiring human evidence remain listed so that a conformance "
+            "statement cannot omit them silently."
+        ),
+    }
+
+
 def main() -> int:
     from conformance.test_checklist import REQUIRES_HUMAN_EVIDENCE
 
@@ -41,18 +65,7 @@ def main() -> int:
         rows.setdefault(identifier, {"tier": "", "decidedBy": "human evidence"})
         rows[identifier]["outstandingEvidence"] = evidence
 
-    report = {
-        "specification": "SORT4CIRC D4.3, DPP development guidelines",
-        "suiteResult": "pass" if passed else "fail",
-        "automatedRows": sorted(k for k, v in rows.items() if v["decidedBy"] == "automated test"),
-        "rowsRequiringHumanEvidence": sorted(REQUIRES_HUMAN_EVIDENCE),
-        "rows": dict(sorted(rows.items())),
-        "note": (
-            "Automated rows are decided by this repository's test suite. Rows requiring "
-            "human evidence are not decided here and are listed so that a conformance "
-            "statement cannot omit them silently."
-        ),
-    }
+    report = build_report(rows, REQUIRES_HUMAN_EVIDENCE, passed)
     target = ROOT / "conformance-report.json"
     target.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(result.stdout[-2000:])
