@@ -3,6 +3,29 @@
 Format follows Keep a Changelog. Versions follow semantic versioning, applied
 independently to each artefact under `spec/`.
 
+## [1.1.2] - 2026-08-12
+
+Correctness, packaging, reproducibility and documentation maintenance for the
+reference implementation. Normative specification artefacts are unchanged.
+
+### Fixed
+
+- Reused one correlation identifier throughout each request, normalized body
+  validation errors, scoped idempotency keys by operation and resource, and
+  made unsupported Besu digest verification fail closed as unverifiable.
+
+### Packaging and reproducibility
+
+- Packaged the runtime specification resources, added an installed-wheel smoke
+  check, constrained CI dependency resolution, and made pytest and generated
+  OpenAPI checks portable across Windows and Linux.
+
+### Documentation
+
+- Aligned API, Besu, persistence, idempotency, D4.3/project-context,
+  licensing, citation, security-reporting and README claims with the current
+  reference implementation.
+
 ## [1.1.1] - 2026-08-11
 
 Presentation and release-integrity maintenance for the software package. No
