@@ -16,7 +16,9 @@ services:
       timeout: 3s
       retries: 3
 
-  # Optional. Start with: docker compose --profile ledger up
+  # Optional local Besu smoke service. This is not the project QBFT validator
+  # topology and is not evidence that the D4.3 operational baseline ran.
+  # Start with: docker compose --profile ledger up
   besu:
     image: hyperledger/besu:latest
     profiles: ["ledger"]

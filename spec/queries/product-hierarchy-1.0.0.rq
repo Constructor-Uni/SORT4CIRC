@@ -1,0 +1,2 @@
+PREFIX s4c: <https://data.sort4circ.eu/vocabulary/>
+ASK { ?garment a s4c:Garment ; s4c:hasComponent ?component . ?component a s4c:Component . }

@@ -1,0 +1,30 @@
+{
+  "recordType": "environmentalPlatformSelection",
+  "recordVersion": "",
+  "preparationDate": "",
+  "preparedBy": { "individualId": "", "name": "", "role": "CU WP4 team preparer", "isProjectCoordinator": false },
+  "resultReporterOrRecommender": { "individualId": "", "name": "", "role": "CU result reporter or recommender", "isProjectCoordinator": false },
+  "limitApprover": { "individualId": "", "name": "", "role": "different named CU approver", "isProjectCoordinator": false },
+  "approvalDate": "",
+  "acceptancePlan": [{
+    "evidencePath": "",
+    "environmentalMetric": "",
+    "systemBoundary": "",
+    "evidenceSource": "",
+    "maximumAcceptableResult": null,
+    "rationale": ""
+  }],
+  "candidates": [{
+    "candidateId": "",
+    "projectOperated": true,
+    "evidencePath": "",
+    "environmentalMetric": "",
+    "systemBoundary": "",
+    "evidenceSource": "",
+    "evidenceSufficiency": "pending",
+    "measuredResult": null,
+    "passAgainstFrozenMaximum": null,
+    "selected": false
+  }],
+  "deploymentAuthorization": "architectureAndMigrationPlanningOnly"
+}

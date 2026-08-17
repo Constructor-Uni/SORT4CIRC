@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:s4c="https://data.sort4circ.eu/vocabulary/"
+           targetNamespace="https://data.sort4circ.eu/vocabulary/"
+           elementFormDefault="qualified" version="1.1">
+
+  <xs:simpleType name="NonEmptyString"><xs:restriction base="xs:string"><xs:minLength value="1"/></xs:restriction></xs:simpleType>
+  <xs:simpleType name="Uri"><xs:restriction base="s4c:NonEmptyString"><xs:pattern value="[A-Za-z][A-Za-z0-9+.-]*:.*"/></xs:restriction></xs:simpleType>
+  <xs:simpleType name="Semver"><xs:restriction base="xs:string"><xs:pattern value="[0-9]+\.[0-9]+\.[0-9]+"/></xs:restriction></xs:simpleType>
+  <xs:simpleType name="Percentage"><xs:restriction base="xs:decimal"><xs:minInclusive value="0"/><xs:maxInclusive value="100"/></xs:restriction></xs:simpleType>
+  <xs:simpleType name="Granularity"><xs:restriction base="xs:string"><xs:enumeration value="model"/><xs:enumeration value="batch"/><xs:enumeration value="item"/></xs:restriction></xs:simpleType>
+  <xs:simpleType name="OutcomeStatus"><xs:restriction base="xs:string"><xs:enumeration value="issued"/><xs:enumeration value="confirmed"/><xs:enumeration value="rejected"/><xs:enumeration value="overridden"/></xs:restriction></xs:simpleType>
+  <xs:simpleType name="Digest"><xs:restriction base="xs:string"><xs:pattern value="[0-9a-f]{64}"/></xs:restriction></xs:simpleType>
+
+  <xs:complexType name="Quantity"><xs:sequence><xs:element name="Value" type="xs:decimal"/><xs:element name="Unit" type="s4c:NonEmptyString"/></xs:sequence></xs:complexType>
+  <xs:complexType name="Confidence"><xs:sequence><xs:element name="Value" type="xs:decimal"/><xs:element name="Scale" type="s4c:NonEmptyString"/></xs:sequence></xs:complexType>
+
+  <xs:complexType name="Identity">
+    <xs:sequence>
+      <xs:element name="Granularity" type="s4c:Granularity"/>
+      <xs:element name="ModelId" type="s4c:NonEmptyString" minOccurs="0"/>
+      <xs:element name="BatchId" type="s4c:NonEmptyString" minOccurs="0"/>
+      <xs:element name="ItemId" type="s4c:NonEmptyString" minOccurs="0"/>
+      <xs:element name="Epc" type="s4c:NonEmptyString" minOccurs="0"/>
+      <xs:element name="SampleId" type="s4c:NonEmptyString" minOccurs="0"/>
+      <xs:element name="SourceRecordId" type="s4c:NonEmptyString" minOccurs="0"/>
+    </xs:sequence>
+    <xs:assert test="(s4c:Granularity='item' and exists(s4c:ItemId)) or (s4c:Granularity='batch' and exists(s4c:BatchId)) or (s4c:Granularity='model' and exists(s4c:ModelId))"/>
+  </xs:complexType>
+
+  <xs:complexType name="Carrier">
+    <xs:sequence>
+      <xs:element name="CarrierId" type="s4c:Uri"/><xs:element name="CarrierType" type="s4c:NonEmptyString"/>
+      <xs:element name="EncodingScheme" type="s4c:NonEmptyString"/><xs:element name="EncodedIdentifier" type="s4c:NonEmptyString"/>
+      <xs:element name="ResolverUri" type="xs:anyURI" minOccurs="0"/><xs:element name="BindingStatus" type="s4c:NonEmptyString"/>
+      <xs:element name="BoundAt" type="xs:dateTime"/><xs:element name="BoundBy" type="s4c:Uri"/>
+      <xs:element name="ClosedAt" type="xs:dateTime" minOccurs="0"/><xs:element name="Placement" type="s4c:NonEmptyString" minOccurs="0"/>
+    </xs:sequence>
+    <xs:assert test="s4c:BindingStatus='commissioned' or exists(s4c:ClosedAt)"/>
+  </xs:complexType>
+
+  <xs:complexType name="Product">
+    <xs:sequence>
+      <xs:element name="ArticleClass" type="s4c:NonEmptyString"/><xs:element name="FabricConstruction" type="s4c:NonEmptyString" minOccurs="0"/>
+      <xs:element name="ColourPrimary" type="s4c:NonEmptyString" minOccurs="0"/><xs:element name="SizeDesignation" type="s4c:NonEmptyString" minOccurs="0"/>
+      <xs:element name="Mass" type="s4c:Quantity" minOccurs="0"/><xs:element name="Condition" type="s4c:NonEmptyString" minOccurs="0"/>
+      <xs:element name="QualityGrade" type="s4c:NonEmptyString" minOccurs="0"/>
+      <xs:element name="TechnicalFlags" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="TechnicalFlag" type="s4c:NonEmptyString" maxOccurs="unbounded"/></xs:sequence></xs:complexType></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MaterialObservation">
+    <xs:sequence>
+      <xs:element name="ObservationId" type="s4c:Uri"/><xs:element name="FibreType" type="s4c:NonEmptyString"/>
+      <xs:element name="Percentage" type="s4c:Percentage" minOccurs="0"/><xs:element name="PercentageBasis" type="s4c:NonEmptyString" minOccurs="0"/>
+      <xs:element name="ValueStatus" type="s4c:NonEmptyString"/><xs:element name="Method" type="s4c:NonEmptyString"/>
+      <xs:element name="SourceOrganisationId" type="s4c:Uri"/><xs:element name="SourceSystemId" type="s4c:Uri" minOccurs="0"/>
+      <xs:element name="ObservedAt" type="xs:dateTime"/><xs:element name="Confidence" type="s4c:Confidence" minOccurs="0"/>
+      <xs:element name="EvidenceRef" type="s4c:Uri" minOccurs="0"/>
+    </xs:sequence>
+    <xs:assert test="not(exists(s4c:Percentage)) or exists(s4c:PercentageBasis)"/>
+    <xs:assert test="s4c:ValueStatus='supplied' or not(exists(s4c:Percentage))"/>
+  </xs:complexType>
+
+  <xs:complexType name="Component">
+    <xs:sequence>
+      <xs:element name="ComponentId" type="s4c:Uri"/><xs:element name="ComponentType" type="s4c:NonEmptyString"/>
+      <xs:element name="ParentComponentId" type="s4c:Uri" minOccurs="0"/>
+      <xs:element name="MaterialObservationRefs" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="MaterialObservationRef" type="s4c:Uri" maxOccurs="unbounded"/></xs:sequence></xs:complexType></xs:element>
+      <xs:element name="Mass" type="s4c:Quantity" minOccurs="0"/><xs:element name="Separable" type="xs:boolean" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="LifecycleEvent">
+    <xs:sequence>
+      <xs:element name="EventId" type="s4c:Uri"/><xs:element name="EventType" type="s4c:NonEmptyString"/>
+      <xs:element name="EventTime" type="xs:dateTime"/><xs:element name="EventTimeZoneOffset" type="s4c:NonEmptyString"/>
+      <xs:element name="RecordedAt" type="xs:dateTime"/><xs:element name="ActorOrganisationId" type="s4c:Uri"/>
+      <xs:element name="SourceSystemId" type="s4c:Uri"/><xs:element name="FacilityId" type="s4c:Uri" minOccurs="0"/>
+      <xs:element name="ReadPointId" type="s4c:Uri" minOccurs="0"/><xs:element name="BizStep" type="s4c:NonEmptyString" minOccurs="0"/>
+      <xs:element name="Disposition" type="s4c:NonEmptyString" minOccurs="0"/>
+      <xs:element name="InputRefs" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="InputRef" type="s4c:Uri" maxOccurs="unbounded"/></xs:sequence></xs:complexType></xs:element>
+      <xs:element name="OutputRefs" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="OutputRef" type="s4c:Uri" maxOccurs="unbounded"/></xs:sequence></xs:complexType></xs:element>
+      <xs:element name="CorrectsEventId" type="s4c:Uri" minOccurs="0"/><xs:element name="EvidenceRef" type="s4c:Uri" minOccurs="0"/>
+    </xs:sequence>
+    <xs:assert test="s4c:EventType!='transformation' or (exists(s4c:InputRefs) and exists(s4c:OutputRefs))"/>
+  </xs:complexType>
+
+  <xs:complexType name="SortingDecision">
+    <xs:sequence>
+      <xs:element name="DecisionId" type="s4c:Uri"/>
+      <xs:element name="BasedOnObservations"><xs:complexType><xs:sequence><xs:element name="ObservationRef" type="s4c:Uri" maxOccurs="unbounded"/></xs:sequence></xs:complexType></xs:element>
+      <xs:element name="BasedOnRecordVersion" type="xs:positiveInteger" minOccurs="0"/><xs:element name="RuleSetId" type="s4c:Uri"/>
+      <xs:element name="RuleSetVersion" type="s4c:Semver"/><xs:element name="SortingCategory" type="s4c:NonEmptyString"/>
+      <xs:element name="Route" type="s4c:NonEmptyString" minOccurs="0"/><xs:element name="DecidedAt" type="xs:dateTime"/>
+      <xs:element name="DecidedBy" type="s4c:Uri"/><xs:element name="OutcomeStatus" type="s4c:OutcomeStatus"/>
+      <xs:element name="OverrideReason" type="s4c:NonEmptyString" minOccurs="0"/>
+    </xs:sequence>
+    <xs:assert test="s4c:OutcomeStatus!='overridden' or exists(s4c:OverrideReason)"/>
+  </xs:complexType>
+
+  <xs:complexType name="EnvironmentalValue">
+    <xs:sequence>
+      <xs:element name="MetricType" type="s4c:NonEmptyString"/><xs:element name="Quantity" type="s4c:Quantity"/>
+      <xs:element name="FunctionalUnit" type="s4c:NonEmptyString"/><xs:element name="SystemBoundary" type="s4c:NonEmptyString"/>
+      <xs:element name="ProcessStage" type="s4c:NonEmptyString"/><xs:element name="Geography" type="s4c:NonEmptyString"/>
+      <xs:element name="PeriodStart" type="xs:date"/><xs:element name="PeriodEnd" type="xs:date"/>
+      <xs:element name="Method" type="s4c:NonEmptyString"/><xs:element name="AllocationRule" type="s4c:NonEmptyString"/>
+      <xs:element name="FactorSource" type="s4c:NonEmptyString"/><xs:element name="FactorVersion" type="s4c:NonEmptyString"/>
+      <xs:element name="DataQuality" type="s4c:NonEmptyString" minOccurs="0"/><xs:element name="ResponsibleOrganisationId" type="s4c:Uri"/>
+      <xs:element name="EvidenceRef" type="s4c:Uri" minOccurs="0"/><xs:element name="CustodyModel" type="s4c:NonEmptyString" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="IntegrityEntry">
+    <xs:sequence>
+      <xs:element name="EvidenceId" type="s4c:Uri"/><xs:element name="SubjectRef" type="s4c:Uri"/>
+      <xs:element name="SubjectVersion" type="xs:positiveInteger"/><xs:element name="Canonicalisation" type="s4c:NonEmptyString"/>
+      <xs:element name="DigestAlgorithm" type="s4c:NonEmptyString"/><xs:element name="DigestValue" type="s4c:Digest"/>
+      <xs:element name="EvidenceState" type="s4c:NonEmptyString"/><xs:element name="CreatedAt" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="LedgerNetworkId" type="s4c:NonEmptyString" minOccurs="0"/><xs:element name="TransactionRef" type="s4c:NonEmptyString" minOccurs="0"/>
+      <xs:element name="ConfirmedAt" type="xs:dateTime" minOccurs="0"/><xs:element name="Attempts" type="xs:nonNegativeInteger" minOccurs="0"/>
+      <xs:element name="LastReasonCode" type="s4c:NonEmptyString" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="DigitalProductPassport">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="RecordVersion" type="xs:positiveInteger"/><xs:element name="Status" type="s4c:NonEmptyString"/>
+        <xs:element name="SupersededBy" type="s4c:Uri" minOccurs="0"/><xs:element name="CreatedAt" type="xs:dateTime"/>
+        <xs:element name="UpdatedAt" type="xs:dateTime"/><xs:element name="ResponsibleOperatorId" type="s4c:Uri"/>
+        <xs:element name="RegistryIdentifier" type="s4c:NonEmptyString" minOccurs="0"/><xs:element name="AccessPolicyVersion" type="s4c:Semver" minOccurs="0"/>
+        <xs:element name="Identity" type="s4c:Identity"/>
+        <xs:element name="Carriers" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="Carrier" type="s4c:Carrier" maxOccurs="unbounded"/></xs:sequence></xs:complexType></xs:element>
+        <xs:element name="Product" type="s4c:Product"/>
+        <xs:element name="MaterialObservations"><xs:complexType><xs:sequence><xs:element name="MaterialObservation" type="s4c:MaterialObservation" maxOccurs="unbounded"/></xs:sequence></xs:complexType></xs:element>
+        <xs:element name="Components" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="Component" type="s4c:Component" maxOccurs="unbounded"/></xs:sequence></xs:complexType></xs:element>
+        <xs:element name="LifecycleEvents" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="LifecycleEvent" type="s4c:LifecycleEvent" maxOccurs="unbounded"/></xs:sequence></xs:complexType></xs:element>
+        <xs:element name="SortingDecisions" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="SortingDecision" type="s4c:SortingDecision" maxOccurs="unbounded"/></xs:sequence></xs:complexType></xs:element>
+        <xs:element name="EnvironmentalValues" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="EnvironmentalValue" type="s4c:EnvironmentalValue" maxOccurs="unbounded"/></xs:sequence></xs:complexType></xs:element>
+        <xs:element name="Integrity" minOccurs="0"><xs:complexType><xs:sequence><xs:element name="IntegrityEntry" type="s4c:IntegrityEntry" maxOccurs="unbounded"/></xs:sequence></xs:complexType></xs:element>
+      </xs:sequence>
+      <xs:attribute name="schemaVersion" type="s4c:Semver" use="required"/>
+      <xs:attribute name="dppId" type="s4c:Uri" use="required"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

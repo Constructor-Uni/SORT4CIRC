@@ -1,0 +1,2 @@
+PREFIX s4c: <https://data.sort4circ.eu/vocabulary/>
+ASK { ?dpp a s4c:DigitalProductPassport ; s4c:hasLifecycleEvent ?event . ?event a s4c:LifecycleEvent . }

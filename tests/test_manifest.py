@@ -29,7 +29,9 @@ _spec.loader.exec_module(verify_files)
 def test_manifest_identifies_the_current_tree_as_the_release_tree():
     lines = (ROOT / verify_files.MANIFEST_NAME).read_text(encoding="utf-8").splitlines()
     assert lines[: len(verify_files.HEADER)] == list(verify_files.HEADER)
-    assert "exact contents of release 1.1.2" in "\n".join(lines[: len(verify_files.HEADER)])
+    header = "\n".join(lines[: len(verify_files.HEADER)])
+    assert "software package version 1.2.0" in header
+    assert "not a published release" in header
 
 
 def test_verifier_fails_when_an_extra_file_is_present(tmp_path, monkeypatch, capsys):

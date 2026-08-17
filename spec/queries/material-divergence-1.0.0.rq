@@ -1,0 +1,12 @@
+PREFIX s4c: <https://data.sort4circ.eu/vocabulary/>
+SELECT ?garment ?fibre ?pctA ?methodA ?pctB ?methodB WHERE {
+  ?garment s4c:hasObservation ?a, ?b .
+  ?a a s4c:MaterialObservation ; s4c:fibreType ?fibre ; s4c:percentage ?pctA ; s4c:usedMethod ?methodA .
+  ?b a s4c:MaterialObservation ; s4c:fibreType ?fibre ; s4c:percentage ?pctB ; s4c:usedMethod ?methodB .
+  FILTER(
+    ?a != ?b &&
+    ?methodA != ?methodB &&
+    ?pctA != ?pctB &&
+    STR(?a) < STR(?b)
+  )
+}

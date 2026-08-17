@@ -48,7 +48,7 @@ coverage when it is not.
 
 ## Rows this repository cannot decide
 
-Roughly twenty checklist rows need something a test cannot produce: a metered
+Many checklist rows need something a test cannot produce: a metered
 energy measurement, an executed load campaign against real hardware, a signed
 scope decision, a security scan of a deployed configuration, an
 industrial-security zone assessment, or the blockchain benchmark itself. Each is

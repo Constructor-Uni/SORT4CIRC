@@ -29,12 +29,17 @@ TIER_3 = "tier3"
 REQUIRES_HUMAN_EVIDENCE = {
     "SCP-05": "publication review for exposed secrets",
     "SCP-07": "signed conformance statement",
-    "BC-03": "executed benchmark across the four candidates",
+    "BC-03": "live Besu/QBFT reference-baseline configuration and executed network evidence; no final-platform inference",
     "BC-04": "metered energy and a dated emission factor",
+    "BC-04a": "populated environmental acceptance plan approved before candidate results",
     "BC-05": "executed latency, finality, throughput and cost measurement",
     "BC-07": "published TOPSIS matrix and independent recalculation",
+    "BC-07a": "completed evidence-sufficiency screen for every shortlisted profile",
+    "BC-07b": "review confirming project-metered and documentary environmental boundaries remain separate",
     "BC-08": "recorded weight-elicitation workshop",
     "BC-09": "executed sensitivity analysis",
+    "BC-11": "signed selection record applying the environmental deployment gate",
+    "EN-06": "open EN 18223 deviation decision, field mapping, different CU approver and TXHO D5.2 notification by Month 34",
     "EN-04": "restore and provider-exit evidence",
     "INT-02": "IEC 62264 boundary mapping review",
     "INT-03": "OPC UA or AutomationML profile, where selected",
@@ -49,6 +54,25 @@ REQUIRES_HUMAN_EVIDENCE = {
     "PERF-10": "24-hour soak run",
 }
 
+ALL_CHECKLIST_ROWS = {
+    *(f"SCP-{number:02d}" for number in range(1, 10)),
+    *(f"EN-{number:02d}" for number in range(1, 9)),
+    "BC-01", "BC-02", "BC-03", "BC-04", "BC-04a", "BC-05", "BC-06", "BC-07", "BC-07a", "BC-07b",
+    "BC-08", "BC-09", "BC-10", "BC-11",
+    *(f"SEM-{number:02d}" for number in range(1, 10)),
+    *(f"DAT-{number:02d}" for number in range(1, 11)),
+    *(f"API-{number:02d}" for number in range(1, 13)),
+    *(f"INT-{number:02d}" for number in range(1, 9)),
+    *(f"IOT-{number:02d}" for number in range(1, 11)),
+    *(f"SEC-{number:02d}" for number in range(1, 11)),
+    *(f"PERF-{number:02d}" for number in range(1, 12)),
+}
+for _identifier in ALL_CHECKLIST_ROWS:
+    REQUIRES_HUMAN_EVIDENCE.setdefault(
+        _identifier,
+        f"implementation artefact and evidence satisfying D4.3 checklist row {_identifier}",
+    )
+
 
 def row(identifier: str, tier: str):
     """Attach a checklist identifier and tier to a test."""
@@ -60,9 +84,11 @@ def row(identifier: str, tier: str):
 
 
 @pytest.mark.checklist("EN-01", TIER_1)
-def test_en01_exchange_profile_is_json_over_http(client, dpp_id):
+def test_en01_exchange_profile_supports_json_and_xml(client, dpp_id):
     response = client.get(f"/v1/dpps/{dpp_id}", headers=HEADERS["brand"])
     assert response.headers["content-type"].startswith("application/json")
+    contract = json.loads((SPEC_DIR / "openapi" / "dpp-api-v1.json").read_text(encoding="utf-8"))
+    assert "application/xml" in contract["paths"]["/v1/dpps"]["post"]["requestBody"]["content"]
 
 
 @pytest.mark.checklist("EN-02", TIER_1)
@@ -101,7 +127,7 @@ def test_en05_lifecycle_and_search_operations_exist(client, dpp_id):
 
 @pytest.mark.checklist("SEM-01", TIER_1)
 def test_sem01_ontology_declares_version_and_licence():
-    text = (SPEC_DIR / "ontology" / "sort4circ-1.0.0.ttl").read_text(encoding="utf-8")
+    text = (SPEC_DIR / "ontology" / "sort4circ-1.0.1.ttl").read_text(encoding="utf-8")
     for required in ("owl:versionIRI", "owl:versionInfo", "dcterms:license", "dcterms:publisher"):
         assert required in text
 
@@ -116,7 +142,7 @@ def test_sem02_identifier_types_stay_distinct(client, bound_dpp):
 
 @pytest.mark.checklist("SEM-03", TIER_1)
 def test_sem03_public_terms_carry_labels():
-    text = (SPEC_DIR / "ontology" / "sort4circ-1.0.0.ttl").read_text(encoding="utf-8")
+    text = (SPEC_DIR / "ontology" / "sort4circ-1.0.1.ttl").read_text(encoding="utf-8")
     declarations = text.count("a owl:Class")
     labels = text.count("skos:prefLabel")
     assert labels >= declarations, "every public class carries a preferred label"
@@ -167,6 +193,52 @@ def test_api01_schema_is_versioned_and_negative_fixtures_fail():
     schema = json.loads((SPEC_DIR / "schemas" / "dpp-1.0.0.schema.json").read_text())
     assert schema["$schema"].endswith("2020-12/schema")
     assert schema["$id"].endswith("/1.0.0")
+
+
+@pytest.mark.checklist("API-02", TIER_1)
+def test_api02_json_xml_rdf_mapping_covers_mandatory_fields():
+    import csv
+
+    path = SPEC_DIR / "mappings" / "dpp-json-xml-rdf-1.0.0.csv"
+    with path.open(encoding="utf-8", newline="") as stream:
+        mapped = {row["jsonPath"] for row in csv.DictReader(stream)}
+    assert {"dppId", "schemaVersion", "recordVersion", "identity.granularity", "product.articleClass"} <= mapped
+
+
+@pytest.mark.checklist("API-03", TIER_1)
+def test_api03_json_xml_rdf_round_trip_preserves_mandatory_content():
+    from sort4circ_dpp.exchange import from_xml, to_xml
+
+    record = json.loads((Path(__file__).resolve().parents[2] / "examples" / "fixtures" / "valid-annex-g-garment.json").read_text())
+    assert from_xml(to_xml(record)) == record
+
+
+@pytest.mark.checklist("SEM-06", TIER_1)
+def test_sem06_rdf_export_represents_core_relationships():
+    from sort4circ_dpp.exchange import to_rdf
+
+    record = json.loads((Path(__file__).resolve().parents[2] / "examples" / "fixtures" / "valid-annex-g-garment.json").read_text())
+    graph = to_rdf(record)
+    assert len(graph) > 10
+
+
+@pytest.mark.checklist("SEM-07", TIER_2)
+def test_sem07_released_sparql_query_set_covers_six_subjects():
+    names = {path.stem.rsplit("-", 1)[0] for path in (SPEC_DIR / "queries").glob("*.rq")}
+    assert names == {"identity-resolution", "product-hierarchy", "material-divergence", "lifecycle-events", "sorting-results", "environmental-values"}
+
+    from sort4circ_dpp.exchange import to_rdf
+
+    root = Path(__file__).resolve().parents[2]
+    record = json.loads((root / "examples" / "fixtures" / "valid-two-technologies-disagree.json").read_text())
+    query = (SPEC_DIR / "queries" / "material-divergence-1.0.0.rq").read_text()
+    rows = list(to_rdf(record).query(query))
+    assert len(rows) == 1
+    assert {float(rows[0].pctA), float(rows[0].pctB)} == {95.0, 93.4}
+    assert {str(rows[0].methodA), str(rows[0].methodB)} == {
+        "https://data.sort4circ.eu/vocabulary/labQuantitativeIso1833",
+        "https://data.sort4circ.eu/vocabulary/nirSpectroscopy",
+    }
 
 
 @pytest.mark.checklist("API-05", TIER_1)

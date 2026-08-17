@@ -1,0 +1,7 @@
+PREFIX s4c: <https://data.sort4circ.eu/vocabulary/>
+SELECT ?dpp ?version WHERE {
+  ?binding s4c:bindsCarrier ?carrier ; s4c:bindingStatus "commissioned" .
+  ?carrier s4c:encodedIdentifier ?encoded .
+  ?dpp s4c:hasCarrierBinding ?binding ; s4c:recordVersion ?version .
+  FILTER(?encoded = "urn:epc:id:sgtin:0614141.112345.400")
+}

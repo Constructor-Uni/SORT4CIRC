@@ -24,6 +24,16 @@ def main() -> int:
         "description": "SORT4CIRC deliverable D4.3, DPP development guidelines",
         "url": "https://sort4circ.eu",
     }
+    # FastAPI models the internal JSON dictionaries. D4.3 additionally exposes
+    # the same complete DPP representation as application/xml, validated by the
+    # released XSD before conversion. Add that negotiated representation to the
+    # generated contract without claiming XML for partial operational payloads.
+    create = document["paths"]["/v1/dpps"]["post"]
+    dpp_schema = create["requestBody"]["content"]["application/json"]["schema"]
+    create["requestBody"]["content"]["application/xml"] = {"schema": dpp_schema}
+    create["responses"]["201"]["content"]["application/xml"] = {"schema": dpp_schema}
+    get_dpp = document["paths"]["/v1/dpps/{dpp_id}"]["get"]
+    get_dpp["responses"]["200"]["content"]["application/xml"] = {"schema": dpp_schema}
     target = ROOT / "spec" / "openapi" / "dpp-api-v1.json"
     # Write bytes explicitly so generated output is LF-canonical on Windows
     # and Linux alike, matching the Git-delivered artifact and manifest.

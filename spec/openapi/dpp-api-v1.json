@@ -67,7 +67,7 @@
       "name": "Apache-2.0"
     },
     "title": "SORT4CIRC Digital Product Passport API",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "openapi": "3.1.0",
   "paths": {
@@ -274,6 +274,13 @@
                 "title": "Payload",
                 "type": "object"
               }
+            },
+            "application/xml": {
+              "schema": {
+                "additionalProperties": true,
+                "title": "Payload",
+                "type": "object"
+              }
             }
           },
           "required": true
@@ -285,6 +292,13 @@
                 "schema": {
                   "additionalProperties": true,
                   "title": "Response Create Dpp V1 Dpps Post",
+                  "type": "object"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Payload",
                   "type": "object"
                 }
               }
@@ -405,6 +419,13 @@
               "application/json": {
                 "schema": {
                   "title": "Response Get Dpp V1 Dpps  Dpp Id  Get"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Payload",
+                  "type": "object"
                 }
               }
             },

@@ -16,6 +16,7 @@ enabled by accident outside development.
 
 from __future__ import annotations
 
+import json
 import os
 import uuid
 from collections.abc import Callable
@@ -29,8 +30,9 @@ from fastapi.responses import JSONResponse
 
 from . import canonical
 from .access import Principal, check_patch_paths, project, require_scope, resolve_view
-from .config import API_MAJOR, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, SCHEMA_VERSION
+from .config import API_CONTRACT_VERSION, API_MAJOR, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, SCHEMA_VERSION
 from .evidence import EvidenceWorker
+from .exchange import from_xml, to_xml
 from .index import ReadIndex
 from .ledger.base import LedgerAdapter
 from .ledger.memory import InMemoryLedger
@@ -62,7 +64,7 @@ def create_app(
 
     app = FastAPI(
         title="SORT4CIRC Digital Product Passport API",
-        version=SCHEMA_VERSION,
+        version=API_CONTRACT_VERSION,
         description=(
             "Reference implementation of the API requirements developed under "
             "SORT4CIRC Task 4.2 and published in deliverable D4.3. Application "
@@ -114,8 +116,59 @@ def create_app(
     async def _correlate(request: Request, call_next: Callable) -> Response:
         correlation = _correlation(request.headers.get("x-correlation-id"))
         request.state.correlation_id = correlation
+        if request.headers.get("content-type", "").split(";", 1)[0].strip().lower() == "application/xml":
+            try:
+                payload = from_xml(await request.body())
+            except Exception as exc:  # XML/XSD failures use the stable payload problem contract
+                problem = DppError(
+                    "S4C-PAYLOAD-SCHEMA-INVALID",
+                    f"XML request failed XSD or profile validation: {exc}",
+                    fields=["body"],
+                ).problem(instance=str(request.url.path), correlation_id=correlation)
+                return JSONResponse(
+                    status_code=422,
+                    content=problem,
+                    media_type="application/problem+json",
+                    headers={"X-Correlation-Id": correlation},
+                )
+            body = json.dumps(payload, separators=(",", ":")).encode("utf-8")
+            request._body = body  # noqa: SLF001 - normalise XML before FastAPI body parsing
+            request.scope["headers"] = [
+                (name, value)
+                for name, value in request.scope["headers"]
+                if name not in {b"content-type", b"content-length"}
+            ] + [(b"content-type", b"application/json"), (b"content-length", str(len(body)).encode())]
         response = await call_next(request)
         response.headers["X-Correlation-Id"] = correlation
+        accept = request.headers.get("accept", "").lower()
+        if (
+            "application/xml" in accept
+            and 200 <= response.status_code < 300
+            and response.headers.get("content-type", "").startswith("application/json")
+        ):
+            body = b"".join([chunk async for chunk in response.body_iterator])
+            document = json.loads(body)
+            required = {
+                "dppId", "schemaVersion", "recordVersion", "status", "createdAt", "updatedAt",
+                "responsibleOperatorId", "identity", "product", "materialObservations",
+            }
+            if required <= document.keys():
+                headers = dict(response.headers)
+                headers.pop("content-length", None)
+                headers.pop("content-type", None)
+                headers["Vary"] = "Accept"
+                return Response(
+                    content=to_xml(document),
+                    status_code=response.status_code,
+                    headers=headers,
+                    media_type="application/xml",
+                )
+            response = Response(
+                content=body,
+                status_code=response.status_code,
+                headers=dict(response.headers),
+                media_type=response.media_type,
+            )
         return response
 
     def principal_from_request(

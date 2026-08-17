@@ -32,6 +32,7 @@ def test_packaged_runtime_resources_match_authoritative_spec():
         Path("access-matrix.json"),
         Path("reason-codes.json"),
         Path("schemas/dpp-1.0.0.schema.json"),
+        Path("schemas/dpp-1.0.0.xsd"),
         *(Path("vocabularies") / path.name for path in (AUTHORITATIVE / "vocabularies").glob("*.json")),
     }
     assert _runtime_files(PACKAGED) == expected
@@ -67,6 +68,6 @@ def test_invalid_explicit_spec_override_fails_without_fallback(tmp_path):
     assert "S4C_SPEC_DIR does not name a directory" in result.stderr
 
 
-@pytest.mark.parametrize("resource", ["access-matrix.json", "reason-codes.json", "schemas/dpp-1.0.0.schema.json"])
+@pytest.mark.parametrize("resource", ["access-matrix.json", "reason-codes.json", "schemas/dpp-1.0.0.schema.json", "schemas/dpp-1.0.0.xsd"])
 def test_packaged_resource_is_included_in_package_tree(resource):
     assert (PACKAGED / resource).is_file()

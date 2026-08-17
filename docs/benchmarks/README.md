@@ -11,6 +11,21 @@ next to it is a target, not a result, and the two are kept apart here.
 > but they cannot be independently reproduced from that recorded revision. A
 > future campaign must record a reachable full commit SHA.
 
+### Historical D4.3 baseline is not reproduced here
+
+D4.3 v0.5 reports 422 sample-derived records, 422 schema passes, 41 tests, and a
+500-request concurrency-four decision-path result (p50 13.956 ms, p95 22.698 ms,
+p99 36.258 ms, maximum 53.661 ms, zero failures). The public repository does not
+contain the 422-record dataset, its digest, or a result file tying those numbers
+to an exact reachable commit, package, configuration, hardware, command and run
+time. Those values are therefore historical D4.3 statements, not reproducible
+release evidence from this tree.
+
+The current suite is larger and must not be reduced to reproduce the historical
+count. The executed campaign below is also a different workload (200 seeded
+passports and 2,000 requests per class per concurrency level) and cannot be used
+as evidence for the D4.3 500-request result.
+
 Two harnesses live in `tools/`:
 
 | Harness | Measures | Runs where |

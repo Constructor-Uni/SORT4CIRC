@@ -30,9 +30,10 @@ VOCAB_DIR = _child(SPEC_DIR, "vocabularies")
 ONTOLOGY_DIR = _child(SPEC_DIR, "ontology")
 
 SCHEMA_VERSION = "1.0.0"
-ONTOLOGY_VERSION = "1.0.0"
+ONTOLOGY_VERSION = "1.0.1"
 ACCESS_POLICY_VERSION = "1.0.0"
 API_MAJOR = "v1"
+API_CONTRACT_VERSION = "1.1.0"
 
 #: Ledger network identifier reported in evidence records.
 LEDGER_NETWORK_ID = os.environ.get("S4C_LEDGER_NETWORK", "s4c-reference")

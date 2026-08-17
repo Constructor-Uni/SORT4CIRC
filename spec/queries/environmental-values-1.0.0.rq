@@ -1,0 +1,2 @@
+PREFIX s4c: <https://data.sort4circ.eu/vocabulary/>
+ASK { ?garment s4c:hasObservation ?value . ?value a s4c:EnvironmentalValue ; s4c:metricType ?metric ; s4c:systemBoundary ?boundary . }

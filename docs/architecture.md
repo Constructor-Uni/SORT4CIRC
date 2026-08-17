@@ -78,3 +78,17 @@ implement that readback and therefore reports verification as `unverifiable`.
 Verifying against the current version instead would report a mismatch for every
 record that has legitimately changed since, which is why `subjectVersion` is
 mandatory.
+
+## Blockchain profile status
+
+D4.3 identifies permissioned Besu/QBFT as the current project reference
+baseline. The public repository supplies the replaceable adapter and a local
+Besu smoke service, but not a production validator topology or signed platform
+selection record. This is insufficient to reproduce the D4.3 operational-network
+claim and is not a demonstrator deployment authorisation.
+
+Besu/Teku is a candidate Ethereum-compatible proof-of-stake migration profile.
+It is not selected. It remains subject to the same frozen environmental limits,
+evidence-sufficiency screen, comparative benchmark and integration validation as
+every other candidate. Detailed passport content remains off-chain in every
+profile.

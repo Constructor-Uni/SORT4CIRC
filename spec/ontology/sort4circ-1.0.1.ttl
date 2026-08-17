@@ -11,11 +11,11 @@
 #################################################################
 
 <https://data.sort4circ.eu/vocabulary/> a owl:Ontology ;
-    owl:versionIRI <https://data.sort4circ.eu/vocabulary/1.0.0> ;
-    owl:versionInfo "1.0.0" ;
+    owl:versionIRI <https://data.sort4circ.eu/vocabulary/1.0.1> ;
+    owl:versionInfo "1.0.1" ;
     dcterms:title "SORT4CIRC Textile Digital Product Passport vocabulary" ;
     dcterms:description "Shared RDF and OWL model for the SORT4CIRC Textile Digital Product Passport, developed under Task 4.2.2 and published in deliverable D4.3. The model is independent of any blockchain, database, reader, ERP, MES or sorting technology." ;
-    dcterms:created "2026-08-10"^^xsd:date ;
+    dcterms:created "2026-08-17"^^xsd:date ;
     dcterms:publisher "Constructor University, SORT4CIRC WP4" ;
     dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
     rdfs:comment "Declared OWL 2 profile: OWL 2 DL. The EL subset excludes the disjointness and asymmetry axioms." .
@@ -159,6 +159,16 @@ s4c:hasLifecycleEvent a owl:ObjectProperty ;
     rdfs:domain s4c:DigitalProductPassport ; rdfs:range s4c:LifecycleEvent ;
     skos:prefLabel "has lifecycle event"@en .
 
+s4c:hasSortingDecision a owl:ObjectProperty ;
+    rdfs:domain s4c:DigitalProductPassport ; rdfs:range s4c:SortingDecision ;
+    skos:prefLabel "has sorting decision"@en ;
+    rdfs:comment "Links a passport to an append-only sorting decision."@en .
+
+s4c:responsibleOperator a owl:ObjectProperty ;
+    rdfs:domain s4c:DigitalProductPassport ; rdfs:range s4c:Organisation ;
+    skos:prefLabel "responsible operator"@en ;
+    rdfs:comment "Organisation accountable for the passport record."@en .
+
 s4c:occurredAtFacility a owl:ObjectProperty , owl:FunctionalProperty ;
     rdfs:domain s4c:LifecycleEvent ; rdfs:range s4c:Facility ;
     skos:prefLabel "occurred at facility"@en .
@@ -222,6 +232,16 @@ s4c:articleClass a owl:ObjectProperty ;
 
 s4c:recordVersion a owl:DatatypeProperty ; rdfs:range xsd:integer ; skos:prefLabel "record version"@en .
 s4c:schemaVersion a owl:DatatypeProperty ; rdfs:range xsd:string ; skos:prefLabel "schema version"@en .
+s4c:status a owl:DatatypeProperty ; rdfs:range xsd:string ; skos:prefLabel "passport status"@en .
+s4c:createdAt a owl:DatatypeProperty ; rdfs:range xsd:dateTime ; skos:prefLabel "created at"@en .
+s4c:updatedAt a owl:DatatypeProperty ; rdfs:range xsd:dateTime ; skos:prefLabel "updated at"@en .
+s4c:granularity a owl:DatatypeProperty ; rdfs:range xsd:string ; skos:prefLabel "product granularity"@en .
+s4c:productIdentifier a owl:DatatypeProperty ; rdfs:range xsd:string ; skos:prefLabel "product identifier"@en .
+s4c:componentType a owl:DatatypeProperty ; rdfs:range xsd:string ; skos:prefLabel "component type"@en .
+s4c:eventType a owl:DatatypeProperty ; rdfs:range xsd:string ; skos:prefLabel "event type"@en .
+s4c:sortingCategoryValue a owl:DatatypeProperty ; rdfs:range xsd:string ; skos:prefLabel "sorting category value"@en .
+s4c:metricType a owl:DatatypeProperty ; rdfs:range xsd:string ; skos:prefLabel "environmental metric type"@en .
+s4c:systemBoundary a owl:DatatypeProperty ; rdfs:range xsd:string ; skos:prefLabel "system boundary"@en .
 s4c:percentage a owl:DatatypeProperty ; rdfs:range xsd:decimal ; skos:prefLabel "percentage"@en ;
     rdfs:comment "Meaningless without percentageBasis."@en .
 s4c:percentageBasis a owl:DatatypeProperty ; rdfs:range xsd:string ; skos:prefLabel "percentage basis"@en .

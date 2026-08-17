@@ -3,6 +3,43 @@
 Format follows Keep a Changelog. Versions follow semantic versioning, applied
 independently to each artefact under `spec/`.
 
+## [Unreleased]
+
+This entry prepares Python package version 1.2.0. No release date is assigned.
+The affected normative artefacts retain independent semantic versions under the
+repository contribution policy.
+
+### Specification
+
+- Added XML Schema 1.1, XML fixtures, a versioned mandatory-field JSON/XML/RDF
+  mapping, and the six-subject SPARQL conformance query package.
+- Released ontology `sort4circ-1.0.1`, adding terms required by that mapping for
+  passport state, responsibility, identity, component, event, sorting and
+  environmental projections. Existing identifiers and meanings are unchanged;
+  records conforming to 1.0.0 require no migration.
+- Added environmental-selection governance controls and open EN 18223 deviation
+  controls with unpopulated templates, machine-checked separation of duties and
+  deployment gates.
+- Corrected the material-divergence query to return one ordered pair when
+  different methods report different percentages for the same fibre. The actual
+  Annex G values 95 and 93.4 are the positive conformance fixture.
+
+### Implementation and evidence
+
+- Added negotiated XML API support with XSD 1.1 validation while retaining JSON
+  as the existing representation. The independently versioned OpenAPI contract
+  advances to 1.1.0 for this backward-compatible addition; the `/v1` path and
+  DPP JSON Schema version remain unchanged.
+- Added RDF derivation, JSON/XML/RDF round-trip tests and released SPARQL
+  conformance queries tied to expected-result fixtures.
+- Added read-index reconstruction and write-prohibition controls, plus
+  repository-wide guards against superseded terminology and unselected
+  serialisation profiles.
+- Expanded D4.3 traceability across specification, implementation, governance,
+  conformance and outstanding evidence dependencies.
+- Recorded unsupported and pending D4.3 claims without manufacturing evidence,
+  including the historical 422-record, 41-test and 500-request statements.
+
 ## [1.1.2] - 2026-08-13
 
 Correctness, packaging, reproducibility and documentation maintenance for the

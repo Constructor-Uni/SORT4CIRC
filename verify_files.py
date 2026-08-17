@@ -46,8 +46,8 @@ IGNORE_NAMES = {MANIFEST_NAME, "conformance-report.json", ".coverage"}
 
 HEADER = (
     "# SORT4CIRC textile Digital Product Passport, deliverable D4.3",
-    "# SORT4CIRC software release 1.1.2.",
-    "# Describes the exact contents of release 1.1.2.",
+    "# SORT4CIRC software package version 1.2.0; release candidate, not a published release.",
+    "# Describes the exact governed contents of this candidate tree.",
     "# sha256 of every delivered file, paths relative to the repository root.",
     "# Verify with: python verify_files.py, regenerate with: python verify_files.py --write",
     "# MANIFEST.sha256 itself is not listed: it cannot contain its own digest.",

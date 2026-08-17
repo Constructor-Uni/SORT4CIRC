@@ -4,11 +4,11 @@
   "pollIntervalSeconds": 1.0,
   "platforms": [
     {
-      "name": "besu-permissioned",
+      "name": "besu-qbft-reference-target",
       "adapter": "sort4circ_dpp.ledger.besu:BesuLedger",
       "options": {},
       "finality": "deterministic",
-      "notes": "IBFT 2.0 validator set. Configure through S4C_BESU_RPC, S4C_BESU_CONTRACT and S4C_BESU_FROM. Signing is delegated to the node or to an external signer; no key is read by the harness."
+      "notes": "Target template for the permissioned Besu/QBFT reference baseline described in D4.3. The public repository does not include its validator topology or credentials and contains no executed result for this target. Configure through S4C_BESU_RPC, S4C_BESU_CONTRACT and S4C_BESU_FROM. Signing is delegated to the node or to an external signer; no key is read by the harness."
     },
     {
       "name": "ebsi-pilot",

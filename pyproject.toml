@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sort4circ-dpp"
-version = "1.1.2"
+version = "1.2.0"
 description = "Reference implementation of the SORT4CIRC textile Digital Product Passport (deliverable D4.3)"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -25,6 +25,7 @@ dependencies = [
   "uvicorn[standard]>=0.27",
   "jsonschema>=4.21",
   "pydantic>=2.6",
+  "xmlschema>=4.3,<5",
 ]
 
 [project.optional-dependencies]
@@ -45,6 +46,7 @@ sort4circ_dpp = [
   "py.typed",
   "_spec/*.json",
   "_spec/schemas/*.json",
+  "_spec/schemas/*.xsd",
   "_spec/vocabularies/*.json",
 ]
 

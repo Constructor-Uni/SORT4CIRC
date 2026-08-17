@@ -27,8 +27,9 @@ deliverable itself.
 
 The repository has two halves that serve different purposes.
 
-**`spec/` is normative.** It holds the JSON Schema, ontology, controlled
-vocabularies, reason-code catalogue and access matrix that define
+**`spec/` is normative.** It holds the JSON Schema, XSD, JSON/XML/RDF mapping,
+ontology, SPARQL conformance queries, controlled vocabularies, governance
+record schemas, reason-code catalogue and access matrix that define
 what a conformant passport is. An implementation in any language conforms by
 satisfying these artefacts.
 
@@ -48,13 +49,15 @@ the record actually looks like or how a sorting line talks to it. This
 repository answers that, at the level of field names, datatypes, endpoints,
 error codes and a worked example whose digest can be recomputed by hand.
 
-The specification is aligned with Regulation (EU) 2024/1781, the six harmonised
+The specification profiles Regulation (EU) 2024/1781 and the six harmonised
 DPP standards cited in Commission Implementing Decision (EU) 2026/1736
 (EN 18216, EN 18219, EN 18220, EN 18221, EN 18222, EN 18223), and the two
 further JTC 24 standards EN 18239 and EN 18246 that are not cited in the
-Official Journal. Alignment with a standard is not a claim of conformity
-assessment; see [`docs/conformance.md`](docs/conformance.md) for what may and
-may not be claimed.
+Official Journal. The native SORT4CIRC serialisations currently deviate from
+EN 18223 Clause 5 and Annex A/B, so full EN 18223 conformity and presumption of
+conformity through EN 18223 are not claimed. See
+[`docs/conformance.md`](docs/conformance.md) and
+[`docs/governance.md`](docs/governance.md) for the exact boundaries.
 
 ## Quick start
 
@@ -125,7 +128,11 @@ reads low on dark carbon-black-bearing polyester.
 ```
 spec/           normative artefacts
   schemas/      JSON Schema 2020-12 for the passport payload
+                and the equivalent XML Schema 1.1 exchange profile
+  mappings/     versioned JSON/XML/RDF term mapping
   ontology/     OWL 2 DL vocabulary in Turtle, with the axioms that make it testable
+  queries/      SPARQL conformance queries and expected results
+  governance/   unpopulated selection/deviation templates and validation schemas
   vocabularies/ 18 controlled vocabularies, versioned independently
   reason-codes.json   30 stable codes, each with an HTTP status and a safe gateway action
   access-matrix.json  roles, scopes and views, default deny
@@ -138,7 +145,7 @@ src/sort4circ_dpp/
   evidence.py   the evidence state machine and the anchoring worker
   ledger/       the adapter contract, a reference adapter and a Hyperledger Besu adapter
   gateway/      read-zone controls applied before any sorting command is issued
-  api.py        the RESTful interface
+  api.py        the RESTful JSON/XML interface
 tests/          unit tests plus a conformance suite mapped to the D4.3 checklist rows
 examples/       the worked example and fixtures
 docs/           getting started, architecture, conformance, glossary
@@ -191,6 +198,13 @@ of the anchoring flow and is **not the outcome
 of the assessment** procedure defined in D4.3 for EBSI, Algorand, IOTA and
 Ethereum; that comparative benchmark and its TOPSIS ranking are scheduled work
 and no ranking is claimed here.
+
+The permissioned Besu/QBFT system described in D4.3 is the current project
+reference baseline, not a final platform selection. This public repository
+contains an adapter and a local Besu smoke configuration; it does not contain a
+signed selection record or reproducible evidence for an operational validator
+topology. Besu/Teku remains only a candidate migration profile. Demonstrator
+deployment is not authorised by this repository.
 
 ## Contributing
 

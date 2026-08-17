@@ -61,11 +61,16 @@ def main() -> int:
                 identifier, tier = (part.strip().strip('"') for part in inner.split(","))
                 rows[identifier] = {"tier": tier, "decidedBy": "automated test"}
 
-    for identifier, evidence in REQUIRES_HUMAN_EVIDENCE.items():
+    remaining_human_evidence = {
+        identifier: evidence
+        for identifier, evidence in REQUIRES_HUMAN_EVIDENCE.items()
+        if identifier not in rows
+    }
+    for identifier, evidence in remaining_human_evidence.items():
         rows.setdefault(identifier, {"tier": "", "decidedBy": "human evidence"})
         rows[identifier]["outstandingEvidence"] = evidence
 
-    report = build_report(rows, REQUIRES_HUMAN_EVIDENCE, passed)
+    report = build_report(rows, remaining_human_evidence, passed)
     target = ROOT / "conformance-report.json"
     target.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(result.stdout[-2000:])

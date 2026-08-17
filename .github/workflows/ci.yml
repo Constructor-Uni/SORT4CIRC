@@ -58,7 +58,7 @@ jobs:
         run: |
           python - <<'PY'
           from rdflib import Graph
-          g = Graph().parse("spec/ontology/sort4circ-1.0.0.ttl", format="turtle")
+          g = Graph().parse("spec/ontology/sort4circ-1.0.1.ttl", format="turtle")
           print(f"{len(g)} triples")
           assert len(g) > 200, "the ontology lost content"
           PY

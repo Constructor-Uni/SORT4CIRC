@@ -104,3 +104,26 @@ def test_a_projection_regenerated_on_commit_reports_a_lag_near_zero(indexed):
     view = index.sorting_view(dpp_id)
     assert view["indexLagMs"] < 50
     assert index._entries[dpp_id].committed_at_ms >= before  # noqa: SLF001
+
+
+def test_read_index_reconstructs_from_authoritative_committed_state(store):
+    first = store.create(passport_payload(dppId="urn:sort4circ:dpp:rebuild-1"))
+    second = store.create(passport_payload(dppId="urn:sort4circ:dpp:rebuild-2"))
+    rebuilt = ReadIndex(store=store)
+    rebuilt.attach()
+    assert len(rebuilt) == 2
+    assert rebuilt.sorting_view(first["dppId"])["recordVersion"] == first["recordVersion"]
+    assert rebuilt.sorting_view(second["dppId"])["recordVersion"] == second["recordVersion"]
+
+
+def test_read_index_exposes_no_domain_write_or_identifier_creation_api(store):
+    index = ReadIndex(store=store)
+    forbidden = {"create", "patch", "append", "commission_carrier", "retire", "new_urn"}
+    assert not forbidden.intersection(dir(index))
+    record = store.create(passport_payload(dppId="urn:sort4circ:dpp:read-only-index"))
+    before = (record["recordVersion"], len(store.outbox), len(store._history[record["dppId"]]))  # noqa: SLF001
+    index.attach()
+    index.sorting_view(record["dppId"])
+    after_record = store.get(record["dppId"])
+    after = (after_record["recordVersion"], len(store.outbox), len(store._history[record["dppId"]]))  # noqa: SLF001
+    assert after == before, "reading or reconstructing the index must not write domain state"

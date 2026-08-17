@@ -1,0 +1,21 @@
+jsonPath,xmlXPath,rdfClassOrProperty,datatype,unitRule,cardinality,controlledVocabulary,sourceSystem,mappingVersion
+dppId,/s4c:DigitalProductPassport/@dppId,rdf:subject,anyURI,none,1..1,,DPP service,1.0.0
+schemaVersion,/s4c:DigitalProductPassport/@schemaVersion,s4c:schemaVersion,xsd:string,none,1..1,,DPP service,1.0.0
+recordVersion,/s4c:DigitalProductPassport/s4c:RecordVersion,s4c:recordVersion,xsd:integer,none,1..1,,DPP service,1.0.0
+status,/s4c:DigitalProductPassport/s4c:Status,s4c:status,xsd:string,none,1..1,passport-status,DPP service,1.0.0
+createdAt,/s4c:DigitalProductPassport/s4c:CreatedAt,s4c:createdAt,xsd:dateTime,none,1..1,,DPP service,1.0.0
+updatedAt,/s4c:DigitalProductPassport/s4c:UpdatedAt,s4c:updatedAt,xsd:dateTime,none,1..1,,DPP service,1.0.0
+responsibleOperatorId,/s4c:DigitalProductPassport/s4c:ResponsibleOperatorId,s4c:responsibleOperator,anyURI,none,1..1,,source organisation,1.0.0
+identity.granularity,/s4c:DigitalProductPassport/s4c:Identity/s4c:Granularity,s4c:granularity,xsd:string,none,1..1,granularity,DPP service,1.0.0
+identity.modelId,/s4c:DigitalProductPassport/s4c:Identity/s4c:ModelId,s4c:productIdentifier,xsd:string,none,0..1,,source system,1.0.0
+identity.batchId,/s4c:DigitalProductPassport/s4c:Identity/s4c:BatchId,s4c:productIdentifier,xsd:string,none,0..1,,source system,1.0.0
+identity.itemId,/s4c:DigitalProductPassport/s4c:Identity/s4c:ItemId,s4c:productIdentifier,xsd:string,none,0..1,,source system,1.0.0
+product.articleClass,/s4c:DigitalProductPassport/s4c:Product/s4c:ArticleClass,s4c:articleClass,s4c:ArticleClass,none,1..1,article-class,product source,1.0.0
+materialObservations[].observationId,/s4c:DigitalProductPassport/s4c:MaterialObservations/s4c:MaterialObservation/s4c:ObservationId,rdf:subject,anyURI,none,1..1,,observation source,1.0.0
+materialObservations[].fibreType,/s4c:DigitalProductPassport/s4c:MaterialObservations/s4c:MaterialObservation/s4c:FibreType,s4c:fibreType,s4c:FibreType,none,1..1,fibre-type,observation source,1.0.0
+materialObservations[].percentage,/s4c:DigitalProductPassport/s4c:MaterialObservations/s4c:MaterialObservation/s4c:Percentage,s4c:percentage,xsd:decimal,percentageBasis,0..1,,observation source,1.0.0
+materialObservations[].percentageBasis,/s4c:DigitalProductPassport/s4c:MaterialObservations/s4c:MaterialObservation/s4c:PercentageBasis,s4c:percentageBasis,xsd:string,none,0..1,percentage-basis,observation source,1.0.0
+materialObservations[].valueStatus,/s4c:DigitalProductPassport/s4c:MaterialObservations/s4c:MaterialObservation/s4c:ValueStatus,s4c:valueStatus,xsd:string,none,1..1,value-status,observation source,1.0.0
+materialObservations[].method,/s4c:DigitalProductPassport/s4c:MaterialObservations/s4c:MaterialObservation/s4c:Method,s4c:usedMethod,s4c:Method,none,1..1,method,observation source,1.0.0
+materialObservations[].sourceOrganisationId,/s4c:DigitalProductPassport/s4c:MaterialObservations/s4c:MaterialObservation/s4c:SourceOrganisationId,s4c:observedBy,s4c:Organisation,none,1..1,,observation source,1.0.0
+materialObservations[].observedAt,/s4c:DigitalProductPassport/s4c:MaterialObservations/s4c:MaterialObservation/s4c:ObservedAt,s4c:observedAt,xsd:dateTime,none,1..1,,observation source,1.0.0

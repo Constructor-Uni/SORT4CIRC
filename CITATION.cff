@@ -11,8 +11,7 @@ authors:
   - name: Constructor University
     city: Bremen
     country: DE
-version: 1.1.2
-date-released: 2026-08-13
+version: 1.2.0
 license: Apache-2.0
 repository-code: https://github.com/Constructor-Uni/SORT4CIRC
 url: https://sort4circ.eu
