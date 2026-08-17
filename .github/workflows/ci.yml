@@ -127,6 +127,7 @@ jobs:
               "access-matrix.json",
               "reason-codes.json",
               "schemas/dpp-1.0.0.schema.json",
+              "schemas/dpp-1.0.0.xsd",
               *(path.relative_to(root / "spec").as_posix()
                 for path in (root / "spec" / "vocabularies").glob("*.json")),
           }
