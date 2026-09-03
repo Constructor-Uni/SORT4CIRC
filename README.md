@@ -190,6 +190,10 @@ The versioned JSON/XML/RDF mapping package is in [`spec/mappings/`](spec/mapping
 Its authoritative mapping is `dpp-mapping-1.0.0.json`; run `python -m pytest
 tests/test_mapping.py -q` to check its coverage and bindings.
 
+New load, anchoring and conformance runs can emit Annex H-style machine-readable
+evidence with `--evidence-dir`; the schema and retention rules are documented in
+[`evidence/`](evidence/).
+
 ## Funding
 
 SORT4CIRC, Intelligent Textile SORting for enabling CIRCularity, is funded by

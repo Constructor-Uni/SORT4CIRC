@@ -7,6 +7,7 @@ when it is not, which is the failure mode this tool exists to prevent.
 
 from __future__ import annotations
 
+import argparse
 import json
 import subprocess
 import sys
@@ -15,11 +16,18 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tests"))
 sys.path.insert(0, str(ROOT / "src"))
+from sort4circ_dpp.execution_evidence import build_record, files_digest, utcnow, write_record  # noqa: E402
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("evidence_dir", type=Path, nargs="?", help="write a structured execution evidence run")
+    parser.add_argument("--release-evidence", action="store_true", help="require a clean tree and mark evidence release-grade")
+    args = parser.parse_args(argv)
+    evidence_dir = args.evidence_dir
     from conformance.test_checklist import REQUIRES_HUMAN_EVIDENCE
 
+    started_at = utcnow()
     result = subprocess.run(
         [sys.executable, "-m", "pytest", "tests", "-q", "--no-header", "-p", "no:cacheprovider"],
         cwd=ROOT,
@@ -55,6 +63,54 @@ def main() -> int:
     }
     target = ROOT / "conformance-report.json"
     target.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    if evidence_dir:
+        raw_path = evidence_dir / "raw-result.json"
+        raw_path.parent.mkdir(parents=True, exist_ok=True)
+        raw_document = {
+            "report": report,
+            "pytest": {
+                "command": [sys.executable, "-m", "pytest", "tests", "-q", "--no-header", "-p", "no:cacheprovider"],
+                "exitCode": result.returncode,
+                "stdout": result.stdout,
+                "stderr": result.stderr,
+            },
+        }
+        raw_path.write_text(json.dumps(raw_document, indent=2) + "\n", encoding="utf-8")
+        test_paths = sorted((ROOT / "tests").rglob("*.py"))
+        evidence = build_record(
+            root=ROOT,
+            control_id="SCP-07",
+            test_name="D4.3 conformance suite",
+            command="python tools/conformance_report.py",
+            tool="tools/conformance_report.py",
+            started_at=started_at,
+            completed_at=utcnow(),
+            exit_code=0 if passed else 1,
+            configuration={"pytestArgs": ["tests", "-q", "--no-header", "-p", "no:cacheprovider"]},
+            configuration_profile="local-conformance",
+            dataset={
+                "identifier": "repository-tests",
+                "version": None,
+                "sha256": files_digest(ROOT, test_paths),
+                "fixtureCount": len(test_paths),
+                "operationCount": 1,
+                "payloadCharacteristics": {"kind": "Python test and conformance sources"},
+            },
+            target="pass",
+            target_unit="suite verdict",
+            acceptance_rule="the complete automated suite exits zero",
+            observed_result=report["suiteResult"],
+            observed_unit="suite verdict",
+            verdict="pass" if passed else "fail",
+            raw_result_path=raw_path,
+            summary_metrics={
+                "suiteResult": report["suiteResult"],
+                "automatedRows": len(report["automatedRows"]),
+                "humanEvidenceRows": len(report["rowsRequiringHumanEvidence"]),
+            },
+            release_mode=args.release_evidence,
+        )
+        write_record(evidence, evidence_dir / "evidence.json")
     print(result.stdout[-2000:])
     print(f"wrote {target.name}: {len(report['automatedRows'])} automated rows, "
           f"{len(report['rowsRequiringHumanEvidence'])} awaiting human evidence")

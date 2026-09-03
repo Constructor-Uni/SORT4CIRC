@@ -92,6 +92,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from sort4circ_dpp.canonical import canonical_bytes, digest  # noqa: E402
+from sort4circ_dpp.execution_evidence import build_record, sha256_json, utcnow, write_record  # noqa: E402
 from sort4circ_dpp.ledger.base import LedgerAdapter, LedgerError, Receipt  # noqa: E402
 
 #: The reference record whose projection is anchored, so that every platform
@@ -218,6 +219,8 @@ class PlatformResult:
             doc["reason"] = self.reason
         doc["submitLatency"] = summarise(self.submit_ms)
         doc["timeToConfirmation"] = summarise(self.confirm_ms)
+        doc["submitSamplesMs"] = [round(value, 6) for value in self.submit_ms]
+        doc["confirmationSamplesMs"] = [round(value, 6) for value in self.confirm_ms]
         doc["unconfirmedAtTimeout"] = self.unconfirmed
         doc["failures"] = self.failures
         if self.fees:
@@ -430,6 +433,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--self-test", action="store_true", help="exercise the harness against the in-memory adapter")
     parser.add_argument("--runs", type=int, default=None, help="override the configured run count")
     parser.add_argument("--json", dest="json_path", type=Path, default=None)
+    parser.add_argument("--evidence-dir", type=Path, default=None, help="write a structured evidence envelope and raw result")
+    parser.add_argument("--release-evidence", action="store_true", help="require a clean tree and mark evidence release-grade")
     parser.add_argument("--energy-csv", type=Path, default=None, help="meter log of the campaign")
     parser.add_argument("--energy-idle-csv", type=Path, default=None, help="meter log of the idle machine")
     args = parser.parse_args(argv)
@@ -437,6 +442,7 @@ def main(argv: list[str] | None = None) -> int:
     if not args.config and not args.self_test:
         parser.error("supply --config, or --self-test to exercise the harness")
 
+    started_at = utcnow()
     if args.self_test:
         config = {
             "runs": args.runs or 25,
@@ -500,6 +506,54 @@ def main(argv: list[str] | None = None) -> int:
     if args.json_path:
         args.json_path.write_text(json.dumps(document, indent=2) + "\n", encoding="utf-8")
         print(f"\nwrote {args.json_path}")
+    if args.evidence_dir:
+        raw_path = args.evidence_dir / "raw-result.json"
+        raw_path.parent.mkdir(parents=True, exist_ok=True)
+        raw_path.write_text(json.dumps(document, indent=2) + "\n", encoding="utf-8")
+        failures = sum(sum(result.failures.values()) + result.unconfirmed for result in results)
+        measured = sum(result.status == "measured" for result in results)
+        evidence_verdict = "pass" if failures == 0 and measured == len(results) else "fail"
+        evidence = build_record(
+            root=ROOT,
+            control_id="BC-01",
+            test_name="ledger anchoring benchmark" if not args.self_test else "ledger adapter self-test",
+            command="python " + " ".join(["tools/anchor_bench.py", *(argv or sys.argv[1:])]),
+            tool="tools/anchor_bench.py",
+            started_at=started_at,
+            completed_at=utcnow(),
+            exit_code=0,
+            configuration=config,
+            configuration_profile="local-in-memory-anchor-self-test" if args.self_test else "configured-ledger-anchor",
+            dataset={
+                "identifier": "annex-g-reference-record",
+                "version": "1.0.0",
+                "sha256": sha256_json(REFERENCE_RECORD),
+                "fixtureCount": 1,
+                "operationCount": runs * len(results),
+                "payloadCharacteristics": {
+                    "payloadBytes": len(canonical_bytes(REFERENCE_RECORD)),
+                    "runsPerPlatform": runs,
+                    "platformCount": len(results),
+                },
+            },
+            target=0,
+            target_unit="verification failures or unconfirmed submissions",
+            acceptance_rule="all configured platforms are measured and every confirmed digest verifies",
+            observed_result=failures,
+            observed_unit="verification failures or unconfirmed submissions",
+            verdict=evidence_verdict,
+            raw_result_path=raw_path,
+            reason=document.get("caveat") if args.self_test else None,
+            summary_metrics={
+                "configuredPlatforms": len(results),
+                "measuredPlatforms": measured,
+                "anchoredRecords": anchored,
+                "failuresOrUnconfirmed": failures,
+            },
+            release_mode=args.release_evidence,
+        )
+        write_record(evidence, args.evidence_dir / "evidence.json")
+        print(f"wrote {args.evidence_dir / 'evidence.json'}")
 
     unreached = [r.name for r in results if r.status != "measured"]
     if unreached and not args.self_test:

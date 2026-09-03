@@ -75,6 +75,7 @@ import httpx  # noqa: E402
 import uvicorn  # noqa: E402
 
 from sort4circ_dpp.api import create_app  # noqa: E402
+from sort4circ_dpp.execution_evidence import build_record, sha256_json, utcnow, write_record  # noqa: E402
 
 BRAND = {
     "X-S4C-Role": "brand",
@@ -309,6 +310,7 @@ class Outcome:
             "p95Ms": round(percentile(ordered, 0.95), 3),
             "p99Ms": round(percentile(ordered, 0.99), 3),
             "maxMs": round(ordered[-1], 3) if ordered else None,
+            "latenciesMs": [round(value, 6) for value in self.latencies_ms],
         }
 
 
@@ -485,8 +487,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--requests", type=int, default=2000, help="requests per class per level (default 2000)")
     parser.add_argument("--concurrency", default="1,2,4,8", help="comma-separated levels (default 1,2,4,8)")
     parser.add_argument("--json", dest="json_path", default=None, help="write the full result document here")
+    parser.add_argument("--evidence-dir", type=Path, default=None, help="write a structured evidence envelope and raw result")
+    parser.add_argument("--release-evidence", action="store_true", help="require a clean tree and mark evidence release-grade")
     args = parser.parse_args(argv)
 
+    started_at = utcnow()
     levels = [int(value) for value in args.concurrency.split(",") if value.strip()]
     port = free_port()
     server, thread = start_server(port, "s4c-loadtest")
@@ -532,15 +537,69 @@ def main(argv: list[str] | None = None) -> int:
 
         report = render(results)
         print(report)
-        if args.json_path:
-            Path(args.json_path).write_text(json.dumps(results, indent=2) + "\n", encoding="utf-8")
-            print(f"\nwrote {args.json_path}")
-
         failures = sum(
             summary["errors"]
             for by_level in results["scenarios"].values()
             for summary in by_level.values()
         )
+        if args.json_path:
+            Path(args.json_path).write_text(json.dumps(results, indent=2) + "\n", encoding="utf-8")
+            print(f"\nwrote {args.json_path}")
+        if args.evidence_dir:
+            raw_path = args.evidence_dir / "raw-result.json"
+            raw_path.parent.mkdir(parents=True, exist_ok=True)
+            raw_path.write_text(json.dumps(results, indent=2) + "\n", encoding="utf-8")
+            completed = utcnow()
+            request_count = sum(
+                summary["requests"]
+                for by_level in results["scenarios"].values()
+                for summary in by_level.values()
+            )
+            dataset_content = [
+                {"passport": passport_payload(index), "carrier": carrier_payload(index)}
+                for index in range(args.passports)
+            ]
+            evidence_verdict = "pass" if not failures and observed <= SOFTWARE_BUDGET_MS else "fail"
+            evidence = build_record(
+                root=ROOT,
+                control_id="PERF-01",
+                test_name="reference service load campaign",
+                command="python " + " ".join(["tools/loadtest.py", *(argv or sys.argv[1:])]),
+                tool="tools/loadtest.py",
+                started_at=started_at,
+                completed_at=completed,
+                exit_code=1 if failures else 0,
+                configuration={"passports": args.passports, "requests": args.requests, "concurrency": levels},
+                configuration_profile="local-in-memory-load",
+                dataset={
+                    "identifier": "generated-loadtest-passports",
+                    "version": "generator-1.0.0",
+                    "fixtureCount": len(identifiers),
+                    "operationCount": request_count,
+                    "payloadCharacteristics": {
+                        "passportCount": args.passports,
+                        "requestClasses": sorted(cases),
+                        "concurrencyLevels": levels,
+                    },
+                    "sha256": sha256_json(dataset_content),
+                },
+                target=SOFTWARE_BUDGET_MS,
+                target_unit="ms",
+                acceptance_rule="resolve p99 at the first concurrency level is <= 920 ms and request errors equal zero",
+                observed_result=observed,
+                observed_unit="ms",
+                verdict=evidence_verdict,
+                raw_result_path=raw_path,
+                summary_metrics={
+                    "requestCount": request_count,
+                    "failures": failures,
+                    "resolveP99Ms": observed,
+                    "concurrencyLevels": levels,
+                },
+                release_mode=args.release_evidence,
+            )
+            write_record(evidence, args.evidence_dir / "evidence.json")
+            print(f"wrote {args.evidence_dir / 'evidence.json'}")
         return 1 if failures else 0
     finally:
         server.should_exit = True

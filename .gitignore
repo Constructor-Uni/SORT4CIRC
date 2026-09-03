@@ -10,6 +10,7 @@ venv/
 .coverage
 htmlcov/
 conformance-report.json
+evidence/runs/
 .env
 *.log
 .DS_Store

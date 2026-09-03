@@ -1,0 +1,253 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://data.sort4circ.eu/evidence/schema/execution-evidence/1.0.0",
+  "title": "SORT4CIRC execution evidence record 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "evidenceRecordVersion",
+    "evidenceId",
+    "evidenceType",
+    "controlIdentifier",
+    "testName",
+    "source",
+    "time",
+    "execution",
+    "environment",
+    "configuration",
+    "dataset",
+    "artefactVersions",
+    "acceptance",
+    "output"
+  ],
+  "properties": {
+    "evidenceRecordVersion": {"const": "1.0.0"},
+    "evidenceId": {"type": "string", "pattern": "^urn:sort4circ:evidence-run:[0-9a-f-]+$"},
+    "evidenceType": {"enum": ["executedTest", "inspection", "documentary"]},
+    "controlIdentifier": {"type": "string", "minLength": 1},
+    "testName": {"type": "string", "minLength": 1},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "gitCommit", "gitBranch", "dirtyWorkingTree", "applicationVersion"],
+      "properties": {
+        "repository": {"const": "Constructor-Uni/SORT4CIRC"},
+        "gitCommit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "gitBranch": {"type": ["string", "null"]},
+        "dirtyWorkingTree": {"type": "boolean"},
+        "applicationVersion": {"type": "string", "minLength": 1}
+      }
+    },
+    "time": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["startedAt", "completedAt", "durationSeconds"],
+      "properties": {
+        "startedAt": {"type": "string", "format": "date-time"},
+        "completedAt": {"type": "string", "format": "date-time"},
+        "durationSeconds": {"type": "number", "minimum": 0}
+      }
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["command", "tool", "workingDirectory", "exitCode"],
+      "properties": {
+        "command": {"type": "string", "minLength": 1},
+        "tool": {"type": "string", "minLength": 1},
+        "workingDirectory": {"const": "repositoryRoot"},
+        "exitCode": {"type": "integer"}
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pythonImplementation",
+        "pythonVersion",
+        "os",
+        "platform",
+        "architecture",
+        "cpu",
+        "memory",
+        "packages",
+        "containerImages",
+        "reproducibilityProfileVersion"
+      ],
+      "properties": {
+        "pythonImplementation": {"type": "string"},
+        "pythonVersion": {"type": "string"},
+        "os": {"type": "string"},
+        "platform": {"type": "string"},
+        "architecture": {"type": "string"},
+        "cpu": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["model", "logicalCount"],
+          "properties": {
+            "model": {"type": "string"},
+            "logicalCount": {"type": ["integer", "null"], "minimum": 1}
+          }
+        },
+        "memory": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["totalBytes"],
+          "properties": {"totalBytes": {"type": ["integer", "null"], "minimum": 0}}
+        },
+        "packages": {"type": "object", "additionalProperties": {"type": "string"}},
+        "containerImages": {"type": "object"},
+        "reproducibilityProfileVersion": {"type": "string"}
+      }
+    },
+    "configuration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile", "parameters", "sha256", "sensitiveParametersOmitted"],
+      "properties": {
+        "profile": {"type": "string", "minLength": 1},
+        "parameters": {"type": "object"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "sensitiveParametersOmitted": {"type": "boolean"}
+      }
+    },
+    "dataset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identifier", "version", "sha256", "fixtureCount", "operationCount", "payloadCharacteristics"],
+      "properties": {
+        "identifier": {"type": "string", "minLength": 1},
+        "version": {"type": ["string", "null"]},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "fixtureCount": {"type": "integer", "minimum": 0},
+        "operationCount": {"type": "integer", "minimum": 0},
+        "payloadCharacteristics": {"type": "object"}
+      }
+    },
+    "artefactVersions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "jsonSchema",
+        "ontology",
+        "mappingPackage",
+        "openapi",
+        "vocabularyRelease",
+        "ledgerAdapter",
+        "evidenceSerialization"
+      ],
+      "properties": {
+        "jsonSchema": {"$ref": "#/$defs/fileArtefact"},
+        "ontology": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "version", "versionIRI", "sha256"],
+          "properties": {
+            "path": {"type": "string", "minLength": 1},
+            "version": {"type": ["string", "null"]},
+            "versionIRI": {"type": ["string", "null"]},
+            "sha256": {"$ref": "#/$defs/sha256"}
+          }
+        },
+        "mappingPackage": {"$ref": "#/$defs/fileArtefact"},
+        "openapi": {"$ref": "#/$defs/fileArtefact"},
+        "vocabularyRelease": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "version", "released", "sha256", "fileCount"],
+          "properties": {
+            "path": {"type": "string"},
+            "version": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+            "released": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+            "sha256": {"$ref": "#/$defs/sha256"},
+            "fileCount": {"type": "integer", "minimum": 1}
+          }
+        },
+        "ledgerAdapter": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["implementation", "version"],
+          "properties": {
+            "implementation": {"type": "string"},
+            "version": {"type": "string"}
+          }
+        },
+        "evidenceSerialization": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["version", "canonicalisation", "digestAlgorithm"],
+          "properties": {
+            "version": {"const": "1.0.0"},
+            "canonicalisation": {"const": "json-sorted-keys-utf8-1.0.0"},
+            "digestAlgorithm": {"const": "sha-256"}
+          }
+        }
+      }
+    },
+    "acceptance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target",
+        "targetSource",
+        "targetUnit",
+        "acceptanceRule",
+        "observedResult",
+        "observedResultSource",
+        "observedUnit",
+        "verdict",
+        "releaseGrade",
+        "evidenceClassification"
+      ],
+      "properties": {
+        "target": {},
+        "targetSource": {"const": "declaredRequirement"},
+        "targetUnit": {"type": ["string", "null"]},
+        "acceptanceRule": {"type": "string", "minLength": 1},
+        "observedResult": {},
+        "observedResultSource": {"const": "rawResult"},
+        "observedUnit": {"type": ["string", "null"]},
+        "verdict": {"enum": ["pass", "fail", "notApplicable"]},
+        "reason": {"type": "string", "minLength": 1},
+        "releaseGrade": {"type": "boolean"},
+        "evidenceClassification": {"enum": ["release", "research"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"verdict": {"const": "notApplicable"}}, "required": ["verdict"]},
+          "then": {"required": ["reason"]}
+        }
+      ]
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rawResultSha256", "rawResultBytes", "mediaType", "summaryMetrics"],
+      "properties": {
+        "rawResultPath": {"type": "string", "minLength": 1},
+        "immutableResultReference": {"type": "string", "minLength": 1},
+        "rawResultSha256": {"$ref": "#/$defs/sha256"},
+        "rawResultBytes": {"type": "integer", "minimum": 0},
+        "mediaType": {"const": "application/json"},
+        "summaryMetrics": {"type": "object"}
+      },
+      "oneOf": [
+        {"required": ["rawResultPath"]},
+        {"required": ["immutableResultReference"]}
+      ]
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileArtefact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "version", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "version": {"type": ["string", "null"]},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

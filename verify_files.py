@@ -43,6 +43,7 @@ IGNORE_DIR_SUFFIXES = (".egg-info",)
 # MANIFEST.sha256 cannot list its own digest: writing the digest in would change
 # the bytes it describes. It is the one delivered file the manifest cannot cover.
 IGNORE_NAMES = {MANIFEST_NAME, "conformance-report.json", ".coverage"}
+IGNORE_PREFIXES = ("evidence/runs/",)
 
 HEADER = (
     "# SORT4CIRC textile Digital Product Passport, deliverable D4.3",
@@ -68,7 +69,7 @@ def scan(root: pathlib.Path) -> dict[str, str]:
         if any(part.endswith(IGNORE_DIR_SUFFIXES) for part in p.parts[:-1]):
             continue
         rel = p.relative_to(root).as_posix()
-        if rel in IGNORE_NAMES or rel.endswith(".pyc"):
+        if rel in IGNORE_NAMES or rel.endswith(".pyc") or rel.startswith(IGNORE_PREFIXES):
             continue
         found[rel] = hashlib.sha256(p.read_bytes()).hexdigest()
     return found
