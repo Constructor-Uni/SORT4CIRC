@@ -18,7 +18,8 @@ services:
 
   # Optional. Start with: docker compose --profile ledger up
   besu:
-    image: hyperledger/besu:latest
+    # Besu 26.8.1; multi-platform digest verified against Docker Hub 2026-09-03.
+    image: hyperledger/besu@sha256:6f3f21ce533383fcc8db3bce02252b59d5a9e776b72b5a1c8ecd2db011600042
     profiles: ["ledger"]
     command:
       - --network=dev

@@ -60,6 +60,18 @@ own latency, and that latency belongs to the 1600 ms, not to the 920 ms.
 Results are in `loadtest-results.json`, with the environment recorded in the
 same document.
 
+For reproducible evidence runs, use CPython 3.12.3, install
+`requirements-evidence.txt`, then install the project with
+`pip install --no-build-isolation --no-deps -e .`. Compatibility ranges remain
+in `pyproject.toml` for ordinary library use. The complete machine-readable
+profile is `evidence/environment/reproducibility-profile-1.0.0.json`.
+
+The application image is Python 3.12.14-slim at the checked-in multi-platform
+digest. The optional ledger image is Besu 26.8.1 at its checked-in
+multi-platform digest. Both digests were verified against Docker Hub on
+2026-09-03. GitHub Actions are also pinned to immutable commit SHAs. These pins
+apply to new executions and do not retroactively change earlier results.
+
 ### Executed campaign
 
 Host: Intel Xeon at 2.10 GHz, 2 cores, 7.8 GiB, Python 3.11.15 on Linux. One
