@@ -108,6 +108,7 @@ reads low on dark carbon-black-bearing polyester.
 spec/           normative artefacts
   schemas/      JSON Schema 2020-12 for the passport payload
   ontology/     OWL 2 DL vocabulary in Turtle, with the axioms that make it testable
+  mappings/     versioned JSON/XML/RDF field mapping package
   vocabularies/ 18 controlled vocabularies, versioned independently
   reason-codes.json   30 stable codes, each with an HTTP status and a safe gateway action
   access-matrix.json  roles, scopes and views, default deny
@@ -184,6 +185,10 @@ because removal would invalidate records already written by other parties.
 ## Citation
 
 See [`CITATION.cff`](CITATION.cff).
+
+The versioned JSON/XML/RDF mapping package is in [`spec/mappings/`](spec/mappings/).
+Its authoritative mapping is `dpp-mapping-1.0.0.json`; run `python -m pytest
+tests/test_mapping.py -q` to check its coverage and bindings.
 
 ## Funding
 
