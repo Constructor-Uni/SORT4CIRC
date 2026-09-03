@@ -19,6 +19,7 @@ from sort4circ_dpp.execution_evidence import (
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = json.loads((ROOT / "evidence/schema/execution-evidence-1.0.0.schema.json").read_text(encoding="utf-8"))
 RAW = ROOT / "docs/benchmarks/anchor-selftest.json"
+RELEASE_DIR = ROOT / "evidence/releases/1.1.1"
 
 
 def git_state(dirty=False):
@@ -188,3 +189,57 @@ def test_package_versions_cover_every_pinned_distribution(monkeypatch):
         if line and not line.startswith("#")
     }
     assert pinned <= set(value["environment"]["packages"])
+
+
+def test_tracked_release_evidence_is_complete_safe_and_bound_to_one_clean_commit():
+    manifest = json.loads((RELEASE_DIR / "manifest.json").read_text(encoding="utf-8"))
+    assert manifest["sourceCommit"] == "fec8799459f66acd4e679ea5b4d08944281649f2"
+    assert manifest["sourceTreeRequiredClean"] is True
+    assert manifest["declaredContainerEvidencePlatform"] == "linux/amd64"
+    assert manifest["executionHost"]["os"] == "Windows"
+    assert manifest["executionHost"]["pythonVersion"] == "3.13.14"
+    assert len(manifest["records"]) == 5
+
+    expected = {
+        "test-suite-evidence.json",
+        "fixture-validation-evidence.json",
+        "mapping-conformance-evidence.json",
+        "loadtest-evidence.json",
+        "anchor-selftest-evidence.json",
+    }
+    assert {entry["record"] for entry in manifest["records"]} == expected
+
+    for entry in manifest["records"]:
+        record_path = RELEASE_DIR / entry["record"]
+        record = json.loads(record_path.read_text(encoding="utf-8"))
+        validate(record)
+        assert file_digest(record_path) == entry["recordSha256"]
+        assert record["source"]["gitCommit"] == manifest["sourceCommit"]
+        assert record["source"]["dirtyWorkingTree"] is False
+        assert record["acceptance"]["releaseGrade"] is True
+        assert record["acceptance"]["evidenceClassification"] == "release"
+        assert record["output"]["rawResultSha256"] == entry["rawResult"]["sha256"]
+        assert record["output"]["rawResultBytes"] == entry["rawResult"]["bytes"]
+        assert record["output"]["rawResultPath"] == entry["rawResult"]["path"]
+        assert entry["rawResult"]["retention"] == "ignored-local-raw-output"
+        encoded = json.dumps(record).lower()
+        assert "private_key" not in encoded
+        assert "api_token" not in encoded
+        assert "password" not in encoded
+        assert "http://10." not in encoded
+
+
+def test_release_anchor_evidence_is_explicitly_an_in_memory_self_test():
+    record = json.loads((RELEASE_DIR / "anchor-selftest-evidence.json").read_text(encoding="utf-8"))
+    assert record["configuration"]["parameters"]["platforms"][0]["name"] == "in-memory-reference"
+    assert "nothing about any distributed ledger" in record["acceptance"]["reason"]
+    assert "--self-test" in record["execution"]["command"]
+
+
+def test_historical_unreachable_load_result_is_preserved_with_its_limitation():
+    manifest = json.loads((RELEASE_DIR / "manifest.json").read_text(encoding="utf-8"))
+    historical = manifest["historicalEvidencePreserved"]
+    assert historical["recordedSourceCommit"] == "d870cc9"
+    assert "not reachable" in historical["provenanceLimitation"]
+    original = json.loads((ROOT / historical["path"]).read_text(encoding="utf-8"))
+    assert original["environment"]["commit"] == "d870cc9"

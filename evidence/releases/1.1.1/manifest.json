@@ -1,0 +1,80 @@
+{
+  "declaredContainerEvidencePlatform": "linux/amd64",
+  "evidenceRecordSchema": {
+    "path": "evidence/schema/execution-evidence-1.0.0.schema.json",
+    "sha256": "9de99cf8fbb0b5bdb2245ea85bab980522f3beb5a00908e66dd4bd90d5e9b5db",
+    "version": "1.0.0"
+  },
+  "executionHost": {
+    "architecture": "AMD64",
+    "os": "Windows",
+    "pythonImplementation": "CPython",
+    "pythonVersion": "3.13.14",
+    "scope": "host development environment used for these executions; not the Linux container baseline"
+  },
+  "historicalEvidencePreserved": {
+    "path": "docs/benchmarks/loadtest-results.json",
+    "provenanceLimitation": "the abbreviated commit is not reachable from current repository history and is not rewritten by this release evidence set",
+    "recordedSourceCommit": "d870cc9"
+  },
+  "records": [
+    {
+      "profile": "tests",
+      "rawResult": {
+        "bytes": 1062,
+        "path": "evidence/runs/raw/release-1.1.1/tests/raw-result.json",
+        "retention": "ignored-local-raw-output",
+        "sha256": "e4f1d3cd0f60b2317ea4a478e4d3e5097d3dd36f9a68dcc6a03a6999a10e24ed"
+      },
+      "record": "test-suite-evidence.json",
+      "recordSha256": "8636f27cf18457512945b9cbe337829cb8c079b57b5da628af96222b0fcd1cb0"
+    },
+    {
+      "profile": "fixtures",
+      "rawResult": {
+        "bytes": 1064,
+        "path": "evidence/runs/raw/release-1.1.1/fixtures/raw-result.json",
+        "retention": "ignored-local-raw-output",
+        "sha256": "19266e8ab2137df5aca184dfe23f6b8e8f93c1034c3e88c5a412e9ea54b4323b"
+      },
+      "record": "fixture-validation-evidence.json",
+      "recordSha256": "82d33d435690a2c2614a2cc4932b80202a60616090f402a752985e2ee011262f"
+    },
+    {
+      "profile": "mapping",
+      "rawResult": {
+        "bytes": 850,
+        "path": "evidence/runs/raw/release-1.1.1/mapping/raw-result.json",
+        "retention": "ignored-local-raw-output",
+        "sha256": "ee58b55efae92991ddc387fb5024f7f4072e000cd0b31cecc215c43d9f685cad"
+      },
+      "record": "mapping-conformance-evidence.json",
+      "recordSha256": "898b753252095fbd4078e244e4ea3a3395ad70fed8659954a98ef177ca080e0c"
+    },
+    {
+      "profile": "loadtest",
+      "rawResult": {
+        "bytes": 4291,
+        "path": "evidence/runs/raw/release-1.1.1/loadtest/raw-result.json",
+        "retention": "ignored-local-raw-output",
+        "sha256": "6a1df55aa3d58839dcccd9b4af78fcd499dc1bd4605bffaa6feff6aa4f107896"
+      },
+      "record": "loadtest-evidence.json",
+      "recordSha256": "4ce581b9ce79394f2febcb6b914e414334f18c1078aa31ebddd14dff2131344d"
+    },
+    {
+      "profile": "anchor-selftest",
+      "rawResult": {
+        "bytes": 1819,
+        "path": "evidence/runs/raw/release-1.1.1/anchor-selftest/raw-result.json",
+        "retention": "ignored-local-raw-output",
+        "sha256": "3181f42a99c4ab6ac4fd781066639daec5cbf541255eac0b503e79e729d5a04e"
+      },
+      "record": "anchor-selftest-evidence.json",
+      "recordSha256": "688899f62f1ac6663ed59abf5d2dc2e3fd659e2e80104a8535a5b5e236c9369a"
+    }
+  ],
+  "releaseEvidenceVersion": "1.1.1",
+  "sourceCommit": "fec8799459f66acd4e679ea5b4d08944281649f2",
+  "sourceTreeRequiredClean": true
+}

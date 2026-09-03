@@ -1,7 +1,14 @@
 # Execution evidence
 
-New evidence-producing runs write `evidence/runs/<run-id>/evidence.json` and
-`raw-result.json`. Pass that run directory with `--evidence-dir` to
+Evidence has two retention classes. Safe release-support metadata is tracked
+under `evidence/releases/<release>/`; each release has a manifest and validated
+evidence records. Raw, large, exploratory or potentially sensitive output stays
+under the Git-ignored `evidence/runs/` tree. Tracked records contain the raw
+output's SHA-256 digest, byte count and logical path, so the exact retained raw
+result can be verified without committing it.
+
+New evidence-producing runs write `evidence/runs/raw/<run-id>/evidence.json`
+and `raw-result.json`. Pass that run directory with `--evidence-dir` to
 `tools/loadtest.py` or `tools/anchor_bench.py`; the conformance tool accepts
 it as its optional positional argument. Run directories are intentionally
 ignored by Git and the delivery manifest so creating evidence does not make an
@@ -36,8 +43,10 @@ used to imply an executed test. The bundled tools currently emit
 
 Ordinary runs are classified as research evidence. A dirty run is always
 `releaseGrade: false`. Passing `--release-evidence` requires a clean working
-tree and is rejected otherwise. Existing benchmark files are historical facts
-and are not rewritten. In particular,
+tree and is rejected otherwise. Promote only reviewed, schema-valid metadata
+records from a clean run into `evidence/releases/`; do not promote raw output,
+credentials, private endpoints or confidential payloads. Existing benchmark
+files are historical facts and are not rewritten. In particular,
 `docs/benchmarks/loadtest-results.json` records commit `d870cc9`, which is
 not reachable from the current repository history; the new framework does not
 substitute a different commit.
@@ -45,16 +54,16 @@ substitute a different commit.
 Examples:
 
 ```text
-python tools/loadtest.py --passports 10 --requests 20 --concurrency 1 --evidence-dir evidence/runs/load-local
-python tools/anchor_bench.py --self-test --runs 10 --evidence-dir evidence/runs/anchor-self-test
-python tools/conformance_report.py evidence/runs/conformance-local
-python tools/evidence_run.py tests --evidence-dir evidence/runs/tests-local
-python tools/evidence_run.py fixtures --evidence-dir evidence/runs/fixtures-local
-python tools/evidence_run.py mapping --evidence-dir evidence/runs/mapping-local
+python tools/loadtest.py --passports 10 --requests 20 --concurrency 1 --evidence-dir evidence/runs/raw/load-local
+python tools/anchor_bench.py --self-test --runs 10 --evidence-dir evidence/runs/raw/anchor-self-test
+python tools/conformance_report.py evidence/runs/raw/conformance-local
+python tools/evidence_run.py tests --evidence-dir evidence/runs/raw/tests-local
+python tools/evidence_run.py fixtures --evidence-dir evidence/runs/raw/fixtures-local
+python tools/evidence_run.py mapping --evidence-dir evidence/runs/raw/mapping-local
 ```
 
 Validate a record with:
 
 ```text
-python -c "import json; from pathlib import Path; from jsonschema import Draft202012Validator as V; s=json.loads(Path('evidence/schema/execution-evidence-1.0.0.schema.json').read_text()); V(s).validate(json.loads(Path('evidence/runs/load-local/evidence.json').read_text()))"
+python -c "import json; from pathlib import Path; from jsonschema import Draft202012Validator as V; s=json.loads(Path('evidence/schema/execution-evidence-1.0.0.schema.json').read_text()); V(s).validate(json.loads(Path('evidence/runs/raw/load-local/evidence.json').read_text()))"
 ```

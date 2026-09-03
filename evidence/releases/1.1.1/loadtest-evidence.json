@@ -1,0 +1,205 @@
+{
+  "acceptance": {
+    "acceptanceRule": "resolve p99 at the first concurrency level is <= 920 ms and request errors equal zero",
+    "evidenceClassification": "release",
+    "observedResult": 1.993,
+    "observedResultSource": "rawResult",
+    "observedUnit": "ms",
+    "releaseGrade": true,
+    "target": 920.0,
+    "targetSource": "declaredRequirement",
+    "targetUnit": "ms",
+    "verdict": "pass"
+  },
+  "artefactVersions": {
+    "evidenceSerialization": {
+      "canonicalisation": "json-sorted-keys-utf8-1.0.0",
+      "digestAlgorithm": "sha-256",
+      "version": "1.0.0"
+    },
+    "jsonSchema": {
+      "path": "spec/schemas/dpp-1.0.0.schema.json",
+      "sha256": "bb16fac0585b63f5233f6943143dd4e387b4d7cfd9bfc055ea37adf0ba74e340",
+      "version": "1.0.0"
+    },
+    "ledgerAdapter": {
+      "implementation": "sort4circ-dpp ledger adapter interface",
+      "version": "1.1.1"
+    },
+    "mappingPackage": {
+      "path": "spec/mappings/dpp-mapping-1.0.0.json",
+      "sha256": "420ea08d81cde49c5e18c6b14759a3354e13ab140bb28904fa150470f55bc2e9",
+      "version": "1.0.0"
+    },
+    "ontology": {
+      "path": "spec/ontology/sort4circ-1.0.0.ttl",
+      "sha256": "32da23f9a90be7dce152c481b33e0b35206dfd21e154311cdf412ba95f70ea27",
+      "version": "1.0.0",
+      "versionIRI": "https://data.sort4circ.eu/vocabulary/1.0.0"
+    },
+    "openapi": {
+      "path": "spec/openapi/dpp-api-v1.json",
+      "sha256": "7934565ea5b3de04850276f4d58b0d0409bfa5f5fb7050b2a6036d764f280a11",
+      "version": "1.0.0"
+    },
+    "vocabularyRelease": {
+      "fileCount": 18,
+      "path": "spec/vocabularies",
+      "released": [
+        "2026-08-10"
+      ],
+      "sha256": "10dc88eff6f99e3774667319d1df86706a665743d6e580d7ea5b7937bd5c30b5",
+      "version": [
+        "1.0.0"
+      ]
+    }
+  },
+  "configuration": {
+    "parameters": {
+      "concurrency": [
+        1
+      ],
+      "passports": 10,
+      "requests": 20
+    },
+    "profile": "local-in-memory-load",
+    "sensitiveParametersOmitted": false,
+    "sha256": "530e613d539d2bc6148759cd37b9d600afc331f3501bda386181f2919e2d24d0"
+  },
+  "controlIdentifier": "PERF-01",
+  "dataset": {
+    "fixtureCount": 10,
+    "identifier": "generated-loadtest-passports",
+    "operationCount": 80,
+    "payloadCharacteristics": {
+      "concurrencyLevels": [
+        1
+      ],
+      "passportCount": 10,
+      "requestClasses": [
+        "observation",
+        "resolve",
+        "search",
+        "sortingView"
+      ]
+    },
+    "sha256": "8ba73abb26b866bf7268c786f080aef2342d1babf44d70d582badf15ca42525a",
+    "version": "generator-1.0.0"
+  },
+  "environment": {
+    "architecture": "AMD64",
+    "containerImages": {
+      "applicationBase": {
+        "imageConfigurationDigest": "sha256:ec7d6c95cd3692a2e2d228a8b1ca74e4025b54121fcc4c5da6f09cfa473315ad",
+        "indexDigest": "sha256:78387bc3881b8273120a12ebe6c1ab22b018ccc2c9adf565ae1ac9b536e184ea",
+        "platform": "linux/amd64",
+        "platformManifestDigest": "sha256:2fe5997d249a808b8eeea52c58a1dbffbba28754dc11699ef5c029f2d818ce79",
+        "repository": "docker.io/library/python",
+        "resolvedAt": "2026-09-03",
+        "tag": "3.12.14-slim",
+        "verificationTool": "docker buildx imagetools inspect v0.35.0-desktop.2"
+      },
+      "besu": {
+        "imageConfigurationDigest": "sha256:f3713c713ca4f9e89c09e1478d2a85116ba9ce8343129d709420ba2af009598b",
+        "indexDigest": "sha256:6f3f21ce533383fcc8db3bce02252b59d5a9e776b72b5a1c8ecd2db011600042",
+        "platform": "linux/amd64",
+        "platformManifestDigest": "sha256:c674f62b76c33af56e4817c4b091181558ae81d62646599f99fe63df8f886825",
+        "repository": "docker.io/hyperledger/besu",
+        "resolvedAt": "2026-09-03",
+        "tag": "26.8.1",
+        "verificationTool": "docker buildx imagetools inspect v0.35.0-desktop.2"
+      }
+    },
+    "cpu": {
+      "logicalCount": 48,
+      "model": "AMD64 Family 26 Model 8 Stepping 1, AuthenticAMD"
+    },
+    "memory": {
+      "totalBytes": null
+    },
+    "os": "Windows",
+    "packages": {
+      "PyYAML": "6.0.3",
+      "Pygments": "2.20.0",
+      "annotated-doc": "0.0.4",
+      "annotated-types": "0.8.0",
+      "anyio": "4.14.2",
+      "attrs": "26.1.0",
+      "certifi": "2026.7.22",
+      "click": "8.4.2",
+      "elementpath": "5.1.3",
+      "fastapi": "0.140.0",
+      "h11": "0.16.0",
+      "httpcore": "1.0.9",
+      "httptools": "0.8.0",
+      "httpx": "0.28.1",
+      "idna": "3.18",
+      "iniconfig": "2.3.0",
+      "jsonschema": "4.26.0",
+      "jsonschema-specifications": "2025.9.1",
+      "packaging": "26.3",
+      "pip": "26.1.2",
+      "pluggy": "1.6.0",
+      "pydantic": "2.13.4",
+      "pydantic-core": "2.46.4",
+      "pyparsing": "3.3.2",
+      "pytest": "9.1.1",
+      "python-dotenv": "1.2.2",
+      "rdflib": "7.6.0",
+      "referencing": "0.37.0",
+      "rpds-py": "2026.6.3",
+      "ruff": "0.16.2",
+      "setuptools": "notInstalled",
+      "sort4circ-dpp": "1.1.1",
+      "starlette": "1.3.1",
+      "typing-extensions": "4.16.0",
+      "typing-inspection": "0.4.2",
+      "uvicorn": "0.51.0",
+      "uvloop": "notInstalled",
+      "watchfiles": "1.2.0",
+      "websockets": "16.1.1",
+      "wheel": "notInstalled",
+      "xmlschema": "4.3.2"
+    },
+    "platform": "Windows-11-10.0.26200-SP0",
+    "pythonImplementation": "CPython",
+    "pythonVersion": "3.13.14",
+    "reproducibilityProfileVersion": "1.0.0"
+  },
+  "evidenceId": "urn:sort4circ:evidence-run:412168ce-9f73-429d-8a20-1bbfbd257ce8",
+  "evidenceRecordVersion": "1.0.0",
+  "evidenceType": "executedTest",
+  "execution": {
+    "command": "python tools/loadtest.py --passports 10 --requests 20 --concurrency 1 --evidence-dir evidence/runs/raw/release-1.1.1/loadtest --release-evidence",
+    "exitCode": 0,
+    "tool": "tools/loadtest.py",
+    "workingDirectory": "repositoryRoot"
+  },
+  "output": {
+    "mediaType": "application/json",
+    "rawResultBytes": 4291,
+    "rawResultPath": "evidence/runs/raw/release-1.1.1/loadtest/raw-result.json",
+    "rawResultSha256": "6a1df55aa3d58839dcccd9b4af78fcd499dc1bd4605bffaa6feff6aa4f107896",
+    "summaryMetrics": {
+      "concurrencyLevels": [
+        1
+      ],
+      "failures": 0,
+      "requestCount": 80,
+      "resolveP99Ms": 1.993
+    }
+  },
+  "source": {
+    "applicationVersion": "1.1.1",
+    "dirtyWorkingTree": false,
+    "gitBranch": "main",
+    "gitCommit": "fec8799459f66acd4e679ea5b4d08944281649f2",
+    "repository": "Constructor-Uni/SORT4CIRC"
+  },
+  "testName": "reference service load campaign",
+  "time": {
+    "completedAt": "2026-09-03T14:50:26.381Z",
+    "durationSeconds": 1.232,
+    "startedAt": "2026-09-03T14:50:25.149Z"
+  }
+}
