@@ -6,22 +6,34 @@
     "implementation": "CPython",
     "version": "3.12.3",
     "constraints": "requirements-evidence.txt",
-    "platform": "Linux x86_64"
+    "platform": "linux/amd64",
+    "scope": "Linux evidence and CI runtime; distinct from any host development interpreter"
+  },
+  "hostDevelopmentEnvironment": {
+    "scope": "developer-local and not part of the reproducible evidence baseline",
+    "capturedBy": "individual execution evidence records",
+    "mustMatchPythonEvidenceRuntime": false
   },
   "containerImages": {
     "applicationBase": {
       "repository": "docker.io/library/python",
       "tag": "3.12.14-slim",
-      "digest": "sha256:78387bc3881b8273120a12ebe6c1ab22b018ccc2c9adf565ae1ac9b536e184ea",
+      "platform": "linux/amd64",
+      "indexDigest": "sha256:78387bc3881b8273120a12ebe6c1ab22b018ccc2c9adf565ae1ac9b536e184ea",
+      "platformManifestDigest": "sha256:2fe5997d249a808b8eeea52c58a1dbffbba28754dc11699ef5c029f2d818ce79",
+      "imageConfigurationDigest": "sha256:ec7d6c95cd3692a2e2d228a8b1ca74e4025b54121fcc4c5da6f09cfa473315ad",
       "resolvedAt": "2026-09-03",
-      "digestScope": "multi-platform OCI index"
+      "verificationTool": "docker buildx imagetools inspect v0.35.0-desktop.2"
     },
     "besu": {
       "repository": "docker.io/hyperledger/besu",
       "tag": "26.8.1",
-      "digest": "sha256:6f3f21ce533383fcc8db3bce02252b59d5a9e776b72b5a1c8ecd2db011600042",
+      "platform": "linux/amd64",
+      "indexDigest": "sha256:6f3f21ce533383fcc8db3bce02252b59d5a9e776b72b5a1c8ecd2db011600042",
+      "platformManifestDigest": "sha256:c674f62b76c33af56e4817c4b091181558ae81d62646599f99fe63df8f886825",
+      "imageConfigurationDigest": "sha256:f3713c713ca4f9e89c09e1478d2a85116ba9ce8343129d709420ba2af009598b",
       "resolvedAt": "2026-09-03",
-      "digestScope": "multi-platform OCI index"
+      "verificationTool": "docker buildx imagetools inspect v0.35.0-desktop.2"
     }
   },
   "ciActions": {

@@ -66,11 +66,15 @@ For reproducible evidence runs, use CPython 3.12.3, install
 in `pyproject.toml` for ordinary library use. The complete machine-readable
 profile is `evidence/environment/reproducibility-profile-1.0.0.json`.
 
-The application image is Python 3.12.14-slim at the checked-in multi-platform
-digest. The optional ledger image is Besu 26.8.1 at its checked-in
-multi-platform digest. Both digests were verified against Docker Hub on
-2026-09-03. GitHub Actions are also pinned to immutable commit SHAs. These pins
-apply to new executions and do not retroactively change earlier results.
+The application image is Python 3.12.14-slim and the optional ledger image is
+Besu 26.8.1. The evidence target is explicitly `linux/amd64`; each image records
+its OCI index digest, platform-specific manifest digest and image configuration
+digest in `evidence/environment/reproducibility-profile-1.0.0.json`. The
+Dockerfile and Compose service pin the platform manifests verified against
+Docker Hub on 2026-09-03. Host development runtimes are separate from this
+Linux evidence environment and are captured per execution record. GitHub
+Actions are also pinned to immutable commit SHAs. These pins apply to new
+executions and do not retroactively change earlier results.
 
 ### Executed campaign
 

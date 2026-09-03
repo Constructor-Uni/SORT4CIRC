@@ -2,6 +2,7 @@
 # exercising the anchoring path against a real permissioned network.
 services:
   dpp:
+    platform: linux/amd64
     build:
       context: ..
       dockerfile: docker/Dockerfile
@@ -18,8 +19,9 @@ services:
 
   # Optional. Start with: docker compose --profile ledger up
   besu:
-    # Besu 26.8.1; multi-platform digest verified against Docker Hub 2026-09-03.
-    image: hyperledger/besu@sha256:6f3f21ce533383fcc8db3bce02252b59d5a9e776b72b5a1c8ecd2db011600042
+    # Besu 26.8.1 for linux/amd64; platform manifest verified against Docker Hub 2026-09-03.
+    image: hyperledger/besu:26.8.1@sha256:c674f62b76c33af56e4817c4b091181558ae81d62646599f99fe63df8f886825
+    platform: linux/amd64
     profiles: ["ledger"]
     command:
       - --network=dev

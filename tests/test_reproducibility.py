@@ -34,13 +34,27 @@ def test_container_references_are_fixed_tags_and_immutable_digests():
     dockerfile = (ROOT / "docker/Dockerfile").read_text(encoding="utf-8")
     compose = yaml.safe_load((ROOT / "docker/docker-compose.yml").read_text(encoding="utf-8"))
     for image in document["containerImages"].values():
-        assert re.fullmatch(r"sha256:[0-9a-f]{64}", image["digest"])
+        assert image["platform"] == "linux/amd64"
+        for field in ("indexDigest", "platformManifestDigest", "imageConfigurationDigest"):
+            assert re.fullmatch(r"sha256:[0-9a-f]{64}", image[field])
+        assert image["indexDigest"] != image["platformManifestDigest"]
         assert image["tag"] not in {"latest", "stable"}
     application = document["containerImages"]["applicationBase"]
-    expected_from = f"FROM python:{application['tag']}@{application['digest']}"
+    expected_from = f"FROM python:{application['tag']}@{application['platformManifestDigest']}"
     assert dockerfile.count(expected_from) == 2
+    assert compose["services"]["dpp"]["platform"] == "linux/amd64"
     besu = document["containerImages"]["besu"]
-    assert compose["services"]["besu"]["image"] == f"hyperledger/besu@{besu['digest']}"
+    assert compose["services"]["besu"]["image"] == (
+        f"hyperledger/besu:{besu['tag']}@{besu['platformManifestDigest']}"
+    )
+    assert compose["services"]["besu"]["platform"] == "linux/amd64"
+
+
+def test_host_development_and_linux_evidence_environments_are_distinct():
+    document = profile()
+    assert document["pythonEvidenceRuntime"]["platform"] == "linux/amd64"
+    assert document["hostDevelopmentEnvironment"]["mustMatchPythonEvidenceRuntime"] is False
+    assert "not part" in document["hostDevelopmentEnvironment"]["scope"]
 
 
 def test_ci_actions_are_pinned_to_recorded_commit_shas():
