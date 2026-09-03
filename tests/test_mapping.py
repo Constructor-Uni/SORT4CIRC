@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import csv
 import json
 import subprocess
@@ -8,6 +9,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import pytest
+import xmlschema
 from jsonschema import Draft202012Validator
 from rdflib import Namespace, URIRef
 from rdflib.namespace import OWL, RDF, XSD
@@ -29,6 +31,8 @@ JSON_SCHEMA_PATH = ROOT / "spec/schemas/dpp-1.0.0.schema.json"
 ONTOLOGY_PATH = ROOT / "spec/ontology/sort4circ-1.0.0.ttl"
 VALID_FIXTURES = sorted((ROOT / "examples/fixtures").glob("valid-*.json"))
 S4C = Namespace(RDF_NAMESPACE)
+XML_NS = {"dpp": "https://data.sort4circ.eu/dpp/1.0.0"}
+XSD11 = xmlschema.XMLSchema11(ROOT / "spec/mappings/dpp-1.0.0.xsd")
 
 
 def load(path: Path):
@@ -107,14 +111,29 @@ def test_every_rdf_binding_resolves_to_the_ontology_or_a_declared_rdf_construct(
         for kind in (OWL.ObjectProperty, OWL.DatatypeProperty)
         for subject in graph.subjects(RDF.type, kind)
     }
-    constructs = {"rdf:subject", "rdf:value/rdf:JSON"}
     for row in mapping()["rows"]:
         subject_iri = row["rdfSubjectType"].replace("s4c:", RDF_NAMESPACE)
         assert subject_iri in classes
-        if row["rdfProperty"]:
+        if row["rdfMappingStatus"] == "direct":
             assert row["rdfProperty"].replace("s4c:", RDF_NAMESPACE) in properties
+            assert row["rdfConstruct"] is None
+        elif row["rdfMappingStatus"] == "subjectIdentifier":
+            assert row["rdfConstruct"] == "rdf:subject"
         else:
-            assert row["rdfConstruct"] in constructs
+            assert row["rdfMappingStatus"] in {"notApplicable", "unresolved"}
+            assert row["rdfConstruct"] == "rdf:value/rdf:JSON"
+            assert row["rdfMappingReason"]
+
+
+def test_rdf_coverage_classification_does_not_count_transport_snapshots_as_semantics():
+    rows = mapping()["rows"]
+    counts = {
+        status: sum(row["rdfMappingStatus"] == status for row in rows)
+        for status in ("direct", "subjectIdentifier", "notApplicable", "unresolved")
+    }
+    assert counts == {"direct": 111, "subjectIdentifier": 7, "notApplicable": 6, "unresolved": 0}
+    assert all(row["rdfMappingStatus"] != "direct" for row in rows if row["rdfConstruct"] == "rdf:value/rdf:JSON")
+    assert counts["direct"] / len(rows) == pytest.approx(111 / 124)
 
 
 def test_every_controlled_vocabulary_reference_resolves():
@@ -139,6 +158,92 @@ def test_xsd_is_versioned_and_declares_every_mapped_xml_element():
         names = [part.removeprefix("dpp:") for part in row["xmlXPath"].split("/") if part][1:]
         assert names
         assert all(name in declared for name in names)
+    assert XSD11.XSD_VERSION == "1.1"
+
+
+@pytest.mark.parametrize("fixture", VALID_FIXTURES, ids=lambda path: path.stem)
+def test_xsd_11_accepts_every_valid_xml_projection(fixture):
+    assert XSD11.is_valid(json_to_xml(load(fixture)))
+
+
+def _payload_with_conditional_sections():
+    payload = copy.deepcopy(load(ROOT / "examples/fixtures/valid-annex-g-garment.json"))
+    payload["carriers"] = [
+        {
+            "carrierId": "urn:sort4circ:carrier:1",
+            "carrierType": "qrCode",
+            "encodingScheme": "gs1DigitalLink",
+            "encodedIdentifier": "https://example.test/01/1",
+            "bindingStatus": "commissioned",
+            "boundAt": "2026-08-10T09:12:44Z",
+            "boundBy": "urn:sort4circ:org:brand-a",
+        }
+    ]
+    payload["lifecycleEvents"] = [
+        {
+            "eventId": "urn:sort4circ:event:1",
+            "eventType": "transformation",
+            "eventTime": "2026-08-10T09:12:44Z",
+            "eventTimeZoneOffset": "+00:00",
+            "recordedAt": "2026-08-10T09:12:45Z",
+            "actorOrganisationId": "urn:sort4circ:org:brand-a",
+            "sourceSystemId": "urn:sort4circ:system:1",
+            "inputRefs": [payload["identity"]["itemId"]],
+            "outputRefs": ["urn:sort4circ:item:output-1"],
+        }
+    ]
+    payload["sortingDecisions"] = [
+        {
+            "decisionId": "urn:sort4circ:decision:1",
+            "basedOnObservations": [payload["materialObservations"][0]["observationId"]],
+            "ruleSetId": "urn:sort4circ:ruleset:1",
+            "ruleSetVersion": "1.0.0",
+            "sortingCategory": "manualReview",
+            "decidedAt": "2026-08-10T09:12:46Z",
+            "decidedBy": "urn:sort4circ:org:sorter-a",
+            "outcomeStatus": "overridden",
+            "overrideReason": "manual inspection",
+        }
+    ]
+    return payload
+
+
+def test_xsd_11_enforces_identity_granularity_identifier():
+    root = ET.fromstring(json_to_xml(load(ROOT / "examples/fixtures/valid-annex-g-garment.json")))
+    identity = root.find("dpp:identity", XML_NS)
+    identity.remove(identity.find("dpp:itemId", XML_NS))
+    assert not XSD11.is_valid(root)
+
+
+def test_xsd_11_enforces_carrier_closure():
+    root = ET.fromstring(json_to_xml(_payload_with_conditional_sections()))
+    root.find("dpp:carriers/dpp:carrier/dpp:bindingStatus", XML_NS).text = "retired"
+    assert not XSD11.is_valid(root)
+
+
+def test_xsd_11_enforces_observation_percentage_rules():
+    root = ET.fromstring(json_to_xml(_payload_with_conditional_sections()))
+    observation = root.find("dpp:materialObservations/dpp:materialObservation", XML_NS)
+    observation.remove(observation.find("dpp:percentageBasis", XML_NS))
+    assert not XSD11.is_valid(root)
+
+    root = ET.fromstring(json_to_xml(_payload_with_conditional_sections()))
+    root.find("dpp:materialObservations/dpp:materialObservation/dpp:valueStatus", XML_NS).text = "unknown"
+    assert not XSD11.is_valid(root)
+
+
+def test_xsd_11_enforces_transformation_references():
+    root = ET.fromstring(json_to_xml(_payload_with_conditional_sections()))
+    event = root.find("dpp:lifecycleEvents/dpp:lifecycleEvent", XML_NS)
+    event.remove(event.find("dpp:inputRefs", XML_NS))
+    assert not XSD11.is_valid(root)
+
+
+def test_xsd_11_enforces_sorting_override_reason():
+    root = ET.fromstring(json_to_xml(_payload_with_conditional_sections()))
+    decision = root.find("dpp:sortingDecisions/dpp:sortingDecision", XML_NS)
+    decision.remove(decision.find("dpp:overrideReason", XML_NS))
+    assert not XSD11.is_valid(root)
 
 
 @pytest.mark.parametrize("fixture", VALID_FIXTURES, ids=lambda path: path.stem)

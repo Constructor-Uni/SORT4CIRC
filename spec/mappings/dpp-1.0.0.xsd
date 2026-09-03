@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning"
            targetNamespace="https://data.sort4circ.eu/dpp/1.0.0"
            xmlns:dpp="https://data.sort4circ.eu/dpp/1.0.0"
            elementFormDefault="qualified"
+           xpathDefaultNamespace="##targetNamespace"
+           vc:minVersion="1.1"
            version="1.0.0">
   <xs:annotation>
     <xs:documentation>
-      XML projection of the normative DPP JSON Schema 1.0.0. JSON Schema
-      remains authoritative for conditional rules that XSD 1.0 cannot express:
-      granularity identifiers, carrier closure, transformation references,
-      observation percentages and sorting overrides.
+      XSD 1.1 XML projection of the normative DPP JSON Schema 1.0.0.
+      Assertions enforce the profile's conditional identity, carrier,
+      observation, transformation and sorting rules. JSON Schema remains the
+      normative JSON validation path.
     </xs:documentation>
   </xs:annotation>
 
@@ -45,6 +48,9 @@
       <xs:element name="sampleId" type="xs:string" minOccurs="0"/>
       <xs:element name="sourceRecordId" type="xs:string" minOccurs="0"/>
     </xs:all>
+    <xs:assert test="granularity ne 'item' or exists(itemId)"/>
+    <xs:assert test="granularity ne 'batch' or exists(batchId)"/>
+    <xs:assert test="granularity ne 'model' or exists(modelId)"/>
   </xs:complexType>
   <xs:complexType name="CarrierType">
     <xs:all>
@@ -59,6 +65,7 @@
       <xs:element name="closedAt" type="xs:dateTime" minOccurs="0"/>
       <xs:element name="placement" type="xs:string" minOccurs="0"/>
     </xs:all>
+    <xs:assert test="bindingStatus = 'commissioned' or exists(closedAt)"/>
   </xs:complexType>
   <xs:complexType name="CarriersType">
     <xs:sequence><xs:element name="carrier" type="dpp:CarrierType" minOccurs="0" maxOccurs="unbounded"/></xs:sequence>
@@ -91,6 +98,8 @@
       <xs:element name="confidence" type="dpp:ConfidenceType" minOccurs="0"/>
       <xs:element name="evidenceRef" type="xs:anyURI" minOccurs="0"/>
     </xs:all>
+    <xs:assert test="not(exists(percentage)) or exists(percentageBasis)"/>
+    <xs:assert test="valueStatus = 'supplied' or not(exists(percentage))"/>
   </xs:complexType>
   <xs:complexType name="MaterialObservationsType">
     <xs:sequence><xs:element name="materialObservation" type="dpp:MaterialObservationType" maxOccurs="unbounded"/></xs:sequence>
@@ -132,6 +141,7 @@
       <xs:element name="correctsEventId" type="xs:anyURI" minOccurs="0"/>
       <xs:element name="evidenceRef" type="xs:anyURI" minOccurs="0"/>
     </xs:all>
+    <xs:assert test="eventType ne 'transformation' or (exists(inputRefs) and exists(outputRefs))"/>
   </xs:complexType>
   <xs:complexType name="LifecycleEventsType">
     <xs:sequence><xs:element name="lifecycleEvent" type="dpp:LifecycleEventType" minOccurs="0" maxOccurs="unbounded"/></xs:sequence>
@@ -152,6 +162,7 @@
       <xs:element name="outcomeStatus" type="xs:string"/>
       <xs:element name="overrideReason" type="xs:string" minOccurs="0"/>
     </xs:all>
+    <xs:assert test="outcomeStatus ne 'overridden' or exists(overrideReason)"/>
   </xs:complexType>
   <xs:complexType name="SortingDecisionsType">
     <xs:sequence><xs:element name="sortingDecision" type="dpp:SortingDecisionType" minOccurs="0" maxOccurs="unbounded"/></xs:sequence>

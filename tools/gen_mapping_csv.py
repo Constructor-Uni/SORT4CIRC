@@ -13,7 +13,8 @@ SOURCE = ROOT / "spec" / "mappings" / "dpp-mapping-1.0.0.json"
 TARGET = ROOT / "spec" / "mappings" / "dpp-mapping-1.0.0.csv"
 FIELDS = (
     "mappingId", "mappingVersion", "jsonPath", "xmlXPath", "rdfSubjectType",
-    "rdfProperty", "rdfConstruct", "datatype", "cardinality", "obligation",
+    "rdfProperty", "rdfConstruct", "rdfMappingStatus", "rdfMappingReason",
+    "datatype", "cardinality", "obligation",
     "controlledVocabulary", "unitRule", "source", "semanticMeaning", "notes",
 )
 

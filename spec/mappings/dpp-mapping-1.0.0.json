@@ -25,7 +25,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Stable passport identifier",
-      "notes": "The JSON identifier becomes the RDF resource IRI; the complete value also remains in the reversible rdf:JSON snapshot."
+      "notes": "The JSON identifier becomes the RDF resource IRI; the complete value also remains in the reversible rdf:JSON snapshot.",
+      "rdfMappingStatus": "subjectIdentifier",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.schemaVersion",
@@ -42,7 +44,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Payload schema release",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.recordVersion",
@@ -59,7 +63,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Monotonic record version",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.status",
@@ -67,8 +73,8 @@
       "jsonPath": "status",
       "xmlXPath": "/dpp:dpp/dpp:status",
       "rdfSubjectType": "s4c:DigitalProductPassport",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:passportStatus",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "1",
       "obligation": "mandatory",
@@ -76,7 +82,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Passport lifecycle status",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.supersededBy",
@@ -93,7 +101,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined superseded by field at supersededBy.",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.createdAt",
@@ -101,8 +111,8 @@
       "jsonPath": "createdAt",
       "xmlXPath": "/dpp:dpp/dpp:createdAt",
       "rdfSubjectType": "s4c:DigitalProductPassport",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:createdAt",
+      "rdfConstruct": null,
       "datatype": "xsd:dateTime",
       "cardinality": "1",
       "obligation": "mandatory",
@@ -110,7 +120,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Creation timestamp with offset",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.updatedAt",
@@ -118,8 +130,8 @@
       "jsonPath": "updatedAt",
       "xmlXPath": "/dpp:dpp/dpp:updatedAt",
       "rdfSubjectType": "s4c:DigitalProductPassport",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:updatedAt",
+      "rdfConstruct": null,
       "datatype": "xsd:dateTime",
       "cardinality": "1",
       "obligation": "mandatory",
@@ -127,7 +139,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Last update timestamp with offset",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.responsibleOperatorId",
@@ -135,8 +149,8 @@
       "jsonPath": "responsibleOperatorId",
       "xmlXPath": "/dpp:dpp/dpp:responsibleOperatorId",
       "rdfSubjectType": "s4c:DigitalProductPassport",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:responsibleOperator",
+      "rdfConstruct": null,
       "datatype": "xsd:anyURI",
       "cardinality": "1",
       "obligation": "mandatory",
@@ -144,7 +158,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Responsible operator organisation",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.registryIdentifier",
@@ -152,8 +168,8 @@
       "jsonPath": "registryIdentifier",
       "xmlXPath": "/dpp:dpp/dpp:registryIdentifier",
       "rdfSubjectType": "s4c:DigitalProductPassport",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:registryIdentifier",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -161,7 +177,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined registry identifier field at registryIdentifier.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.accessPolicyVersion",
@@ -178,7 +196,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined access policy version field at accessPolicyVersion.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Preserved only in the canonical rdf:JSON transport snapshot; not counted as semantic RDF coverage.",
+      "rdfMappingStatus": "notApplicable",
+      "rdfMappingReason": "transport-layer/interface-only: selects an access-control interface profile, not a product semantic fact"
     },
     {
       "mappingId": "dpp.identity",
@@ -195,7 +215,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Declared identity block",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.identity.granularity",
@@ -203,8 +225,8 @@
       "jsonPath": "identity.granularity",
       "xmlXPath": "/dpp:dpp/dpp:identity/dpp:granularity",
       "rdfSubjectType": "s4c:TextileEntity",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:granularity",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "1",
       "obligation": "mandatory",
@@ -212,7 +234,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Model, batch or item granularity",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.identity.modelId",
@@ -220,8 +244,8 @@
       "jsonPath": "identity.modelId",
       "xmlXPath": "/dpp:dpp/dpp:identity/dpp:modelId",
       "rdfSubjectType": "s4c:TextileEntity",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:modelIdentifier",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..1",
       "obligation": "conditional",
@@ -229,7 +253,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined model id field at identity.modelId.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.identity.batchId",
@@ -237,8 +263,8 @@
       "jsonPath": "identity.batchId",
       "xmlXPath": "/dpp:dpp/dpp:identity/dpp:batchId",
       "rdfSubjectType": "s4c:TextileEntity",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:batchIdentifier",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..1",
       "obligation": "conditional",
@@ -246,7 +272,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined batch id field at identity.batchId.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.identity.itemId",
@@ -254,8 +282,8 @@
       "jsonPath": "identity.itemId",
       "xmlXPath": "/dpp:dpp/dpp:identity/dpp:itemId",
       "rdfSubjectType": "s4c:TextileEntity",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:itemIdentifier",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..1",
       "obligation": "conditional",
@@ -263,7 +291,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Physical item identifier",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.identity.epc",
@@ -271,8 +301,8 @@
       "jsonPath": "identity.epc",
       "xmlXPath": "/dpp:dpp/dpp:identity/dpp:epc",
       "rdfSubjectType": "s4c:TextileEntity",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:epc",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -280,7 +310,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Encoded carrier identifier",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.identity.sampleId",
@@ -288,8 +320,8 @@
       "jsonPath": "identity.sampleId",
       "xmlXPath": "/dpp:dpp/dpp:identity/dpp:sampleId",
       "rdfSubjectType": "s4c:TextileEntity",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:sampleIdentifier",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -297,7 +329,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Source sample identifier",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.identity.sourceRecordId",
@@ -305,8 +339,8 @@
       "jsonPath": "identity.sourceRecordId",
       "xmlXPath": "/dpp:dpp/dpp:identity/dpp:sourceRecordId",
       "rdfSubjectType": "s4c:TextileEntity",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:sourceRecordIdentifier",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -314,7 +348,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined source record id field at identity.sourceRecordId.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.carriers[]",
@@ -331,7 +367,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Carrier binding history",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.carriers[].carrierId",
@@ -348,7 +386,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined carrier id field at carriers[].carrierId.",
-      "notes": "The JSON identifier becomes the RDF resource IRI; the complete value also remains in the reversible rdf:JSON snapshot."
+      "notes": "The JSON identifier becomes the RDF resource IRI; the complete value also remains in the reversible rdf:JSON snapshot.",
+      "rdfMappingStatus": "subjectIdentifier",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.carriers[].carrierType",
@@ -356,8 +396,8 @@
       "jsonPath": "carriers[].carrierType",
       "xmlXPath": "/dpp:dpp/dpp:carriers/dpp:carrier/dpp:carrierType",
       "rdfSubjectType": "s4c:CarrierBinding",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:carrierType",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "1",
       "obligation": "conditional",
@@ -365,7 +405,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined carrier type field at carriers[].carrierType.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.carriers[].encodingScheme",
@@ -373,8 +415,8 @@
       "jsonPath": "carriers[].encodingScheme",
       "xmlXPath": "/dpp:dpp/dpp:carriers/dpp:carrier/dpp:encodingScheme",
       "rdfSubjectType": "s4c:CarrierBinding",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:encodingScheme",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "1",
       "obligation": "conditional",
@@ -382,7 +424,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined encoding scheme field at carriers[].encodingScheme.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.carriers[].encodedIdentifier",
@@ -399,7 +443,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Identifier encoded by the carrier",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.carriers[].resolverUri",
@@ -407,8 +453,8 @@
       "jsonPath": "carriers[].resolverUri",
       "xmlXPath": "/dpp:dpp/dpp:carriers/dpp:carrier/dpp:resolverUri",
       "rdfSubjectType": "s4c:CarrierBinding",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:resolverUri",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -416,7 +462,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined resolver uri field at carriers[].resolverUri.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.carriers[].bindingStatus",
@@ -433,7 +481,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Binding lifecycle state",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.carriers[].boundAt",
@@ -441,8 +491,8 @@
       "jsonPath": "carriers[].boundAt",
       "xmlXPath": "/dpp:dpp/dpp:carriers/dpp:carrier/dpp:boundAt",
       "rdfSubjectType": "s4c:CarrierBinding",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:boundAt",
+      "rdfConstruct": null,
       "datatype": "xsd:dateTime",
       "cardinality": "1",
       "obligation": "conditional",
@@ -450,7 +500,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined bound at field at carriers[].boundAt.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.carriers[].boundBy",
@@ -458,8 +510,8 @@
       "jsonPath": "carriers[].boundBy",
       "xmlXPath": "/dpp:dpp/dpp:carriers/dpp:carrier/dpp:boundBy",
       "rdfSubjectType": "s4c:CarrierBinding",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:boundBy",
+      "rdfConstruct": null,
       "datatype": "xsd:anyURI",
       "cardinality": "1",
       "obligation": "conditional",
@@ -467,7 +519,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined bound by field at carriers[].boundBy.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.carriers[].closedAt",
@@ -475,8 +529,8 @@
       "jsonPath": "carriers[].closedAt",
       "xmlXPath": "/dpp:dpp/dpp:carriers/dpp:carrier/dpp:closedAt",
       "rdfSubjectType": "s4c:CarrierBinding",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:closedAt",
+      "rdfConstruct": null,
       "datatype": "xsd:dateTime",
       "cardinality": "0..1",
       "obligation": "conditional",
@@ -484,7 +538,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined closed at field at carriers[].closedAt.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.carriers[].placement",
@@ -492,8 +548,8 @@
       "jsonPath": "carriers[].placement",
       "xmlXPath": "/dpp:dpp/dpp:carriers/dpp:carrier/dpp:placement",
       "rdfSubjectType": "s4c:CarrierBinding",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:placement",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -501,7 +557,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined placement field at carriers[].placement.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.product",
@@ -518,7 +576,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Product description",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Preserved only in the canonical rdf:JSON transport snapshot; not counted as semantic RDF coverage.",
+      "rdfMappingStatus": "notApplicable",
+      "rdfMappingReason": "structural-container: child fields carry the product semantics"
     },
     {
       "mappingId": "dpp.product.articleClass",
@@ -535,7 +595,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Article class token",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.product.fabricConstruction",
@@ -543,8 +605,8 @@
       "jsonPath": "product.fabricConstruction",
       "xmlXPath": "/dpp:dpp/dpp:product/dpp:fabricConstruction",
       "rdfSubjectType": "s4c:TextileEntity",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:fabricConstruction",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -552,7 +614,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Fabric construction token",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.product.colourPrimary",
@@ -560,8 +624,8 @@
       "jsonPath": "product.colourPrimary",
       "xmlXPath": "/dpp:dpp/dpp:product/dpp:colourPrimary",
       "rdfSubjectType": "s4c:TextileEntity",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:colourPrimary",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -569,7 +633,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Primary colour family token",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.product.sizeDesignation",
@@ -577,8 +643,8 @@
       "jsonPath": "product.sizeDesignation",
       "xmlXPath": "/dpp:dpp/dpp:product/dpp:sizeDesignation",
       "rdfSubjectType": "s4c:TextileEntity",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:sizeDesignation",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -586,7 +652,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined size designation field at product.sizeDesignation.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.product.mass",
@@ -603,7 +671,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined mass field at product.mass.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Preserved only in the canonical rdf:JSON transport snapshot; not counted as semantic RDF coverage.",
+      "rdfMappingStatus": "notApplicable",
+      "rdfMappingReason": "structural-container: value and unit child fields carry the mass semantics"
     },
     {
       "mappingId": "dpp.product.mass.value",
@@ -620,7 +690,9 @@
       "unitRule": "Sibling product.mass.unit is required by the quantity definition.",
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Mass quantity value",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.product.mass.unit",
@@ -637,7 +709,9 @@
       "unitRule": "Required whenever product.mass is present; unit token is not inferred.",
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Mass unit",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.product.condition",
@@ -645,8 +719,8 @@
       "jsonPath": "product.condition",
       "xmlXPath": "/dpp:dpp/dpp:product/dpp:condition",
       "rdfSubjectType": "s4c:TextileEntity",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:condition",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -654,7 +728,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Condition token",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.product.qualityGrade",
@@ -662,8 +738,8 @@
       "jsonPath": "product.qualityGrade",
       "xmlXPath": "/dpp:dpp/dpp:product/dpp:qualityGrade",
       "rdfSubjectType": "s4c:TextileEntity",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:qualityGrade",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -671,7 +747,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined quality grade field at product.qualityGrade.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.product.technicalFlags[]",
@@ -679,8 +757,8 @@
       "jsonPath": "product.technicalFlags[]",
       "xmlXPath": "/dpp:dpp/dpp:product/dpp:technicalFlags/dpp:technicalFlag",
       "rdfSubjectType": "s4c:TextileEntity",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:technicalFlag",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..n",
       "obligation": "optional",
@@ -688,7 +766,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Technical flag tokens",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.materialObservations[]",
@@ -705,7 +785,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Independent observation set entries",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.materialObservations[].observationId",
@@ -722,7 +804,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Observation identifier",
-      "notes": "The JSON identifier becomes the RDF resource IRI; the complete value also remains in the reversible rdf:JSON snapshot."
+      "notes": "The JSON identifier becomes the RDF resource IRI; the complete value also remains in the reversible rdf:JSON snapshot.",
+      "rdfMappingStatus": "subjectIdentifier",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.materialObservations[].fibreType",
@@ -739,7 +823,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Fibre type token",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.materialObservations[].percentage",
@@ -756,7 +842,9 @@
       "unitRule": "percentageBasis is required whenever percentage is present.",
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Observed proportion",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.materialObservations[].percentageBasis",
@@ -773,7 +861,9 @@
       "unitRule": "Required whenever percentage is present.",
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Proportion basis",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.materialObservations[].valueStatus",
@@ -790,7 +880,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Supplied, unknown, not measured or withheld state",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.materialObservations[].method",
@@ -807,7 +899,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Method producing the observation",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.materialObservations[].sourceOrganisationId",
@@ -824,7 +918,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Observation source organisation",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.materialObservations[].sourceSystemId",
@@ -841,7 +937,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "System producing the observation",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.materialObservations[].observedAt",
@@ -858,7 +956,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Observation timestamp with offset",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.materialObservations[].confidence",
@@ -875,7 +975,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Confidence value and scale",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Preserved only in the canonical rdf:JSON transport snapshot; not counted as semantic RDF coverage.",
+      "rdfMappingStatus": "notApplicable",
+      "rdfMappingReason": "structural-container: value and scale child fields carry the confidence semantics"
     },
     {
       "mappingId": "dpp.materialObservations[].confidence.value",
@@ -892,7 +994,9 @@
       "unitRule": "Sibling confidence.scale is required.",
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Confidence value",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.materialObservations[].confidence.scale",
@@ -909,7 +1013,9 @@
       "unitRule": "Required with confidence.value.",
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Confidence scale",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.materialObservations[].evidenceRef",
@@ -917,8 +1023,8 @@
       "jsonPath": "materialObservations[].evidenceRef",
       "xmlXPath": "/dpp:dpp/dpp:materialObservations/dpp:materialObservation/dpp:evidenceRef",
       "rdfSubjectType": "s4c:MaterialObservation",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:hasEvidenceReference",
+      "rdfConstruct": null,
       "datatype": "xsd:anyURI",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -926,7 +1032,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined evidence ref field at materialObservations[].evidenceRef.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.components[]",
@@ -943,7 +1051,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined components item field at components[].",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.components[].componentId",
@@ -960,7 +1070,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined component id field at components[].componentId.",
-      "notes": "The JSON identifier becomes the RDF resource IRI; the complete value also remains in the reversible rdf:JSON snapshot."
+      "notes": "The JSON identifier becomes the RDF resource IRI; the complete value also remains in the reversible rdf:JSON snapshot.",
+      "rdfMappingStatus": "subjectIdentifier",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.components[].componentType",
@@ -968,8 +1080,8 @@
       "jsonPath": "components[].componentType",
       "xmlXPath": "/dpp:dpp/dpp:components/dpp:component/dpp:componentType",
       "rdfSubjectType": "s4c:Component",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:componentType",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "1",
       "obligation": "conditional",
@@ -977,7 +1089,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined component type field at components[].componentType.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.components[].parentComponentId",
@@ -994,7 +1108,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined parent component id field at components[].parentComponentId.",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.components[].materialObservationRefs[]",
@@ -1002,8 +1118,8 @@
       "jsonPath": "components[].materialObservationRefs[]",
       "xmlXPath": "/dpp:dpp/dpp:components/dpp:component/dpp:materialObservationRefs/dpp:materialObservationRef",
       "rdfSubjectType": "s4c:Component",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:hasObservation",
+      "rdfConstruct": null,
       "datatype": "xsd:anyURI",
       "cardinality": "0..n",
       "obligation": "optional",
@@ -1011,7 +1127,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined material observation refs item field at components[].materialObservationRefs[].",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.components[].mass",
@@ -1028,7 +1146,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined mass field at components[].mass.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Preserved only in the canonical rdf:JSON transport snapshot; not counted as semantic RDF coverage.",
+      "rdfMappingStatus": "notApplicable",
+      "rdfMappingReason": "structural-container: value and unit child fields carry the component mass semantics"
     },
     {
       "mappingId": "dpp.components[].mass.value",
@@ -1045,7 +1165,9 @@
       "unitRule": "Sibling components[].mass.unit is required by the quantity definition.",
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined value field at components[].mass.value.",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.components[].mass.unit",
@@ -1062,7 +1184,9 @@
       "unitRule": "Required whenever component mass is present; unit token is not inferred.",
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined unit field at components[].mass.unit.",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.components[].separable",
@@ -1070,8 +1194,8 @@
       "jsonPath": "components[].separable",
       "xmlXPath": "/dpp:dpp/dpp:components/dpp:component/dpp:separable",
       "rdfSubjectType": "s4c:Component",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:separable",
+      "rdfConstruct": null,
       "datatype": "xsd:boolean",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -1079,7 +1203,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined separable field at components[].separable.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.lifecycleEvents[]",
@@ -1096,7 +1222,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Append-only lifecycle events",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.lifecycleEvents[].eventId",
@@ -1113,7 +1241,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined event id field at lifecycleEvents[].eventId.",
-      "notes": "The JSON identifier becomes the RDF resource IRI; the complete value also remains in the reversible rdf:JSON snapshot."
+      "notes": "The JSON identifier becomes the RDF resource IRI; the complete value also remains in the reversible rdf:JSON snapshot.",
+      "rdfMappingStatus": "subjectIdentifier",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.lifecycleEvents[].eventType",
@@ -1121,8 +1251,8 @@
       "jsonPath": "lifecycleEvents[].eventType",
       "xmlXPath": "/dpp:dpp/dpp:lifecycleEvents/dpp:lifecycleEvent/dpp:eventType",
       "rdfSubjectType": "s4c:LifecycleEvent",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:eventType",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1130,7 +1260,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined event type field at lifecycleEvents[].eventType.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.lifecycleEvents[].eventTime",
@@ -1138,8 +1270,8 @@
       "jsonPath": "lifecycleEvents[].eventTime",
       "xmlXPath": "/dpp:dpp/dpp:lifecycleEvents/dpp:lifecycleEvent/dpp:eventTime",
       "rdfSubjectType": "s4c:LifecycleEvent",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:eventTime",
+      "rdfConstruct": null,
       "datatype": "xsd:dateTime",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1147,7 +1279,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined event time field at lifecycleEvents[].eventTime.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.lifecycleEvents[].eventTimeZoneOffset",
@@ -1164,7 +1298,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined event time zone offset field at lifecycleEvents[].eventTimeZoneOffset.",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.lifecycleEvents[].recordedAt",
@@ -1181,7 +1317,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined recorded at field at lifecycleEvents[].recordedAt.",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.lifecycleEvents[].actorOrganisationId",
@@ -1198,7 +1336,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined actor organisation id field at lifecycleEvents[].actorOrganisationId.",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.lifecycleEvents[].sourceSystemId",
@@ -1206,8 +1346,8 @@
       "jsonPath": "lifecycleEvents[].sourceSystemId",
       "xmlXPath": "/dpp:dpp/dpp:lifecycleEvents/dpp:lifecycleEvent/dpp:sourceSystemId",
       "rdfSubjectType": "s4c:LifecycleEvent",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:recordedBySystem",
+      "rdfConstruct": null,
       "datatype": "xsd:anyURI",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1215,7 +1355,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined source system id field at lifecycleEvents[].sourceSystemId.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.lifecycleEvents[].facilityId",
@@ -1232,7 +1374,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined facility id field at lifecycleEvents[].facilityId.",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.lifecycleEvents[].readPointId",
@@ -1249,7 +1393,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined read point id field at lifecycleEvents[].readPointId.",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.lifecycleEvents[].bizStep",
@@ -1257,8 +1403,8 @@
       "jsonPath": "lifecycleEvents[].bizStep",
       "xmlXPath": "/dpp:dpp/dpp:lifecycleEvents/dpp:lifecycleEvent/dpp:bizStep",
       "rdfSubjectType": "s4c:LifecycleEvent",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:businessStep",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -1266,7 +1412,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined biz step field at lifecycleEvents[].bizStep.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.lifecycleEvents[].disposition",
@@ -1274,8 +1422,8 @@
       "jsonPath": "lifecycleEvents[].disposition",
       "xmlXPath": "/dpp:dpp/dpp:lifecycleEvents/dpp:lifecycleEvent/dpp:disposition",
       "rdfSubjectType": "s4c:LifecycleEvent",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:disposition",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -1283,7 +1431,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined disposition field at lifecycleEvents[].disposition.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.lifecycleEvents[].inputRefs[]",
@@ -1300,7 +1450,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined input refs item field at lifecycleEvents[].inputRefs[].",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.lifecycleEvents[].outputRefs[]",
@@ -1317,7 +1469,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined output refs item field at lifecycleEvents[].outputRefs[].",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.lifecycleEvents[].correctsEventId",
@@ -1334,7 +1488,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined corrects event id field at lifecycleEvents[].correctsEventId.",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.lifecycleEvents[].evidenceRef",
@@ -1342,8 +1498,8 @@
       "jsonPath": "lifecycleEvents[].evidenceRef",
       "xmlXPath": "/dpp:dpp/dpp:lifecycleEvents/dpp:lifecycleEvent/dpp:evidenceRef",
       "rdfSubjectType": "s4c:LifecycleEvent",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:hasEvidenceReference",
+      "rdfConstruct": null,
       "datatype": "xsd:anyURI",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -1351,7 +1507,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined evidence ref field at lifecycleEvents[].evidenceRef.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.sortingDecisions[]",
@@ -1359,8 +1517,8 @@
       "jsonPath": "sortingDecisions[]",
       "xmlXPath": "/dpp:dpp/dpp:sortingDecisions/dpp:sortingDecision",
       "rdfSubjectType": "s4c:SortingDecision",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:hasSortingDecision",
+      "rdfConstruct": null,
       "datatype": "object",
       "cardinality": "0..n",
       "obligation": "optional",
@@ -1368,7 +1526,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Append-only routing decisions",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.sortingDecisions[].decisionId",
@@ -1385,7 +1545,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined decision id field at sortingDecisions[].decisionId.",
-      "notes": "The JSON identifier becomes the RDF resource IRI; the complete value also remains in the reversible rdf:JSON snapshot."
+      "notes": "The JSON identifier becomes the RDF resource IRI; the complete value also remains in the reversible rdf:JSON snapshot.",
+      "rdfMappingStatus": "subjectIdentifier",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.sortingDecisions[].basedOnObservations[]",
@@ -1402,7 +1564,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined based on observations item field at sortingDecisions[].basedOnObservations[].",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.sortingDecisions[].basedOnRecordVersion",
@@ -1410,8 +1574,8 @@
       "jsonPath": "sortingDecisions[].basedOnRecordVersion",
       "xmlXPath": "/dpp:dpp/dpp:sortingDecisions/dpp:sortingDecision/dpp:basedOnRecordVersion",
       "rdfSubjectType": "s4c:SortingDecision",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:basedOnRecordVersion",
+      "rdfConstruct": null,
       "datatype": "xsd:integer",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -1419,7 +1583,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined based on record version field at sortingDecisions[].basedOnRecordVersion.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.sortingDecisions[].ruleSetId",
@@ -1436,7 +1602,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined rule set id field at sortingDecisions[].ruleSetId.",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.sortingDecisions[].ruleSetVersion",
@@ -1444,8 +1612,8 @@
       "jsonPath": "sortingDecisions[].ruleSetVersion",
       "xmlXPath": "/dpp:dpp/dpp:sortingDecisions/dpp:sortingDecision/dpp:ruleSetVersion",
       "rdfSubjectType": "s4c:SortingDecision",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:ruleSetVersion",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1453,7 +1621,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined rule set version field at sortingDecisions[].ruleSetVersion.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.sortingDecisions[].sortingCategory",
@@ -1470,7 +1640,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined sorting category field at sortingDecisions[].sortingCategory.",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.sortingDecisions[].route",
@@ -1478,8 +1650,8 @@
       "jsonPath": "sortingDecisions[].route",
       "xmlXPath": "/dpp:dpp/dpp:sortingDecisions/dpp:sortingDecision/dpp:route",
       "rdfSubjectType": "s4c:SortingDecision",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:route",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -1487,7 +1659,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined route field at sortingDecisions[].route.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.sortingDecisions[].decidedAt",
@@ -1495,8 +1669,8 @@
       "jsonPath": "sortingDecisions[].decidedAt",
       "xmlXPath": "/dpp:dpp/dpp:sortingDecisions/dpp:sortingDecision/dpp:decidedAt",
       "rdfSubjectType": "s4c:SortingDecision",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:decidedAt",
+      "rdfConstruct": null,
       "datatype": "xsd:dateTime",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1504,7 +1678,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined decided at field at sortingDecisions[].decidedAt.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.sortingDecisions[].decidedBy",
@@ -1512,8 +1688,8 @@
       "jsonPath": "sortingDecisions[].decidedBy",
       "xmlXPath": "/dpp:dpp/dpp:sortingDecisions/dpp:sortingDecision/dpp:decidedBy",
       "rdfSubjectType": "s4c:SortingDecision",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:decidedBy",
+      "rdfConstruct": null,
       "datatype": "xsd:anyURI",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1521,7 +1697,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined decided by field at sortingDecisions[].decidedBy.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.sortingDecisions[].outcomeStatus",
@@ -1529,8 +1707,8 @@
       "jsonPath": "sortingDecisions[].outcomeStatus",
       "xmlXPath": "/dpp:dpp/dpp:sortingDecisions/dpp:sortingDecision/dpp:outcomeStatus",
       "rdfSubjectType": "s4c:SortingDecision",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:outcomeStatus",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1538,7 +1716,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined outcome status field at sortingDecisions[].outcomeStatus.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.sortingDecisions[].overrideReason",
@@ -1546,8 +1726,8 @@
       "jsonPath": "sortingDecisions[].overrideReason",
       "xmlXPath": "/dpp:dpp/dpp:sortingDecisions/dpp:sortingDecision/dpp:overrideReason",
       "rdfSubjectType": "s4c:SortingDecision",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:overrideReason",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..1",
       "obligation": "conditional",
@@ -1555,7 +1735,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined override reason field at sortingDecisions[].overrideReason.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.environmentalValues[]",
@@ -1572,7 +1754,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined environmental values item field at environmentalValues[].",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.environmentalValues[].metricType",
@@ -1580,8 +1764,8 @@
       "jsonPath": "environmentalValues[].metricType",
       "xmlXPath": "/dpp:dpp/dpp:environmentalValues/dpp:environmentalValue/dpp:metricType",
       "rdfSubjectType": "s4c:EnvironmentalValue",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:metricType",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1589,7 +1773,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined metric type field at environmentalValues[].metricType.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.environmentalValues[].quantity",
@@ -1606,7 +1792,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined quantity field at environmentalValues[].quantity.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Preserved only in the canonical rdf:JSON transport snapshot; not counted as semantic RDF coverage.",
+      "rdfMappingStatus": "notApplicable",
+      "rdfMappingReason": "structural-container: value and unit child fields carry the quantity semantics"
     },
     {
       "mappingId": "dpp.environmentalValues[].quantity.value",
@@ -1614,8 +1802,8 @@
       "jsonPath": "environmentalValues[].quantity.value",
       "xmlXPath": "/dpp:dpp/dpp:environmentalValues/dpp:environmentalValue/dpp:quantity/dpp:value",
       "rdfSubjectType": "s4c:EnvironmentalValue",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:quantityValue",
+      "rdfConstruct": null,
       "datatype": "xsd:decimal",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1623,7 +1811,9 @@
       "unitRule": "Sibling quantity.unit is required by the quantity definition.",
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined value field at environmentalValues[].quantity.value.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.environmentalValues[].quantity.unit",
@@ -1631,8 +1821,8 @@
       "jsonPath": "environmentalValues[].quantity.unit",
       "xmlXPath": "/dpp:dpp/dpp:environmentalValues/dpp:environmentalValue/dpp:quantity/dpp:unit",
       "rdfSubjectType": "s4c:EnvironmentalValue",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:quantityUnit",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1640,7 +1830,9 @@
       "unitRule": "Required with environmental quantity.value; unit token is not inferred.",
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined unit field at environmentalValues[].quantity.unit.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.environmentalValues[].functionalUnit",
@@ -1648,8 +1840,8 @@
       "jsonPath": "environmentalValues[].functionalUnit",
       "xmlXPath": "/dpp:dpp/dpp:environmentalValues/dpp:environmentalValue/dpp:functionalUnit",
       "rdfSubjectType": "s4c:EnvironmentalValue",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:functionalUnit",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1657,7 +1849,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined functional unit field at environmentalValues[].functionalUnit.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.environmentalValues[].systemBoundary",
@@ -1665,8 +1859,8 @@
       "jsonPath": "environmentalValues[].systemBoundary",
       "xmlXPath": "/dpp:dpp/dpp:environmentalValues/dpp:environmentalValue/dpp:systemBoundary",
       "rdfSubjectType": "s4c:EnvironmentalValue",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:systemBoundary",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1674,7 +1868,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined system boundary field at environmentalValues[].systemBoundary.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.environmentalValues[].processStage",
@@ -1682,8 +1878,8 @@
       "jsonPath": "environmentalValues[].processStage",
       "xmlXPath": "/dpp:dpp/dpp:environmentalValues/dpp:environmentalValue/dpp:processStage",
       "rdfSubjectType": "s4c:EnvironmentalValue",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:processStage",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1691,7 +1887,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined process stage field at environmentalValues[].processStage.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.environmentalValues[].geography",
@@ -1699,8 +1897,8 @@
       "jsonPath": "environmentalValues[].geography",
       "xmlXPath": "/dpp:dpp/dpp:environmentalValues/dpp:environmentalValue/dpp:geography",
       "rdfSubjectType": "s4c:EnvironmentalValue",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:geography",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1708,7 +1906,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined geography field at environmentalValues[].geography.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.environmentalValues[].periodStart",
@@ -1716,8 +1916,8 @@
       "jsonPath": "environmentalValues[].periodStart",
       "xmlXPath": "/dpp:dpp/dpp:environmentalValues/dpp:environmentalValue/dpp:periodStart",
       "rdfSubjectType": "s4c:EnvironmentalValue",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:periodStart",
+      "rdfConstruct": null,
       "datatype": "xsd:date",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1725,7 +1925,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined period start field at environmentalValues[].periodStart.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.environmentalValues[].periodEnd",
@@ -1733,8 +1935,8 @@
       "jsonPath": "environmentalValues[].periodEnd",
       "xmlXPath": "/dpp:dpp/dpp:environmentalValues/dpp:environmentalValue/dpp:periodEnd",
       "rdfSubjectType": "s4c:EnvironmentalValue",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:periodEnd",
+      "rdfConstruct": null,
       "datatype": "xsd:date",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1742,7 +1944,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined period end field at environmentalValues[].periodEnd.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.environmentalValues[].method",
@@ -1750,8 +1954,8 @@
       "jsonPath": "environmentalValues[].method",
       "xmlXPath": "/dpp:dpp/dpp:environmentalValues/dpp:environmentalValue/dpp:method",
       "rdfSubjectType": "s4c:EnvironmentalValue",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:usedMethod",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1759,7 +1963,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined method field at environmentalValues[].method.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.environmentalValues[].allocationRule",
@@ -1767,8 +1973,8 @@
       "jsonPath": "environmentalValues[].allocationRule",
       "xmlXPath": "/dpp:dpp/dpp:environmentalValues/dpp:environmentalValue/dpp:allocationRule",
       "rdfSubjectType": "s4c:EnvironmentalValue",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:allocationRule",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1776,7 +1982,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined allocation rule field at environmentalValues[].allocationRule.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.environmentalValues[].factorSource",
@@ -1784,8 +1992,8 @@
       "jsonPath": "environmentalValues[].factorSource",
       "xmlXPath": "/dpp:dpp/dpp:environmentalValues/dpp:environmentalValue/dpp:factorSource",
       "rdfSubjectType": "s4c:EnvironmentalValue",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:factorSource",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1793,7 +2001,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined factor source field at environmentalValues[].factorSource.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.environmentalValues[].factorVersion",
@@ -1801,8 +2011,8 @@
       "jsonPath": "environmentalValues[].factorVersion",
       "xmlXPath": "/dpp:dpp/dpp:environmentalValues/dpp:environmentalValue/dpp:factorVersion",
       "rdfSubjectType": "s4c:EnvironmentalValue",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:factorVersion",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1810,7 +2020,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined factor version field at environmentalValues[].factorVersion.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.environmentalValues[].dataQuality",
@@ -1818,8 +2030,8 @@
       "jsonPath": "environmentalValues[].dataQuality",
       "xmlXPath": "/dpp:dpp/dpp:environmentalValues/dpp:environmentalValue/dpp:dataQuality",
       "rdfSubjectType": "s4c:EnvironmentalValue",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:dataQuality",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -1827,7 +2039,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined data quality field at environmentalValues[].dataQuality.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.environmentalValues[].responsibleOrganisationId",
@@ -1835,8 +2049,8 @@
       "jsonPath": "environmentalValues[].responsibleOrganisationId",
       "xmlXPath": "/dpp:dpp/dpp:environmentalValues/dpp:environmentalValue/dpp:responsibleOrganisationId",
       "rdfSubjectType": "s4c:EnvironmentalValue",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:observedBy",
+      "rdfConstruct": null,
       "datatype": "xsd:anyURI",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1844,7 +2058,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined responsible organisation id field at environmentalValues[].responsibleOrganisationId.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.environmentalValues[].evidenceRef",
@@ -1852,8 +2068,8 @@
       "jsonPath": "environmentalValues[].evidenceRef",
       "xmlXPath": "/dpp:dpp/dpp:environmentalValues/dpp:environmentalValue/dpp:evidenceRef",
       "rdfSubjectType": "s4c:EnvironmentalValue",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:hasEvidenceReference",
+      "rdfConstruct": null,
       "datatype": "xsd:anyURI",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -1861,7 +2077,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined evidence ref field at environmentalValues[].evidenceRef.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.environmentalValues[].custodyModel",
@@ -1869,8 +2087,8 @@
       "jsonPath": "environmentalValues[].custodyModel",
       "xmlXPath": "/dpp:dpp/dpp:environmentalValues/dpp:environmentalValue/dpp:custodyModel",
       "rdfSubjectType": "s4c:EnvironmentalValue",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:custodyModel",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -1878,7 +2096,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined custody model field at environmentalValues[].custodyModel.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.integrity[]",
@@ -1895,7 +2115,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Digest and anchoring evidence",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.integrity[].evidenceId",
@@ -1912,7 +2134,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined evidence id field at integrity[].evidenceId.",
-      "notes": "The JSON identifier becomes the RDF resource IRI; the complete value also remains in the reversible rdf:JSON snapshot."
+      "notes": "The JSON identifier becomes the RDF resource IRI; the complete value also remains in the reversible rdf:JSON snapshot.",
+      "rdfMappingStatus": "subjectIdentifier",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.integrity[].subjectRef",
@@ -1920,8 +2144,8 @@
       "jsonPath": "integrity[].subjectRef",
       "xmlXPath": "/dpp:dpp/dpp:integrity/dpp:integrityEntry/dpp:subjectRef",
       "rdfSubjectType": "s4c:IntegrityEvidence",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:evidenceSubject",
+      "rdfConstruct": null,
       "datatype": "xsd:anyURI",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1929,7 +2153,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined subject ref field at integrity[].subjectRef.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.integrity[].subjectVersion",
@@ -1937,8 +2163,8 @@
       "jsonPath": "integrity[].subjectVersion",
       "xmlXPath": "/dpp:dpp/dpp:integrity/dpp:integrityEntry/dpp:subjectVersion",
       "rdfSubjectType": "s4c:IntegrityEvidence",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:subjectVersion",
+      "rdfConstruct": null,
       "datatype": "xsd:integer",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1946,7 +2172,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined subject version field at integrity[].subjectVersion.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.integrity[].canonicalisation",
@@ -1963,7 +2191,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined canonicalisation field at integrity[].canonicalisation.",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.integrity[].digestAlgorithm",
@@ -1971,8 +2201,8 @@
       "jsonPath": "integrity[].digestAlgorithm",
       "xmlXPath": "/dpp:dpp/dpp:integrity/dpp:integrityEntry/dpp:digestAlgorithm",
       "rdfSubjectType": "s4c:IntegrityEvidence",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:digestAlgorithm",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "1",
       "obligation": "conditional",
@@ -1980,7 +2210,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined digest algorithm field at integrity[].digestAlgorithm.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.integrity[].digestValue",
@@ -1997,7 +2229,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined digest value field at integrity[].digestValue.",
-      "notes": null
+      "notes": null,
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.integrity[].evidenceState",
@@ -2005,8 +2239,8 @@
       "jsonPath": "integrity[].evidenceState",
       "xmlXPath": "/dpp:dpp/dpp:integrity/dpp:integrityEntry/dpp:evidenceState",
       "rdfSubjectType": "s4c:IntegrityEvidence",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:evidenceState",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "1",
       "obligation": "conditional",
@@ -2014,7 +2248,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined evidence state field at integrity[].evidenceState.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.integrity[].createdAt",
@@ -2022,8 +2258,8 @@
       "jsonPath": "integrity[].createdAt",
       "xmlXPath": "/dpp:dpp/dpp:integrity/dpp:integrityEntry/dpp:createdAt",
       "rdfSubjectType": "s4c:IntegrityEvidence",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:evidenceCreatedAt",
+      "rdfConstruct": null,
       "datatype": "xsd:dateTime",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -2031,7 +2267,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined created at field at integrity[].createdAt.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.integrity[].ledgerNetworkId",
@@ -2039,8 +2277,8 @@
       "jsonPath": "integrity[].ledgerNetworkId",
       "xmlXPath": "/dpp:dpp/dpp:integrity/dpp:integrityEntry/dpp:ledgerNetworkId",
       "rdfSubjectType": "s4c:IntegrityEvidence",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:ledgerNetworkIdentifier",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -2048,7 +2286,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined ledger network id field at integrity[].ledgerNetworkId.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.integrity[].transactionRef",
@@ -2056,8 +2296,8 @@
       "jsonPath": "integrity[].transactionRef",
       "xmlXPath": "/dpp:dpp/dpp:integrity/dpp:integrityEntry/dpp:transactionRef",
       "rdfSubjectType": "s4c:IntegrityEvidence",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:transactionReference",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -2065,7 +2305,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined transaction ref field at integrity[].transactionRef.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.integrity[].confirmedAt",
@@ -2073,8 +2315,8 @@
       "jsonPath": "integrity[].confirmedAt",
       "xmlXPath": "/dpp:dpp/dpp:integrity/dpp:integrityEntry/dpp:confirmedAt",
       "rdfSubjectType": "s4c:IntegrityEvidence",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:confirmedAt",
+      "rdfConstruct": null,
       "datatype": "xsd:dateTime",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -2082,7 +2324,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined confirmed at field at integrity[].confirmedAt.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.integrity[].attempts",
@@ -2090,8 +2334,8 @@
       "jsonPath": "integrity[].attempts",
       "xmlXPath": "/dpp:dpp/dpp:integrity/dpp:integrityEntry/dpp:attempts",
       "rdfSubjectType": "s4c:IntegrityEvidence",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:anchoringAttempts",
+      "rdfConstruct": null,
       "datatype": "xsd:integer",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -2099,7 +2343,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined attempts field at integrity[].attempts.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     },
     {
       "mappingId": "dpp.integrity[].lastReasonCode",
@@ -2107,8 +2353,8 @@
       "jsonPath": "integrity[].lastReasonCode",
       "xmlXPath": "/dpp:dpp/dpp:integrity/dpp:integrityEntry/dpp:lastReasonCode",
       "rdfSubjectType": "s4c:IntegrityEvidence",
-      "rdfProperty": null,
-      "rdfConstruct": "rdf:value/rdf:JSON",
+      "rdfProperty": "s4c:lastReasonCode",
+      "rdfConstruct": null,
       "datatype": "xsd:string",
       "cardinality": "0..1",
       "obligation": "optional",
@@ -2116,7 +2362,9 @@
       "unitRule": null,
       "source": "spec/schemas/dpp-1.0.0.schema.json",
       "semanticMeaning": "Schema-defined last reason code field at integrity[].lastReasonCode.",
-      "notes": "Ontology 1.0.0 has no direct predicate for this transport field; lossless reversal uses the passport rdf:value/rdf:JSON snapshot."
+      "notes": "Direct ontology-backed semantic mapping; the canonical rdf:JSON snapshot remains only for lossless reversal.",
+      "rdfMappingStatus": "direct",
+      "rdfMappingReason": null
     }
   ]
 }

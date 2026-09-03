@@ -208,6 +208,33 @@ s4c:supersededBy a owl:ObjectProperty , owl:AsymmetricProperty , owl:Irreflexive
     rdfs:domain s4c:DigitalProductPassport ; rdfs:range s4c:DigitalProductPassport ;
     skos:prefLabel "superseded by"@en .
 
+s4c:responsibleOperator a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:domain s4c:DigitalProductPassport ; rdfs:range s4c:Organisation ;
+    skos:prefLabel "responsible operator"@en .
+
+s4c:boundBy a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:domain s4c:CarrierBinding ; rdfs:range s4c:Organisation ;
+    skos:prefLabel "bound by"@en .
+
+s4c:recordedBySystem a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:domain s4c:LifecycleEvent ; rdfs:range s4c:SourceSystem ;
+    skos:prefLabel "recorded by system"@en .
+
+s4c:hasSortingDecision a owl:ObjectProperty ;
+    rdfs:domain s4c:DigitalProductPassport ; rdfs:range s4c:SortingDecision ;
+    skos:prefLabel "has sorting decision"@en .
+
+s4c:decidedBy a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:domain s4c:SortingDecision ; rdfs:range s4c:Organisation ;
+    skos:prefLabel "decided by"@en .
+
+s4c:hasEvidenceReference a owl:ObjectProperty ;
+    skos:prefLabel "has evidence reference"@en .
+
+s4c:evidenceSubject a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:domain s4c:IntegrityEvidence ;
+    skos:prefLabel "evidence subject"@en .
+
 s4c:fibreType a owl:ObjectProperty ;
     rdfs:domain s4c:MaterialObservation ;
     skos:prefLabel "fibre type"@en .
@@ -238,6 +265,64 @@ s4c:digestValue a owl:DatatypeProperty ; rdfs:range xsd:hexBinary ; skos:prefLab
 s4c:canonicalisationProfile a owl:DatatypeProperty ; rdfs:range xsd:string ; skos:prefLabel "canonicalisation profile"@en .
 s4c:encodedIdentifier a owl:DatatypeProperty ; rdfs:range xsd:string ; skos:prefLabel "encoded identifier"@en .
 s4c:bindingStatus a owl:DatatypeProperty ; rdfs:range xsd:string ; skos:prefLabel "binding status"@en .
+s4c:passportStatus a owl:DatatypeProperty ; rdfs:domain s4c:DigitalProductPassport ; rdfs:range xsd:string ; skos:prefLabel "passport status"@en .
+s4c:createdAt a owl:DatatypeProperty ; rdfs:domain s4c:DigitalProductPassport ; rdfs:range xsd:dateTime ; skos:prefLabel "created at"@en .
+s4c:updatedAt a owl:DatatypeProperty ; rdfs:domain s4c:DigitalProductPassport ; rdfs:range xsd:dateTime ; skos:prefLabel "updated at"@en .
+s4c:registryIdentifier a owl:DatatypeProperty ; rdfs:domain s4c:DigitalProductPassport ; rdfs:range xsd:string ; skos:prefLabel "registry identifier"@en .
+s4c:granularity a owl:DatatypeProperty ; rdfs:domain s4c:TextileEntity ; rdfs:range xsd:string ; skos:prefLabel "identity granularity"@en .
+s4c:modelIdentifier a owl:DatatypeProperty ; rdfs:domain s4c:TextileEntity ; rdfs:range xsd:string ; skos:prefLabel "model identifier"@en .
+s4c:batchIdentifier a owl:DatatypeProperty ; rdfs:domain s4c:TextileEntity ; rdfs:range xsd:string ; skos:prefLabel "batch identifier"@en .
+s4c:itemIdentifier a owl:DatatypeProperty ; rdfs:domain s4c:TextileEntity ; rdfs:range xsd:string ; skos:prefLabel "item identifier"@en .
+s4c:epc a owl:DatatypeProperty ; rdfs:domain s4c:TextileEntity ; rdfs:range xsd:string ; skos:prefLabel "electronic product code"@en .
+s4c:sampleIdentifier a owl:DatatypeProperty ; rdfs:domain s4c:TextileEntity ; rdfs:range xsd:string ; skos:prefLabel "sample identifier"@en .
+s4c:sourceRecordIdentifier a owl:DatatypeProperty ; rdfs:domain s4c:TextileEntity ; rdfs:range xsd:string ; skos:prefLabel "source record identifier"@en .
+s4c:carrierType a owl:DatatypeProperty ; rdfs:domain s4c:CarrierBinding ; rdfs:range xsd:string ; skos:prefLabel "carrier type"@en .
+s4c:encodingScheme a owl:DatatypeProperty ; rdfs:domain s4c:CarrierBinding ; rdfs:range xsd:string ; skos:prefLabel "encoding scheme"@en .
+s4c:resolverUri a owl:DatatypeProperty ; rdfs:domain s4c:CarrierBinding ; rdfs:range xsd:anyURI ; skos:prefLabel "resolver URI"@en .
+s4c:boundAt a owl:DatatypeProperty ; rdfs:domain s4c:CarrierBinding ; rdfs:range xsd:dateTime ; skos:prefLabel "bound at"@en .
+s4c:closedAt a owl:DatatypeProperty ; rdfs:domain s4c:CarrierBinding ; rdfs:range xsd:dateTime ; skos:prefLabel "closed at"@en .
+s4c:placement a owl:DatatypeProperty ; rdfs:domain s4c:CarrierBinding ; rdfs:range xsd:string ; skos:prefLabel "carrier placement"@en .
+s4c:fabricConstruction a owl:DatatypeProperty ; rdfs:domain s4c:TextileEntity ; rdfs:range xsd:string ; skos:prefLabel "fabric construction"@en .
+s4c:colourPrimary a owl:DatatypeProperty ; rdfs:domain s4c:TextileEntity ; rdfs:range xsd:string ; skos:prefLabel "primary colour"@en .
+s4c:sizeDesignation a owl:DatatypeProperty ; rdfs:domain s4c:TextileEntity ; rdfs:range xsd:string ; skos:prefLabel "size designation"@en .
+s4c:condition a owl:DatatypeProperty ; rdfs:domain s4c:TextileEntity ; rdfs:range xsd:string ; skos:prefLabel "condition"@en .
+s4c:qualityGrade a owl:DatatypeProperty ; rdfs:domain s4c:TextileEntity ; rdfs:range xsd:string ; skos:prefLabel "quality grade"@en .
+s4c:technicalFlag a owl:DatatypeProperty ; rdfs:domain s4c:TextileEntity ; rdfs:range xsd:string ; skos:prefLabel "technical flag"@en .
+s4c:componentType a owl:DatatypeProperty ; rdfs:domain s4c:Component ; rdfs:range xsd:string ; skos:prefLabel "component type"@en .
+s4c:separable a owl:DatatypeProperty ; rdfs:domain s4c:Component ; rdfs:range xsd:boolean ; skos:prefLabel "separable"@en .
+s4c:eventType a owl:DatatypeProperty ; rdfs:domain s4c:LifecycleEvent ; rdfs:range xsd:string ; skos:prefLabel "event type"@en .
+s4c:eventTime a owl:DatatypeProperty ; rdfs:domain s4c:LifecycleEvent ; rdfs:range xsd:dateTime ; skos:prefLabel "event time"@en .
+s4c:businessStep a owl:DatatypeProperty ; rdfs:domain s4c:LifecycleEvent ; rdfs:range xsd:string ; skos:prefLabel "business step"@en .
+s4c:disposition a owl:DatatypeProperty ; rdfs:domain s4c:LifecycleEvent ; rdfs:range xsd:string ; skos:prefLabel "disposition"@en .
+s4c:basedOnRecordVersion a owl:DatatypeProperty ; rdfs:domain s4c:SortingDecision ; rdfs:range xsd:integer ; skos:prefLabel "based on record version"@en .
+s4c:ruleSetVersion a owl:DatatypeProperty ; rdfs:domain s4c:SortingDecision ; rdfs:range xsd:string ; skos:prefLabel "rule set version"@en .
+s4c:route a owl:DatatypeProperty ; rdfs:domain s4c:SortingDecision ; rdfs:range xsd:string ; skos:prefLabel "route"@en .
+s4c:decidedAt a owl:DatatypeProperty ; rdfs:domain s4c:SortingDecision ; rdfs:range xsd:dateTime ; skos:prefLabel "decided at"@en .
+s4c:outcomeStatus a owl:DatatypeProperty ; rdfs:domain s4c:SortingDecision ; rdfs:range xsd:string ; skos:prefLabel "outcome status"@en .
+s4c:overrideReason a owl:DatatypeProperty ; rdfs:domain s4c:SortingDecision ; rdfs:range xsd:string ; skos:prefLabel "override reason"@en .
+s4c:metricType a owl:DatatypeProperty ; rdfs:domain s4c:EnvironmentalValue ; rdfs:range xsd:string ; skos:prefLabel "metric type"@en .
+s4c:quantityValue a owl:DatatypeProperty ; rdfs:domain s4c:EnvironmentalValue ; rdfs:range xsd:decimal ; skos:prefLabel "quantity value"@en .
+s4c:quantityUnit a owl:DatatypeProperty ; rdfs:domain s4c:EnvironmentalValue ; rdfs:range xsd:string ; skos:prefLabel "quantity unit"@en .
+s4c:functionalUnit a owl:DatatypeProperty ; rdfs:domain s4c:EnvironmentalValue ; rdfs:range xsd:string ; skos:prefLabel "functional unit"@en .
+s4c:systemBoundary a owl:DatatypeProperty ; rdfs:domain s4c:EnvironmentalValue ; rdfs:range xsd:string ; skos:prefLabel "system boundary"@en .
+s4c:processStage a owl:DatatypeProperty ; rdfs:domain s4c:EnvironmentalValue ; rdfs:range xsd:string ; skos:prefLabel "process stage"@en .
+s4c:geography a owl:DatatypeProperty ; rdfs:domain s4c:EnvironmentalValue ; rdfs:range xsd:string ; skos:prefLabel "geography"@en .
+s4c:periodStart a owl:DatatypeProperty ; rdfs:domain s4c:EnvironmentalValue ; rdfs:range xsd:date ; skos:prefLabel "period start"@en .
+s4c:periodEnd a owl:DatatypeProperty ; rdfs:domain s4c:EnvironmentalValue ; rdfs:range xsd:date ; skos:prefLabel "period end"@en .
+s4c:allocationRule a owl:DatatypeProperty ; rdfs:domain s4c:EnvironmentalValue ; rdfs:range xsd:string ; skos:prefLabel "allocation rule"@en .
+s4c:factorSource a owl:DatatypeProperty ; rdfs:domain s4c:EnvironmentalValue ; rdfs:range xsd:string ; skos:prefLabel "factor source"@en .
+s4c:factorVersion a owl:DatatypeProperty ; rdfs:domain s4c:EnvironmentalValue ; rdfs:range xsd:string ; skos:prefLabel "factor version"@en .
+s4c:dataQuality a owl:DatatypeProperty ; rdfs:domain s4c:EnvironmentalValue ; rdfs:range xsd:string ; skos:prefLabel "data quality"@en .
+s4c:custodyModel a owl:DatatypeProperty ; rdfs:domain s4c:EnvironmentalValue ; rdfs:range xsd:string ; skos:prefLabel "custody model"@en .
+s4c:subjectVersion a owl:DatatypeProperty ; rdfs:domain s4c:IntegrityEvidence ; rdfs:range xsd:integer ; skos:prefLabel "subject version"@en .
+s4c:digestAlgorithm a owl:DatatypeProperty ; rdfs:domain s4c:IntegrityEvidence ; rdfs:range xsd:string ; skos:prefLabel "digest algorithm"@en .
+s4c:evidenceState a owl:DatatypeProperty ; rdfs:domain s4c:IntegrityEvidence ; rdfs:range xsd:string ; skos:prefLabel "evidence state"@en .
+s4c:evidenceCreatedAt a owl:DatatypeProperty ; rdfs:domain s4c:IntegrityEvidence ; rdfs:range xsd:dateTime ; skos:prefLabel "evidence created at"@en .
+s4c:ledgerNetworkIdentifier a owl:DatatypeProperty ; rdfs:domain s4c:IntegrityEvidence ; rdfs:range xsd:string ; skos:prefLabel "ledger network identifier"@en .
+s4c:transactionReference a owl:DatatypeProperty ; rdfs:domain s4c:IntegrityEvidence ; rdfs:range xsd:string ; skos:prefLabel "transaction reference"@en .
+s4c:confirmedAt a owl:DatatypeProperty ; rdfs:domain s4c:IntegrityEvidence ; rdfs:range xsd:dateTime ; skos:prefLabel "confirmed at"@en .
+s4c:anchoringAttempts a owl:DatatypeProperty ; rdfs:domain s4c:IntegrityEvidence ; rdfs:range xsd:nonNegativeInteger ; skos:prefLabel "anchoring attempts"@en .
+s4c:lastReasonCode a owl:DatatypeProperty ; rdfs:domain s4c:IntegrityEvidence ; rdfs:range xsd:string ; skos:prefLabel "last reason code"@en .
 
 #################################################################
 # Axioms that make the model testable

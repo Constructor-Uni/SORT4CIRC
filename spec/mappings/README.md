@@ -1,7 +1,8 @@
 # DPP mapping package
 
 Version `1.0.0` binds all 124 schema-defined exchange paths in the SORT4CIRC
-DPP profile to JSON, XML and RDF. The authoritative machine-readable source is
+DPP profile to JSON and XML and explicitly classifies RDF applicability. The
+authoritative machine-readable source is
 `dpp-mapping-1.0.0.json`; it is validated by
 `dpp-mapping-1.0.0.schema.json`. The CSV is a generated review projection.
 
@@ -11,20 +12,27 @@ repeated values. XML uses the `https://data.sort4circ.eu/dpp/1.0.0` namespace.
 RDF uses `https://data.sort4circ.eu/vocabulary/` and the class/property IRIs
 present in the ontology.
 
-A row with no direct ontology predicate names `rdf:value/rdf:JSON` as its RDF
-construct. The RDF projection emits the ontology-backed triples that version
-1.0.0 can express and a canonical `rdf:JSON` snapshot on the passport subject.
-That snapshot makes every exchange field reversible without inventing ontology
-terms. It is a transport fallback, not a claim that the missing field has a
-field-specific RDF predicate. Identifier rows that create resources use
-`rdf:subject`.
+The audited coverage is 124/124 JSON paths and 124/124 XML paths, 111 direct
+RDF properties, 7 RDF subject identifiers, 6 RDF-not-applicable structural or
+interface rows and 0 unresolved semantic RDF gaps. The transport snapshot
+retains 124/124 fields for reversal independently of semantic coverage.
 
-The XML Schema covers every JSON object, array and scalar. XSD 1.0 cannot encode
-the JSON Schema's conditional rules, so JSON validation remains normative for
-granularity identifiers, carrier closure, transformation references,
-percentage/basis pairs and sorting overrides. Conversion always validates the
-normative JSON form. Unknown, not-measured, not-applicable and withheld states
-remain explicit and are never coerced to zero or an empty string.
+A row is classified as `direct`, `subjectIdentifier`, `notApplicable` or
+`unresolved`. Direct rows name an ontology property and identifier rows create
+resources with `rdf:subject`. Not-applicable rows are structural or interface
+transport fields with an explicit reason. Unresolved rows identify a semantic
+ontology gap rather than hiding it. A canonical `rdf:JSON` snapshot remains on
+the passport subject for lossless transport reversal, but it is never counted
+as direct semantic RDF coverage.
+
+The XML Schema is XSD 1.1 and covers every JSON object, array and scalar. Its
+assertions enforce granularity identifiers, carrier closure, transformation
+references, percentage/basis pairs, non-supplied observations and sorting
+overrides. It is validated with `xmlschema.XMLSchema11` version 4.3.2. JSON
+Schema remains the normative JSON validation path. Cross-record reference
+existence, vocabulary membership and aggregate composition checks remain
+service-level validation. Unknown, not-measured, not-applicable and withheld
+states remain explicit and are never coerced to zero or an empty string.
 
 Run the mapping checks with:
 

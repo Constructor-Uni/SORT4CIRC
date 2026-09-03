@@ -1,10 +1,10 @@
 """Deterministic JSON, XML and RDF projections for mapping package 1.0.0.
 
 JSON remains the normative exchange representation.  XML is decoded with the
-normative JSON Schema so scalar types are never guessed.  RDF carries the
-ontology-backed triples that the current ontology can express and a canonical
-``rdf:JSON`` snapshot for lossless reversal of fields for which the ontology
-does not yet declare a predicate.
+normative JSON Schema so scalar types are never guessed. RDF carries
+ontology-backed semantic triples and a canonical ``rdf:JSON`` snapshot for
+lossless transport reversal. The snapshot is not a direct semantic mapping
+and is classified separately by the mapping package.
 """
 
 from __future__ import annotations

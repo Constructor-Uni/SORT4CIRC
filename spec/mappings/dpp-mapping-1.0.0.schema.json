@@ -32,7 +32,8 @@
       "additionalProperties": false,
       "required": [
         "mappingId", "mappingVersion", "jsonPath", "xmlXPath",
-        "rdfSubjectType", "rdfProperty", "rdfConstruct", "datatype",
+        "rdfSubjectType", "rdfProperty", "rdfConstruct", "rdfMappingStatus",
+        "rdfMappingReason", "datatype",
         "cardinality", "obligation", "controlledVocabulary", "unitRule",
         "source", "semanticMeaning", "notes"
       ],
@@ -44,6 +45,8 @@
         "rdfSubjectType": {"type": "string", "pattern": "^s4c:"},
         "rdfProperty": {"$ref": "#/$defs/nullableString"},
         "rdfConstruct": {"$ref": "#/$defs/nullableString"},
+        "rdfMappingStatus": {"enum": ["direct", "subjectIdentifier", "notApplicable", "unresolved"]},
+        "rdfMappingReason": {"$ref": "#/$defs/nullableString"},
         "datatype": {"enum": ["object", "xsd:anyURI", "xsd:boolean", "xsd:date", "xsd:dateTime", "xsd:decimal", "xsd:integer", "xsd:string"]},
         "cardinality": {"enum": ["0..1", "1", "0..n", "1..n"]},
         "obligation": {"enum": ["mandatory", "conditional", "optional"]},
@@ -54,7 +57,36 @@
         "notes": {"$ref": "#/$defs/nullableString"}
       },
       "allOf": [
-        {"anyOf": [{"required": ["rdfProperty"], "properties": {"rdfProperty": {"type": "string"}}}, {"required": ["rdfConstruct"], "properties": {"rdfConstruct": {"type": "string"}}}]}
+        {
+          "if": {"properties": {"rdfMappingStatus": {"const": "direct"}}, "required": ["rdfMappingStatus"]},
+          "then": {
+            "properties": {
+              "rdfProperty": {"type": "string"},
+              "rdfConstruct": {"type": "null"},
+              "rdfMappingReason": {"type": "null"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"rdfMappingStatus": {"const": "subjectIdentifier"}}, "required": ["rdfMappingStatus"]},
+          "then": {
+            "properties": {
+              "rdfProperty": {"type": "null"},
+              "rdfConstruct": {"const": "rdf:subject"},
+              "rdfMappingReason": {"type": "null"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"rdfMappingStatus": {"enum": ["notApplicable", "unresolved"]}}, "required": ["rdfMappingStatus"]},
+          "then": {
+            "properties": {
+              "rdfProperty": {"type": "null"},
+              "rdfConstruct": {"const": "rdf:value/rdf:JSON"},
+              "rdfMappingReason": {"type": "string", "minLength": 1}
+            }
+          }
+        }
       ]
     }
   }
