@@ -57,28 +57,28 @@
   "configuration": {
     "parameters": {
       "arguments": [
-        "tools/validate_fixtures.py"
+        "-m",
+        "pytest",
+        "-q"
       ],
-      "profile": "fixtures"
+      "profile": "tests"
     },
-    "profile": "local-fixtures",
+    "profile": "local-tests",
     "sensitiveParametersOmitted": false,
-    "sha256": "47f413743c7d9cac0048f5dccfc2e9be6510be5599893979bed0f9a07906d95e"
+    "sha256": "693d233d9e396f37049742828922cee16b37b8f35e83ea7139a4a64bc23281b2"
   },
-  "controlIdentifier": "FIXTURE-VALIDATION",
+  "controlIdentifier": "TEST-ALL",
   "dataset": {
-    "fixtureCount": 33,
-    "identifier": "repository-fixtures-inputs",
+    "fixtureCount": 53,
+    "identifier": "repository-tests-inputs",
     "operationCount": 1,
     "payloadCharacteristics": {
-      "capturedFileCount": 33,
+      "capturedFileCount": 53,
       "sourcePaths": [
-        "examples/fixtures",
-        "spec/schemas",
-        "spec/vocabularies"
+        "tests"
       ]
     },
-    "sha256": "af00eb8f8d3c285fb313da406942ccf2815d8ab4d630a910a0fb49af972e00aa",
+    "sha256": "1d856446390f9dc31731a8f9bfcd2e9e27276ff4318bdb76e487c618495e01c9",
     "version": null
   },
   "environment": {
@@ -161,24 +161,24 @@
     "pythonVersion": "3.13.14",
     "reproducibilityProfileVersion": "1.0.0"
   },
-  "evidenceId": "urn:sort4circ:evidence-run:6d5bd6fa-5326-4345-98b0-85937de5d27e",
+  "evidenceId": "urn:sort4circ:evidence-run:8a0daa7f-7c9e-4566-b4fb-006b41c91552",
   "evidenceRecordVersion": "1.0.0",
   "evidenceType": "executedTest",
   "execution": {
-    "command": "python tools/validate_fixtures.py",
+    "command": "python -m pytest -q",
     "exitCode": 0,
     "tool": "tools/evidence_run.py",
     "workingDirectory": "repositoryRoot"
   },
   "output": {
     "mediaType": "application/json",
-    "rawResultBytes": 1064,
-    "rawResultPath": "evidence/runs/raw/release-1.1.1/fixtures/raw-result.json",
-    "rawResultSha256": "19266e8ab2137df5aca184dfe23f6b8e8f93c1034c3e88c5a412e9ea54b4323b",
+    "rawResultBytes": 1062,
+    "immutableResultReference": "restrictedEvidenceLocationPending:test-suite:contains-personal-local-path",
+    "rawResultSha256": "e4f1d3cd0f60b2317ea4a478e4d3e5097d3dd36f9a68dcc6a03a6999a10e24ed",
     "summaryMetrics": {
       "exitCode": 0,
       "stderrLineCount": 0,
-      "stdoutLineCount": 16
+      "stdoutLineCount": 11
     }
   },
   "source": {
@@ -188,10 +188,10 @@
     "gitCommit": "fec8799459f66acd4e679ea5b4d08944281649f2",
     "repository": "Constructor-Uni/SORT4CIRC"
   },
-  "testName": "fixture and schema validation",
+  "testName": "normal test suite",
   "time": {
-    "completedAt": "2026-09-03T14:50:20.242Z",
-    "durationSeconds": 0.15,
-    "startedAt": "2026-09-03T14:50:20.092Z"
+    "completedAt": "2026-09-03T14:50:18.780Z",
+    "durationSeconds": 3.363,
+    "startedAt": "2026-09-03T14:50:15.417Z"
   }
 }

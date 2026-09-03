@@ -1,15 +1,14 @@
 {
   "acceptance": {
-    "acceptanceRule": "all configured platforms are measured and every confirmed digest verifies",
+    "acceptanceRule": "the configured validation command exits zero",
     "evidenceClassification": "release",
     "observedResult": 0,
     "observedResultSource": "rawResult",
-    "observedUnit": "verification failures or unconfirmed submissions",
-    "reason": "self test against the in-memory adapter; these figures describe this process and nothing about any distributed ledger",
+    "observedUnit": "exit code",
     "releaseGrade": true,
     "target": 0,
     "targetSource": "declaredRequirement",
-    "targetUnit": "verification failures or unconfirmed submissions",
+    "targetUnit": "exit code",
     "verdict": "pass"
   },
   "artefactVersions": {
@@ -57,33 +56,30 @@
   },
   "configuration": {
     "parameters": {
-      "confirmationTimeoutSeconds": 10,
-      "platforms": [
-        {
-          "adapter": "sort4circ_dpp.ledger.memory:InMemoryLedger",
-          "finality": "not applicable, no network",
-          "name": "in-memory-reference"
-        }
+      "arguments": [
+        "tools/validate_fixtures.py"
       ],
-      "pollIntervalSeconds": 0.05,
-      "runs": 10
+      "profile": "fixtures"
     },
-    "profile": "local-in-memory-anchor-self-test",
+    "profile": "local-fixtures",
     "sensitiveParametersOmitted": false,
-    "sha256": "fafe7437e9fb35f1813f188fccb517084c49c34d48f78b2ebdac75c2be3baae5"
+    "sha256": "47f413743c7d9cac0048f5dccfc2e9be6510be5599893979bed0f9a07906d95e"
   },
-  "controlIdentifier": "BC-01",
+  "controlIdentifier": "FIXTURE-VALIDATION",
   "dataset": {
-    "fixtureCount": 1,
-    "identifier": "annex-g-reference-record",
-    "operationCount": 10,
+    "fixtureCount": 33,
+    "identifier": "repository-fixtures-inputs",
+    "operationCount": 1,
     "payloadCharacteristics": {
-      "payloadBytes": 871,
-      "platformCount": 1,
-      "runsPerPlatform": 10
+      "capturedFileCount": 33,
+      "sourcePaths": [
+        "examples/fixtures",
+        "spec/schemas",
+        "spec/vocabularies"
+      ]
     },
-    "sha256": "dd14a3f2487f2b22deda4a7bc2b37e775f378e05d60dc1e6ad26fdf26038ae9f",
-    "version": "1.0.0"
+    "sha256": "af00eb8f8d3c285fb313da406942ccf2815d8ab4d630a910a0fb49af972e00aa",
+    "version": null
   },
   "environment": {
     "architecture": "AMD64",
@@ -165,25 +161,24 @@
     "pythonVersion": "3.13.14",
     "reproducibilityProfileVersion": "1.0.0"
   },
-  "evidenceId": "urn:sort4circ:evidence-run:493e78cd-d0cb-4f95-a5fa-1434ba8ceb3d",
+  "evidenceId": "urn:sort4circ:evidence-run:6d5bd6fa-5326-4345-98b0-85937de5d27e",
   "evidenceRecordVersion": "1.0.0",
   "evidenceType": "executedTest",
   "execution": {
-    "command": "python tools/anchor_bench.py --self-test --runs 10 --evidence-dir evidence/runs/raw/release-1.1.1/anchor-selftest --release-evidence",
+    "command": "python tools/validate_fixtures.py",
     "exitCode": 0,
-    "tool": "tools/anchor_bench.py",
+    "tool": "tools/evidence_run.py",
     "workingDirectory": "repositoryRoot"
   },
   "output": {
     "mediaType": "application/json",
-    "rawResultBytes": 1819,
-    "rawResultPath": "evidence/runs/raw/release-1.1.1/anchor-selftest/raw-result.json",
-    "rawResultSha256": "3181f42a99c4ab6ac4fd781066639daec5cbf541255eac0b503e79e729d5a04e",
+    "rawResultBytes": 1064,
+    "rawResultPath": "evidence/releases/1.2.0/fixture-validation/raw-result.json",
+    "rawResultSha256": "19266e8ab2137df5aca184dfe23f6b8e8f93c1034c3e88c5a412e9ea54b4323b",
     "summaryMetrics": {
-      "anchoredRecords": 10,
-      "configuredPlatforms": 1,
-      "failuresOrUnconfirmed": 0,
-      "measuredPlatforms": 1
+      "exitCode": 0,
+      "stderrLineCount": 0,
+      "stdoutLineCount": 16
     }
   },
   "source": {
@@ -193,10 +188,10 @@
     "gitCommit": "fec8799459f66acd4e679ea5b4d08944281649f2",
     "repository": "Constructor-Uni/SORT4CIRC"
   },
-  "testName": "ledger adapter self-test",
+  "testName": "fixture and schema validation",
   "time": {
-    "completedAt": "2026-09-03T14:50:26.905Z",
-    "durationSeconds": 0.055,
-    "startedAt": "2026-09-03T14:50:26.850Z"
+    "completedAt": "2026-09-03T14:50:20.242Z",
+    "durationSeconds": 0.15,
+    "startedAt": "2026-09-03T14:50:20.092Z"
   }
 }

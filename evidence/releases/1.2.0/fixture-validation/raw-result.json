@@ -1,0 +1,10 @@
+{
+  "profile": "fixtures",
+  "command": [
+    "python",
+    "tools/validate_fixtures.py"
+  ],
+  "exitCode": 0,
+  "stdout": "ok   invalid-article-class-token.json: S4C-PAYLOAD-VOCAB-INVALID\nok   invalid-composition-above-one-hundred.json: S4C-PAYLOAD-SCHEMA-INVALID\nok   invalid-confidence-without-scale.json: S4C-PAYLOAD-SCHEMA-INVALID\nok   invalid-fibre-token.json: S4C-PAYLOAD-VOCAB-INVALID\nok   invalid-item-without-item-id.json: S4C-PAYLOAD-SCHEMA-INVALID\nok   invalid-no-material-observation.json: S4C-PAYLOAD-SCHEMA-INVALID\nok   invalid-observation-without-method.json: S4C-PAYLOAD-SCHEMA-INVALID\nok   invalid-percentage-without-basis.json: S4C-PAYLOAD-SCHEMA-INVALID\nok   invalid-timestamp-without-offset.json: S4C-PAYLOAD-SCHEMA-INVALID\nok   invalid-unknown-carrying-a-value.json: S4C-PAYLOAD-SCHEMA-INVALID\nok   valid-annex-g-garment.json: valid\nok   valid-minimum.json: valid\nok   valid-two-technologies-disagree.json: valid\nok   valid-uncharacterised-garment.json: valid\n\n14/14 fixtures behaved as declared\n",
+  "stderr": ""
+}

@@ -1,11 +1,12 @@
 # Execution evidence
 
-Evidence has two retention classes. Safe release-support metadata is tracked
-under `evidence/releases/<release>/`; each release has a manifest and validated
-evidence records. Raw, large, exploratory or potentially sensitive output stays
-under the Git-ignored `evidence/runs/` tree. Tracked records contain the raw
-output's SHA-256 digest, byte count and logical path, so the exact retained raw
-result can be verified without committing it.
+Evidence has three retention classes. Safe release-support records and small,
+public raw results are tracked together under `evidence/releases/<release>/`;
+each release has a manifest that binds every record and tracked raw result by
+SHA-256 and byte count. Restricted release raw results remain untracked and use
+an immutable evidence reference (or an explicit pending-location status) plus
+their digest, size and non-public reason. Exploratory output stays under the
+Git-ignored `evidence/runs/` tree and is not referenced as release evidence.
 
 New evidence-producing runs write `evidence/runs/raw/<run-id>/evidence.json`
 and `raw-result.json`. Pass that run directory with `--evidence-dir` to
@@ -20,8 +21,8 @@ commit, dirty state, application and dependency versions, runtime and hardware
 facts, pinned container references, configuration profile, dataset identity,
 counts and characteristics, normative artefact versions and digests,
 acceptance target/rule/observation/verdict, and the raw result digest and size.
-The working directory is recorded logically as `repositoryRoot`, not as a
-personal absolute path.
+Public raw paths are repository-relative; the working directory is recorded
+logically as `repositoryRoot`, not as a personal absolute path.
 
 SHA-256 over structured configuration uses canonical UTF-8 JSON with sorted
 keys and compact separators (`json-sorted-keys-utf8-1.0.0`). Dataset file-set
@@ -43,10 +44,11 @@ used to imply an executed test. The bundled tools currently emit
 
 Ordinary runs are classified as research evidence. A dirty run is always
 `releaseGrade: false`. Passing `--release-evidence` requires a clean working
-tree and is rejected otherwise. Promote only reviewed, schema-valid metadata
-records from a clean run into `evidence/releases/`; do not promote raw output,
-credentials, private endpoints or confidential payloads. Existing benchmark
-files are historical facts and are not rewritten. In particular,
+tree and is rejected otherwise. Promote only reviewed, schema-valid records
+from a clean run. Co-locate raw output only when it is small and public-safe;
+never promote credentials, personal paths, private endpoints or confidential
+payloads. Existing benchmark files are historical facts and are not rewritten.
+In particular,
 `docs/benchmarks/loadtest-results.json` records commit `d870cc9`, which is
 not reachable from the current repository history; the new framework does not
 substitute a different commit.

@@ -1,14 +1,14 @@
 {
   "acceptance": {
-    "acceptanceRule": "the configured validation command exits zero",
+    "acceptanceRule": "resolve p99 at the first concurrency level is <= 920 ms and request errors equal zero",
     "evidenceClassification": "release",
-    "observedResult": 0,
+    "observedResult": 1.993,
     "observedResultSource": "rawResult",
-    "observedUnit": "exit code",
+    "observedUnit": "ms",
     "releaseGrade": true,
-    "target": 0,
+    "target": 920.0,
     "targetSource": "declaredRequirement",
-    "targetUnit": "exit code",
+    "targetUnit": "ms",
     "verdict": "pass"
   },
   "artefactVersions": {
@@ -56,30 +56,35 @@
   },
   "configuration": {
     "parameters": {
-      "arguments": [
-        "-m",
-        "pytest",
-        "-q"
+      "concurrency": [
+        1
       ],
-      "profile": "tests"
+      "passports": 10,
+      "requests": 20
     },
-    "profile": "local-tests",
+    "profile": "local-in-memory-load",
     "sensitiveParametersOmitted": false,
-    "sha256": "693d233d9e396f37049742828922cee16b37b8f35e83ea7139a4a64bc23281b2"
+    "sha256": "530e613d539d2bc6148759cd37b9d600afc331f3501bda386181f2919e2d24d0"
   },
-  "controlIdentifier": "TEST-ALL",
+  "controlIdentifier": "PERF-01",
   "dataset": {
-    "fixtureCount": 53,
-    "identifier": "repository-tests-inputs",
-    "operationCount": 1,
+    "fixtureCount": 10,
+    "identifier": "generated-loadtest-passports",
+    "operationCount": 80,
     "payloadCharacteristics": {
-      "capturedFileCount": 53,
-      "sourcePaths": [
-        "tests"
+      "concurrencyLevels": [
+        1
+      ],
+      "passportCount": 10,
+      "requestClasses": [
+        "observation",
+        "resolve",
+        "search",
+        "sortingView"
       ]
     },
-    "sha256": "1d856446390f9dc31731a8f9bfcd2e9e27276ff4318bdb76e487c618495e01c9",
-    "version": null
+    "sha256": "8ba73abb26b866bf7268c786f080aef2342d1babf44d70d582badf15ca42525a",
+    "version": "generator-1.0.0"
   },
   "environment": {
     "architecture": "AMD64",
@@ -161,24 +166,27 @@
     "pythonVersion": "3.13.14",
     "reproducibilityProfileVersion": "1.0.0"
   },
-  "evidenceId": "urn:sort4circ:evidence-run:8a0daa7f-7c9e-4566-b4fb-006b41c91552",
+  "evidenceId": "urn:sort4circ:evidence-run:412168ce-9f73-429d-8a20-1bbfbd257ce8",
   "evidenceRecordVersion": "1.0.0",
   "evidenceType": "executedTest",
   "execution": {
-    "command": "python -m pytest -q",
+    "command": "python tools/loadtest.py --passports 10 --requests 20 --concurrency 1 --evidence-dir evidence/runs/raw/release-1.1.1/loadtest --release-evidence",
     "exitCode": 0,
-    "tool": "tools/evidence_run.py",
+    "tool": "tools/loadtest.py",
     "workingDirectory": "repositoryRoot"
   },
   "output": {
     "mediaType": "application/json",
-    "rawResultBytes": 1062,
-    "rawResultPath": "evidence/runs/raw/release-1.1.1/tests/raw-result.json",
-    "rawResultSha256": "e4f1d3cd0f60b2317ea4a478e4d3e5097d3dd36f9a68dcc6a03a6999a10e24ed",
+    "rawResultBytes": 4291,
+    "rawResultPath": "evidence/releases/1.2.0/loadtest/raw-result.json",
+    "rawResultSha256": "6a1df55aa3d58839dcccd9b4af78fcd499dc1bd4605bffaa6feff6aa4f107896",
     "summaryMetrics": {
-      "exitCode": 0,
-      "stderrLineCount": 0,
-      "stdoutLineCount": 11
+      "concurrencyLevels": [
+        1
+      ],
+      "failures": 0,
+      "requestCount": 80,
+      "resolveP99Ms": 1.993
     }
   },
   "source": {
@@ -188,10 +196,10 @@
     "gitCommit": "fec8799459f66acd4e679ea5b4d08944281649f2",
     "repository": "Constructor-Uni/SORT4CIRC"
   },
-  "testName": "normal test suite",
+  "testName": "reference service load campaign",
   "time": {
-    "completedAt": "2026-09-03T14:50:18.780Z",
-    "durationSeconds": 3.363,
-    "startedAt": "2026-09-03T14:50:15.417Z"
+    "completedAt": "2026-09-03T14:50:26.381Z",
+    "durationSeconds": 1.232,
+    "startedAt": "2026-09-03T14:50:25.149Z"
   }
 }

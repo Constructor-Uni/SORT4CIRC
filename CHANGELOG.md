@@ -3,6 +3,15 @@
 Format follows Keep a Changelog. Versions follow semantic versioning, applied
 independently to each artefact under `spec/`.
 
+## [Unreleased]
+
+### Fixed
+
+- Corrected the new release-support evidence package identity from the
+  historical 1.1.1 release to the future 1.2.0 release, co-located safe raw
+  results with their records, and marked raw results containing personal local
+  paths as restricted with their exact digest and byte count preserved.
+
 ## [1.1.1] - 2026-08-11
 
 Presentation and release-integrity maintenance for the software package. No

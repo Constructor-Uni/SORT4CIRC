@@ -1,0 +1,196 @@
+{
+  "environment": {
+    "cpuModel": "AMD64 Family 26 Model 8 Stepping 1, AuthenticAMD",
+    "cpuCount": 48,
+    "memoryGiB": 0.0,
+    "python": "3.13.14",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "commit": "fec8799",
+    "serverProcesses": 1,
+    "storeBacking": "in-memory reference store, no database round trip",
+    "ledgerAdapter": "in-memory, no chain interaction",
+    "capturedAt": "2026-09-03T14:50:25Z"
+  },
+  "seed": {
+    "passports": 10,
+    "wallSeconds": 0.215,
+    "perPassportMs": 21.479
+  },
+  "scenarios": {
+    "resolve": {
+      "1": {
+        "requests": 20,
+        "errors": 0,
+        "statuses": {
+          "200": 20
+        },
+        "wallSeconds": 0.022,
+        "throughputPerSecond": 905.7,
+        "meanMs": 1.102,
+        "p50Ms": 1.013,
+        "p90Ms": 1.256,
+        "p95Ms": 1.993,
+        "p99Ms": 1.993,
+        "maxMs": 1.993,
+        "latenciesMs": [
+          1.1749,
+          1.0362,
+          0.9937,
+          1.4275,
+          1.1067,
+          0.9878,
+          0.9214,
+          0.8814,
+          1.0579,
+          1.0772,
+          1.0058,
+          1.2301,
+          0.9773,
+          1.0132,
+          0.952,
+          1.0979,
+          0.9475,
+          0.9057,
+          1.9932,
+          1.2565
+        ]
+      }
+    },
+    "sortingView": {
+      "1": {
+        "requests": 20,
+        "errors": 0,
+        "statuses": {
+          "200": 20
+        },
+        "wallSeconds": 0.024,
+        "throughputPerSecond": 837.8,
+        "meanMs": 1.191,
+        "p50Ms": 1.054,
+        "p90Ms": 1.465,
+        "p95Ms": 2.169,
+        "p99Ms": 2.169,
+        "maxMs": 2.169,
+        "latenciesMs": [
+          1.4654,
+          1.3548,
+          1.0481,
+          1.002,
+          1.0269,
+          1.1034,
+          2.1692,
+          1.0319,
+          1.1356,
+          1.4083,
+          0.9211,
+          0.8863,
+          0.9328,
+          1.9393,
+          1.2997,
+          1.0544,
+          1.2472,
+          1.0629,
+          0.8597,
+          0.8714
+        ]
+      }
+    },
+    "observation": {
+      "1": {
+        "requests": 20,
+        "errors": 0,
+        "statuses": {
+          "201": 20
+        },
+        "wallSeconds": 0.05,
+        "throughputPerSecond": 401.2,
+        "meanMs": 2.495,
+        "p50Ms": 2.324,
+        "p90Ms": 3.051,
+        "p95Ms": 3.417,
+        "p99Ms": 3.417,
+        "maxMs": 3.417,
+        "latenciesMs": [
+          2.7342,
+          2.3243,
+          2.3535,
+          2.1045,
+          1.9164,
+          3.1438,
+          2.2071,
+          2.0895,
+          2.1583,
+          3.4167,
+          2.5119,
+          3.0509,
+          2.8405,
+          2.4051,
+          2.1712,
+          2.046,
+          2.2852,
+          2.9262,
+          2.9788,
+          2.2376
+        ]
+      }
+    },
+    "search": {
+      "1": {
+        "requests": 20,
+        "errors": 0,
+        "statuses": {
+          "200": 20
+        },
+        "wallSeconds": 0.037,
+        "throughputPerSecond": 544.7,
+        "meanMs": 1.834,
+        "p50Ms": 1.703,
+        "p90Ms": 2.276,
+        "p95Ms": 2.854,
+        "p99Ms": 2.854,
+        "maxMs": 2.854,
+        "latenciesMs": [
+          2.0557,
+          2.0112,
+          1.8486,
+          1.6059,
+          1.4566,
+          1.7677,
+          1.5171,
+          1.3777,
+          1.6744,
+          2.0729,
+          1.5663,
+          1.6451,
+          1.7032,
+          2.8544,
+          2.3818,
+          2.2756,
+          2.0071,
+          1.6541,
+          1.4714,
+          1.7302
+        ]
+      }
+    }
+  },
+  "outboxDrain": {
+    "status": 200,
+    "states": {
+      "confirmed": 41
+    },
+    "entries": 41,
+    "wallMs": 20.002,
+    "perEntryMs": 0.4879,
+    "rescanMs": 1.007,
+    "confirmed": 41,
+    "note": "in-memory ledger adapter; measures the outbox, not any chain"
+  },
+  "budget": {
+    "budgetMs": 920.0,
+    "atConcurrency": 1,
+    "observedP99Ms": 1.993,
+    "headroomPercent": 99.78,
+    "caveat": "in-memory store and loopback network; a deployment with a database, a real network and a hardware read zone must repeat this measurement"
+  }
+}

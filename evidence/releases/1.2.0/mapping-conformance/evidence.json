@@ -1,14 +1,14 @@
 {
   "acceptance": {
-    "acceptanceRule": "resolve p99 at the first concurrency level is <= 920 ms and request errors equal zero",
+    "acceptanceRule": "the configured validation command exits zero",
     "evidenceClassification": "release",
-    "observedResult": 1.993,
+    "observedResult": 0,
     "observedResultSource": "rawResult",
-    "observedUnit": "ms",
+    "observedUnit": "exit code",
     "releaseGrade": true,
-    "target": 920.0,
+    "target": 0,
     "targetSource": "declaredRequirement",
-    "targetUnit": "ms",
+    "targetUnit": "exit code",
     "verdict": "pass"
   },
   "artefactVersions": {
@@ -56,35 +56,33 @@
   },
   "configuration": {
     "parameters": {
-      "concurrency": [
-        1
+      "arguments": [
+        "-m",
+        "pytest",
+        "tests/test_mapping.py",
+        "-q"
       ],
-      "passports": 10,
-      "requests": 20
+      "profile": "mapping"
     },
-    "profile": "local-in-memory-load",
+    "profile": "local-mapping",
     "sensitiveParametersOmitted": false,
-    "sha256": "530e613d539d2bc6148759cd37b9d600afc331f3501bda386181f2919e2d24d0"
+    "sha256": "ae888c68b17eb9a068ac876021672c9b93bc8650df2aa091ab9b185ca0c03b11"
   },
-  "controlIdentifier": "PERF-01",
+  "controlIdentifier": "MAPPING-CONFORMANCE",
   "dataset": {
-    "fixtureCount": 10,
-    "identifier": "generated-loadtest-passports",
-    "operationCount": 80,
+    "fixtureCount": 20,
+    "identifier": "repository-mapping-inputs",
+    "operationCount": 1,
     "payloadCharacteristics": {
-      "concurrencyLevels": [
-        1
-      ],
-      "passportCount": 10,
-      "requestClasses": [
-        "observation",
-        "resolve",
-        "search",
-        "sortingView"
+      "capturedFileCount": 20,
+      "sourcePaths": [
+        "tests/test_mapping.py",
+        "spec/mappings",
+        "examples/fixtures"
       ]
     },
-    "sha256": "8ba73abb26b866bf7268c786f080aef2342d1babf44d70d582badf15ca42525a",
-    "version": "generator-1.0.0"
+    "sha256": "2f290c96d10e5483cbfdbd9e456140b6a4bf9219fdfe59780b75dc7845671883",
+    "version": null
   },
   "environment": {
     "architecture": "AMD64",
@@ -166,27 +164,24 @@
     "pythonVersion": "3.13.14",
     "reproducibilityProfileVersion": "1.0.0"
   },
-  "evidenceId": "urn:sort4circ:evidence-run:412168ce-9f73-429d-8a20-1bbfbd257ce8",
+  "evidenceId": "urn:sort4circ:evidence-run:52c4bdb2-5fab-4508-b901-1cd37391e068",
   "evidenceRecordVersion": "1.0.0",
   "evidenceType": "executedTest",
   "execution": {
-    "command": "python tools/loadtest.py --passports 10 --requests 20 --concurrency 1 --evidence-dir evidence/runs/raw/release-1.1.1/loadtest --release-evidence",
+    "command": "python -m pytest tests/test_mapping.py -q",
     "exitCode": 0,
-    "tool": "tools/loadtest.py",
+    "tool": "tools/evidence_run.py",
     "workingDirectory": "repositoryRoot"
   },
   "output": {
     "mediaType": "application/json",
-    "rawResultBytes": 4291,
-    "rawResultPath": "evidence/runs/raw/release-1.1.1/loadtest/raw-result.json",
-    "rawResultSha256": "6a1df55aa3d58839dcccd9b4af78fcd499dc1bd4605bffaa6feff6aa4f107896",
+    "rawResultBytes": 850,
+    "immutableResultReference": "restrictedEvidenceLocationPending:mapping-conformance:contains-personal-local-path",
+    "rawResultSha256": "ee58b55efae92991ddc387fb5024f7f4072e000cd0b31cecc215c43d9f685cad",
     "summaryMetrics": {
-      "concurrencyLevels": [
-        1
-      ],
-      "failures": 0,
-      "requestCount": 80,
-      "resolveP99Ms": 1.993
+      "exitCode": 0,
+      "stderrLineCount": 0,
+      "stdoutLineCount": 8
     }
   },
   "source": {
@@ -196,10 +191,10 @@
     "gitCommit": "fec8799459f66acd4e679ea5b4d08944281649f2",
     "repository": "Constructor-Uni/SORT4CIRC"
   },
-  "testName": "reference service load campaign",
+  "testName": "JSON XML RDF mapping conformance",
   "time": {
-    "completedAt": "2026-09-03T14:50:26.381Z",
-    "durationSeconds": 1.232,
-    "startedAt": "2026-09-03T14:50:25.149Z"
+    "completedAt": "2026-09-03T14:50:22.636Z",
+    "durationSeconds": 1.063,
+    "startedAt": "2026-09-03T14:50:21.573Z"
   }
 }

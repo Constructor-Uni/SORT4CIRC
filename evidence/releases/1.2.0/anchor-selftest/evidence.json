@@ -1,14 +1,15 @@
 {
   "acceptance": {
-    "acceptanceRule": "the configured validation command exits zero",
+    "acceptanceRule": "all configured platforms are measured and every confirmed digest verifies",
     "evidenceClassification": "release",
     "observedResult": 0,
     "observedResultSource": "rawResult",
-    "observedUnit": "exit code",
+    "observedUnit": "verification failures or unconfirmed submissions",
+    "reason": "self test against the in-memory adapter; these figures describe this process and nothing about any distributed ledger",
     "releaseGrade": true,
     "target": 0,
     "targetSource": "declaredRequirement",
-    "targetUnit": "exit code",
+    "targetUnit": "verification failures or unconfirmed submissions",
     "verdict": "pass"
   },
   "artefactVersions": {
@@ -56,33 +57,33 @@
   },
   "configuration": {
     "parameters": {
-      "arguments": [
-        "-m",
-        "pytest",
-        "tests/test_mapping.py",
-        "-q"
+      "confirmationTimeoutSeconds": 10,
+      "platforms": [
+        {
+          "adapter": "sort4circ_dpp.ledger.memory:InMemoryLedger",
+          "finality": "not applicable, no network",
+          "name": "in-memory-reference"
+        }
       ],
-      "profile": "mapping"
+      "pollIntervalSeconds": 0.05,
+      "runs": 10
     },
-    "profile": "local-mapping",
+    "profile": "local-in-memory-anchor-self-test",
     "sensitiveParametersOmitted": false,
-    "sha256": "ae888c68b17eb9a068ac876021672c9b93bc8650df2aa091ab9b185ca0c03b11"
+    "sha256": "fafe7437e9fb35f1813f188fccb517084c49c34d48f78b2ebdac75c2be3baae5"
   },
-  "controlIdentifier": "MAPPING-CONFORMANCE",
+  "controlIdentifier": "BC-01",
   "dataset": {
-    "fixtureCount": 20,
-    "identifier": "repository-mapping-inputs",
-    "operationCount": 1,
+    "fixtureCount": 1,
+    "identifier": "annex-g-reference-record",
+    "operationCount": 10,
     "payloadCharacteristics": {
-      "capturedFileCount": 20,
-      "sourcePaths": [
-        "tests/test_mapping.py",
-        "spec/mappings",
-        "examples/fixtures"
-      ]
+      "payloadBytes": 871,
+      "platformCount": 1,
+      "runsPerPlatform": 10
     },
-    "sha256": "2f290c96d10e5483cbfdbd9e456140b6a4bf9219fdfe59780b75dc7845671883",
-    "version": null
+    "sha256": "dd14a3f2487f2b22deda4a7bc2b37e775f378e05d60dc1e6ad26fdf26038ae9f",
+    "version": "1.0.0"
   },
   "environment": {
     "architecture": "AMD64",
@@ -164,24 +165,25 @@
     "pythonVersion": "3.13.14",
     "reproducibilityProfileVersion": "1.0.0"
   },
-  "evidenceId": "urn:sort4circ:evidence-run:52c4bdb2-5fab-4508-b901-1cd37391e068",
+  "evidenceId": "urn:sort4circ:evidence-run:493e78cd-d0cb-4f95-a5fa-1434ba8ceb3d",
   "evidenceRecordVersion": "1.0.0",
   "evidenceType": "executedTest",
   "execution": {
-    "command": "python -m pytest tests/test_mapping.py -q",
+    "command": "python tools/anchor_bench.py --self-test --runs 10 --evidence-dir evidence/runs/raw/release-1.1.1/anchor-selftest --release-evidence",
     "exitCode": 0,
-    "tool": "tools/evidence_run.py",
+    "tool": "tools/anchor_bench.py",
     "workingDirectory": "repositoryRoot"
   },
   "output": {
     "mediaType": "application/json",
-    "rawResultBytes": 850,
-    "rawResultPath": "evidence/runs/raw/release-1.1.1/mapping/raw-result.json",
-    "rawResultSha256": "ee58b55efae92991ddc387fb5024f7f4072e000cd0b31cecc215c43d9f685cad",
+    "rawResultBytes": 1819,
+    "rawResultPath": "evidence/releases/1.2.0/anchor-selftest/raw-result.json",
+    "rawResultSha256": "3181f42a99c4ab6ac4fd781066639daec5cbf541255eac0b503e79e729d5a04e",
     "summaryMetrics": {
-      "exitCode": 0,
-      "stderrLineCount": 0,
-      "stdoutLineCount": 8
+      "anchoredRecords": 10,
+      "configuredPlatforms": 1,
+      "failuresOrUnconfirmed": 0,
+      "measuredPlatforms": 1
     }
   },
   "source": {
@@ -191,10 +193,10 @@
     "gitCommit": "fec8799459f66acd4e679ea5b4d08944281649f2",
     "repository": "Constructor-Uni/SORT4CIRC"
   },
-  "testName": "JSON XML RDF mapping conformance",
+  "testName": "ledger adapter self-test",
   "time": {
-    "completedAt": "2026-09-03T14:50:22.636Z",
-    "durationSeconds": 1.063,
-    "startedAt": "2026-09-03T14:50:21.573Z"
+    "completedAt": "2026-09-03T14:50:26.905Z",
+    "durationSeconds": 0.055,
+    "startedAt": "2026-09-03T14:50:26.850Z"
   }
 }

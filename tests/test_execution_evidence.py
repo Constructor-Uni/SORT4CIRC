@@ -19,7 +19,7 @@ from sort4circ_dpp.execution_evidence import (
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = json.loads((ROOT / "evidence/schema/execution-evidence-1.0.0.schema.json").read_text(encoding="utf-8"))
 RAW = ROOT / "docs/benchmarks/anchor-selftest.json"
-RELEASE_DIR = ROOT / "evidence/releases/1.1.1"
+RELEASE_DIR = ROOT / "evidence/releases/1.2.0"
 
 
 def git_state(dirty=False):
@@ -198,16 +198,31 @@ def test_tracked_release_evidence_is_complete_safe_and_bound_to_one_clean_commit
     assert manifest["declaredContainerEvidencePlatform"] == "linux/amd64"
     assert manifest["executionHost"]["os"] == "Windows"
     assert manifest["executionHost"]["pythonVersion"] == "3.13.14"
+    assert manifest["releaseEvidenceVersion"] == "1.2.0"
     assert len(manifest["records"]) == 5
 
     expected = {
-        "test-suite-evidence.json",
-        "fixture-validation-evidence.json",
-        "mapping-conformance-evidence.json",
-        "loadtest-evidence.json",
-        "anchor-selftest-evidence.json",
+        "test-suite/evidence.json",
+        "fixture-validation/evidence.json",
+        "mapping-conformance/evidence.json",
+        "loadtest/evidence.json",
+        "anchor-selftest/evidence.json",
     }
     assert {entry["record"] for entry in manifest["records"]} == expected
+    expected_files = {"manifest.json", *expected}
+    expected_files.update(
+        Path(entry["rawResult"]["path"])
+        .relative_to("evidence/releases/1.2.0")
+        .as_posix()
+        for entry in manifest["records"]
+        if entry["rawResult"]["retention"] == "tracked-release-package"
+    )
+    actual_files = {
+        path.relative_to(RELEASE_DIR).as_posix()
+        for path in RELEASE_DIR.rglob("*")
+        if path.is_file()
+    }
+    assert actual_files == expected_files
 
     for entry in manifest["records"]:
         record_path = RELEASE_DIR / entry["record"]
@@ -220,8 +235,22 @@ def test_tracked_release_evidence_is_complete_safe_and_bound_to_one_clean_commit
         assert record["acceptance"]["evidenceClassification"] == "release"
         assert record["output"]["rawResultSha256"] == entry["rawResult"]["sha256"]
         assert record["output"]["rawResultBytes"] == entry["rawResult"]["bytes"]
-        assert record["output"]["rawResultPath"] == entry["rawResult"]["path"]
-        assert entry["rawResult"]["retention"] == "ignored-local-raw-output"
+        raw_result = entry["rawResult"]
+        if raw_result["retention"] == "tracked-release-package":
+            assert record["output"]["rawResultPath"] == raw_result["path"]
+            raw_path = ROOT / raw_result["path"]
+            assert raw_path.is_file()
+            assert file_digest(raw_path) == raw_result["sha256"]
+            assert raw_path.stat().st_size == raw_result["bytes"]
+            assert raw_path.is_relative_to(RELEASE_DIR)
+        else:
+            assert raw_result["retention"] == "restrictedEvidenceLocationPending"
+            assert "path" not in raw_result
+            assert raw_result["reason"]
+            assert (
+                record["output"]["immutableResultReference"]
+                == raw_result["immutableResultReference"]
+            )
         encoded = json.dumps(record).lower()
         assert "private_key" not in encoded
         assert "api_token" not in encoded
@@ -230,7 +259,7 @@ def test_tracked_release_evidence_is_complete_safe_and_bound_to_one_clean_commit
 
 
 def test_release_anchor_evidence_is_explicitly_an_in_memory_self_test():
-    record = json.loads((RELEASE_DIR / "anchor-selftest-evidence.json").read_text(encoding="utf-8"))
+    record = json.loads((RELEASE_DIR / "anchor-selftest/evidence.json").read_text(encoding="utf-8"))
     assert record["configuration"]["parameters"]["platforms"][0]["name"] == "in-memory-reference"
     assert "nothing about any distributed ledger" in record["acceptance"]["reason"]
     assert "--self-test" in record["execution"]["command"]
