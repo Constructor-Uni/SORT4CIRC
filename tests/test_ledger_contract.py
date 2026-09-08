@@ -1,9 +1,4 @@
-"""The adapter contract, run against every adapter.
-
-A new platform adapter passes this suite before activation. The suite is
-parameterised over adapters rather than written per adapter, so a platform
-change is a configuration change and not a rewrite.
-"""
+"""Generic backend behaviour exercised against the educational memory adapter."""
 
 from __future__ import annotations
 
@@ -12,18 +7,18 @@ import pytest
 from sort4circ_dpp.ledger.base import LedgerError
 from sort4circ_dpp.ledger.memory import InMemoryLedger
 
-DIGEST = "dd14a3f2487f2b22deda4a7bc2b37e775f378e05d60dc1e6ad26fdf26038ae9f"
+DIGEST = "c99a12da1b69a0acce1b3f7f3dca0a6af740ebc7cdd80ab08060e908986da715"
 
 
-def envelope(evidence_id="urn:sort4circ:evidence:1", digest=DIGEST):
+def envelope(evidence_id="urn:example:evidence:1", digest=DIGEST):
     return {
         "evidenceId": evidence_id,
-        "subjectRef": "urn:sort4circ:dpp:000001",
-        "subjectVersion": 7,
+        "subjectRef": "urn:example:dpp:000001",
+        "subjectVersion": 1,
         "canonicalisation": "rfc8785",
         "digestAlgorithm": "sha-256",
         "digestValue": digest,
-        "createdAt": "2026-08-10T09:14:02.031Z",
+        "createdAt": "2042-02-13T10:30:00Z",
     }
 
 
@@ -56,7 +51,7 @@ def test_verify_distinguishes_four_verdicts(adapter):
     assert adapter.verify("unknown", DIGEST) == "unverifiable"
 
     pending = InMemoryLedger(auto_confirm=False)
-    pending.submit("e2", envelope("urn:sort4circ:evidence:2"))
+    pending.submit("e2", envelope("urn:example:evidence:2"))
     assert pending.verify("e2", DIGEST) == "unanchored", "a pending anchor is not a tampering indication"
 
 

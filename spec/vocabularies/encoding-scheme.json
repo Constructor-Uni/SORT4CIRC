@@ -1,13 +1,13 @@
 {
-  "$id": "https://data.sort4circ.eu/vocabulary/encoding-scheme/1.0.0",
+  "$id": "https://example.org/vocabulary/encoding-scheme/2.0.0",
   "name": "encoding-scheme",
-  "version": "1.0.0",
-  "released": "2026-08-10",
-  "owner": "Constructor University, SORT4CIRC WP4",
+  "version": "2.0.0",
+  "released": "2026-09-08",
+  "owner": "Public profile maintainers",
   "terms": [
     {
-      "token": "gs1Sgtin96",
-      "definition": "GS1 SGTIN-96 EPC encoding.",
+      "token": "exampleUri",
+      "definition": "Fictional URI scheme for educational examples; not a deployed carrier encoding.",
       "deprecated": false,
       "replacedBy": null
     },

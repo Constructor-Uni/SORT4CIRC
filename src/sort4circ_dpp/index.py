@@ -1,10 +1,4 @@
-"""Read-optimised projection for the time-critical sorting path.
-
-The index is generated from the managed passport source and is never an
-independent authoritative record. It publishes its own lag rather than
-concealing it, so a sorting controller can decide deliberately whether to accept
-a projection of that age or pay for a strongly consistent read.
-"""
+"""In-memory projection example with optional caller-supplied freshness policy."""
 
 from __future__ import annotations
 
@@ -13,7 +7,6 @@ import time
 from dataclasses import dataclass, field
 from typing import Any
 
-from .config import INDEX_STALENESS_LIMIT_MS
 from .reasons import DppError
 from .store import PassportStore
 
@@ -31,6 +24,7 @@ class ReadIndex:
     """A compact operational view keyed by passport identifier."""
 
     store: PassportStore
+    max_lag_ms: float | None = None
     lag_ms: float = 0.0
     _entries: dict[str, _Entry] = field(default_factory=dict)
     _lock: threading.RLock = field(default_factory=threading.RLock)
@@ -99,11 +93,11 @@ class ReadIndex:
             return self.sorting_view(dpp_id, strong=True)
 
         lag = max(0.0, entry.generated_at_ms - entry.committed_at_ms) + self.backlog_ms() + self.lag_ms
-        if lag > INDEX_STALENESS_LIMIT_MS:
+        if self.max_lag_ms is not None and lag > self.max_lag_ms:
             raise DppError(
                 "S4C-DEP-UNAVAILABLE",
                 f"projection trails the source by {lag:.0f} ms, beyond the "
-                f"{INDEX_STALENESS_LIMIT_MS} ms limit",
+                f"{self.max_lag_ms} ms limit",
                 extra={"indexLagMs": round(lag), "backlogMs": round(self.backlog_ms())},
             )
         view = dict(entry.payload)

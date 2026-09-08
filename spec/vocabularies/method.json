@@ -1,62 +1,54 @@
 {
-  "$id": "https://data.sort4circ.eu/vocabulary/method/1.0.0",
+  "$id": "https://example.org/vocabulary/method/2.0.0",
   "name": "method",
-  "version": "1.0.0",
-  "released": "2026-08-10",
-  "owner": "Constructor University, SORT4CIRC WP4",
+  "version": "2.0.0",
+  "released": "2026-09-08",
+  "owner": "Public profile maintainers",
   "terms": [
     {
       "token": "labelDeclaration",
-      "evidenceWeight": 1,
       "definition": "Read from the sewn-in label. A declaration, not a measurement.",
       "deprecated": false,
       "replacedBy": null
     },
     {
       "token": "supplierDeclaration",
-      "evidenceWeight": 1,
       "definition": "Asserted by an upstream party.",
       "deprecated": false,
       "replacedBy": null
     },
     {
       "token": "computedInherited",
-      "evidenceWeight": 1,
       "definition": "Derived from a parent model or batch record rather than observed on this item.",
       "deprecated": false,
       "replacedBy": null
     },
     {
       "token": "manualInspection",
-      "evidenceWeight": 2,
       "definition": "Human assessment.",
       "deprecated": false,
       "replacedBy": null
     },
     {
       "token": "opticalRecognition",
-      "evidenceWeight": 2,
       "definition": "Image-based classification.",
       "deprecated": false,
       "replacedBy": null
     },
     {
       "token": "nirSpectroscopy",
-      "evidenceWeight": 3,
       "definition": "Near-infrared instrumental identification. Surface sensitive; impaired by carbon black.",
       "deprecated": false,
       "replacedBy": null
     },
     {
       "token": "hyperspectralImaging",
-      "evidenceWeight": 3,
       "definition": "Imaging spectroscopy across a wider band.",
       "deprecated": false,
       "replacedBy": null
     },
     {
       "token": "labQuantitativeIso1833",
-      "evidenceWeight": 4,
       "definition": "Quantitative chemical analysis under the ISO 1833 series. Reference method.",
       "deprecated": false,
       "replacedBy": null

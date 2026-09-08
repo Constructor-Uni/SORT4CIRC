@@ -1,28 +1,23 @@
-## What changed
+## Public contribution only
 
-<!-- State the behaviour before and after. -->
+Use this template only for non-sensitive changes. Security vulnerabilities and suspected accidental project-data exposure must not be posted in public issues or pull requests. Use GitHub Private Vulnerability Reporting and follow SECURITY.md.
 
-## Which half of the repository
+All reproductions must be independently synthetic, including private reports. Do not submit real credentials, private configuration, partner data, project data, pilot data or internal endpoints in changes, attachments, screenshots, logs or comments. Describe suspected exposure privately without reproducing the exposed material.
 
-- [ ] `spec/` — this changes what conformance means
-- [ ] `src/` — this changes the reference implementation only
-- [ ] Both, and the commits are separate so the record shows which moved first
+## Public-profile change
 
-## Invariants
+Describe the problem, resulting behaviour and any version/migration impact using synthetic examples only.
 
-Confirm none of these is broken, or explain why the change is still correct:
+## Validation
 
-- [ ] No released vocabulary token removed (deprecated with a replacement instead)
-- [ ] No released reason code reworded or renumbered
-- [ ] No new path that overwrites an observation, event, decision or integrity entry
-- [ ] No passport content added to a ledger envelope
-- [ ] No unknown value written as zero, empty or a default category
-- [ ] The integrity digest still does not depend on who asked
+List the tests actually run. Confirm fixture, mapping/OpenAPI and release-policy checks where relevant. Do not attach raw operational output.
 
-## Evidence
+## Publication boundary
 
-- [ ] `make test` passes
-- [ ] `make validate` passes
-- [ ] `make example` passes
-- [ ] `make openapi` re-run and the result committed, if the API changed
-- [ ] A `spec/` change carries a version bump, a changelog entry and a test that failed before it
+- [ ] This pull request contains no security vulnerability report or suspected project-data exposure report.
+- [ ] Reproductions and examples are independently synthetic.
+- [ ] No real credentials, private configuration, partner data, project data, pilot data or internal endpoints are included.
+- [ ] No personal data, private reviews, raw operational logs or historical evidence are attached.
+- [ ] New public files were deliberately reviewed for the explicit allowlist.
+- [ ] Claims describe public-profile conformance only.
+- [ ] The approved component licences and third-party notices are respected; new public files have explicit coverage under LICENSING.md.

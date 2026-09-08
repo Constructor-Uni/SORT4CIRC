@@ -1,16 +1,7 @@
-"""Passport repository, version history, carrier bindings and the outbox.
+"""In-memory passport versions, append-only records and a simulated outbox.
 
-The store is in-memory with an optional JSON snapshot. It is deliberately simple
-so the invariants stay visible; a production deployment replaces it with a
-database while keeping the same invariants, which are:
-
-* every accepted write increments ``recordVersion`` and retains the prior version;
-* material observations, lifecycle events, sorting decisions and integrity
-  entries are append only;
-* at most one carrier binding per passport is in the ``commissioned`` state;
-* an identifier is never reassigned to a different product;
-* the passport update and its evidence-queue entry commit together, through the
-  transactional outbox, or neither commits.
+Updates and queue entries share an in-process lock. No durable storage or
+restart recovery is provided; the example does not model a project deployment.
 """
 
 from __future__ import annotations
@@ -36,7 +27,7 @@ def utcnow() -> str:
 
 
 def new_urn(kind: str) -> str:
-    return f"urn:sort4circ:{kind}:{uuid.uuid4()}"
+    return f"urn:example:{kind}:{uuid.uuid4()}"
 
 
 @dataclass

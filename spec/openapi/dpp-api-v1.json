@@ -56,18 +56,14 @@
       }
     }
   },
-  "externalDocs": {
-    "description": "SORT4CIRC deliverable D4.3, DPP development guidelines",
-    "url": "https://sort4circ.eu"
-  },
   "info": {
-    "description": "Reference implementation of the API requirements developed under SORT4CIRC Task 4.2 and published in deliverable D4.3. Errors use RFC 9457 problem details and carry a reason code from the released catalogue in spec/reason-codes.json.",
+    "description": "Educational public-profile API with synthetic examples. No project deployment or legal conformity is represented.",
     "license": {
-      "identifier": "Apache-2.0",
-      "name": "Apache-2.0"
+      "name": "Creative Commons Attribution 4.0 International",
+      "url": "https://creativecommons.org/licenses/by/4.0/"
     },
-    "title": "SORT4CIRC Digital Product Passport API",
-    "version": "1.0.0"
+    "title": "Generic Digital Product Passport API",
+    "version": "2.0.0"
   },
   "openapi": "3.1.0",
   "paths": {
@@ -122,54 +118,6 @@
               "title": "Limit",
               "type": "integer"
             }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-role",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Role"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-subject",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Subject"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-organisation",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Organisation"
-            }
           }
         ],
         "responses": {
@@ -215,54 +163,6 @@
                 }
               ],
               "title": "Idempotency-Key"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-role",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Role"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-subject",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Subject"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-organisation",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Organisation"
             }
           }
         ],
@@ -349,54 +249,6 @@
               ],
               "title": "If-None-Match"
             }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-role",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Role"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-subject",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Subject"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-organisation",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Organisation"
-            }
           }
         ],
         "responses": {
@@ -449,54 +301,6 @@
                 }
               ],
               "title": "If-Match"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-role",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Role"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-subject",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Subject"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-organisation",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Organisation"
             }
           }
         ],
@@ -567,54 +371,6 @@
               ],
               "title": "Idempotency-Key"
             }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-role",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Role"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-subject",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Subject"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-organisation",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Organisation"
-            }
           }
         ],
         "requestBody": {
@@ -684,54 +440,6 @@
               ],
               "title": "Idempotency-Key"
             }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-role",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Role"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-subject",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Subject"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-organisation",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Organisation"
-            }
           }
         ],
         "requestBody": {
@@ -785,54 +493,6 @@
               "title": "Dpp Id",
               "type": "string"
             }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-role",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Role"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-subject",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Subject"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-organisation",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Organisation"
-            }
           }
         ],
         "responses": {
@@ -873,54 +533,6 @@
             "schema": {
               "title": "Dpp Id",
               "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-role",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Role"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-subject",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Subject"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-organisation",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Organisation"
             }
           }
         ],
@@ -991,54 +603,6 @@
               ],
               "title": "Idempotency-Key"
             }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-role",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Role"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-subject",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Subject"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-organisation",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Organisation"
-            }
           }
         ],
         "requestBody": {
@@ -1103,54 +667,6 @@
               "title": "Consistency",
               "type": "string"
             }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-role",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Role"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-subject",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Subject"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-organisation",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Organisation"
-            }
           }
         ],
         "responses": {
@@ -1208,54 +724,6 @@
               ],
               "title": "View"
             }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-role",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Role"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-subject",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Subject"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-organisation",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Organisation"
-            }
           }
         ],
         "responses": {
@@ -1283,86 +751,6 @@
           }
         },
         "summary": "Resolve"
-      }
-    },
-    "/v1/internal/evidence/drain": {
-      "post": {
-        "operationId": "drain_v1_internal_evidence_drain_post",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "x-s4c-role",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Role"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-subject",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Subject"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-s4c-organisation",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-S4C-Organisation"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "additionalProperties": true,
-                  "title": "Response Drain V1 Internal Evidence Drain Post",
-                  "type": "object"
-                }
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Validation Error"
-          }
-        },
-        "summary": "Drain"
       }
     }
   }

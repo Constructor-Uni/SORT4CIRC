@@ -1,13 +1,7 @@
 # Documentation
 
-- [Getting started](getting-started.md) — a working passport in fifteen minutes
-- [Architecture](architecture.md) — why the design is shaped the way it is
-- [Conformance](conformance.md) — what may be claimed and how it is evidenced
-- [Glossary](glossary.md) — the terms, defined once
+Start with [Getting started](getting-started.md). Then read [Concepts and data](concepts.md), [Architecture](architecture.md), [API](api.md), [Interoperability](interoperability.md), [Integrity](integrity.md), [Conformance](conformance.md), [Testing methodology](testing-methodology.md), [Customisation](customisation.md), [Versioning](versioning-and-migration.md) and [Release verification](public-release.md).
 
-The normative artefacts live in [`../spec/`](../spec). Where this documentation
-and those artefacts disagree, the artefacts govern.
+[Regulatory context](regulatory-context.md) explains the limits of this public profile. [Publication boundary](../PUBLICATION_BOUNDARY.md) defines included and excluded material.
 
-The full guideline is deliverable D4.3, "DPP development guidelines", a public
-deliverable of SORT4CIRC work package 4, task 4.2, led by Constructor
-University.
+Synthetic example. Not SORT4CIRC project data.

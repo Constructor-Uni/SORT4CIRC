@@ -21,10 +21,10 @@ def test_every_response_echoes_the_correlation_identifier(client, dpp_id):
 
 
 def test_errors_are_rfc9457_problem_documents(client):
-    response = client.get("/v1/dpps/urn:sort4circ:dpp:missing", headers=HEADERS["brand"])
+    response = client.get("/v1/dpps/urn:example:dpp:missing", headers=HEADERS["brand"])
     assert response.status_code == 404
     assert set(response.json()) >= PROBLEM_MEMBERS
-    assert response.json()["type"].startswith("https://data.sort4circ.eu/problems/")
+    assert response.json()["type"].startswith("https://example.org/problems/")
 
 
 def test_conditional_get_returns_not_modified(client, dpp_id):
@@ -65,7 +65,7 @@ def test_idempotency_repeats_the_outcome_and_refuses_a_changed_body(client):
 
     changed = client.post(
         "/v1/dpps",
-        json=passport_payload(responsibleOperatorId="urn:sort4circ:org:other"),
+        json=passport_payload(responsibleOperatorId="urn:example:org:sorter-a"),
         headers=headers,
     )
     assert changed.status_code == 409
@@ -92,7 +92,7 @@ def test_an_undeclared_vocabulary_token_is_refused_and_not_coerced(client):
 
 def test_a_timestamp_without_an_offset_is_refused(client):
     bad = passport_payload()
-    bad["materialObservations"][0]["observedAt"] = "2026-06-18T11:02:10"
+    bad["materialObservations"][0]["observedAt"] = "2044-05-17T13:15:00"
     assert client.post("/v1/dpps", json=bad, headers=HEADERS["brand"]).status_code == 422
 
 
@@ -114,21 +114,21 @@ def test_a_garment_with_no_characterisation_is_representable(client):
     payload = passport_payload()
     payload["materialObservations"] = [
         {
-            "observationId": "urn:sort4circ:obs:unknown",
+            "observationId": "urn:example:obs:unknown",
             "fibreType": "blendUnresolved",
             "valueStatus": "unknown",
             "method": "nirSpectroscopy",
-            "sourceOrganisationId": "urn:sort4circ:org:pssr-a",
-            "observedAt": "2026-08-10T09:00:00Z",
+            "sourceOrganisationId": "urn:example:org:sorter-a",
+            "observedAt": "2041-03-05T14:20:00Z",
         }
     ]
     assert client.post("/v1/dpps", json=payload, headers=HEADERS["brand"]).status_code == 201
 
 
 def test_resolution_reports_the_five_negative_outcomes_distinctly(client, bound_dpp):
-    assert client.get(f"/v1/identifiers/{EPC_ENCODED}/dpp", headers=HEADERS["pssrSystem"]).status_code == 200
+    assert client.get(f"/v1/identifiers/{EPC_ENCODED}/dpp", headers=HEADERS["externalSystem"]).status_code == 200
     unknown = client.get(
-        "/v1/identifiers/urn%3Aepc%3Aid%3Asgtin%3A0614141.999999.999/dpp", headers=HEADERS["pssrSystem"]
+        "/v1/identifiers/urn%3Aexample%3Acarrier%3Aunknown/dpp", headers=HEADERS["externalSystem"]
     )
     assert (unknown.status_code, unknown.json()["reasonCode"]) == (404, "S4C-IDENT-UNKNOWN")
     forbidden = client.get(f"/v1/identifiers/{EPC_ENCODED}/dpp", headers=HEADERS["consumer"])
@@ -139,14 +139,14 @@ def test_a_replaced_carrier_resolves_as_retired_rather_than_unknown(client, boun
     client.post(
         f"/v1/dpps/{bound_dpp}/carriers",
         json={
-            "carrierType": "uhfRfid",
-            "encodingScheme": "gs1Sgtin96",
-            "encodedIdentifier": "urn:epc:id:sgtin:0614141.112345.402",
-            "boundBy": "urn:sort4circ:org:brand-a",
+            "carrierType": "qrCode",
+            "encodingScheme": "exampleUri",
+            "encodedIdentifier": "urn:example:carrier:000002",
+            "boundBy": "urn:example:org:manufacturer-a",
         },
         headers=HEADERS["brand"],
     ).raise_for_status()
-    response = client.get(f"/v1/identifiers/{EPC_ENCODED}/dpp", headers=HEADERS["pssrSystem"])
+    response = client.get(f"/v1/identifiers/{EPC_ENCODED}/dpp", headers=HEADERS["externalSystem"])
     assert response.status_code == 410
     assert response.json()["reasonCode"] == "S4C-IDENT-RETIRED"
 
@@ -154,7 +154,7 @@ def test_a_replaced_carrier_resolves_as_retired_rather_than_unknown(client, boun
 def test_cursor_pagination_traverses_without_omission_or_duplication(client):
     created = set()
     for index in range(12):
-        payload = passport_payload(identity={"granularity": "item", "itemId": f"urn:sort4circ:item:{index:06d}"})
+        payload = passport_payload(identity={"granularity": "item", "itemId": f"urn:example:item:{index:06d}"})
         created.add(client.post("/v1/dpps", json=payload, headers=HEADERS["brand"]).json()["dppId"])
 
     seen: list[str] = []
@@ -170,11 +170,8 @@ def test_cursor_pagination_traverses_without_omission_or_duplication(client):
     assert set(seen) == created
 
 
-def test_health_reports_the_evidence_histogram(client, dpp_id):
-    body = client.get("/health").json()
-    assert body["status"] == "ok"
-    assert body["passports"] == 1
-    assert sum(body["evidence"].values()) >= 1
+def test_health_returns_only_public_status(client):
+    assert client.get("/health").json() == {"status": "ok", "schemaVersion": "2.0.0"}
 
 
 def test_the_development_auth_stand_in_is_off_by_default(monkeypatch, store, ledger):
@@ -182,8 +179,30 @@ def test_the_development_auth_stand_in_is_off_by_default(monkeypatch, store, led
 
     from sort4circ_dpp.api import create_app
 
-    monkeypatch.delenv("S4C_ALLOW_HEADER_AUTH", raising=False)
+    monkeypatch.delenv("DPP_DEMO_AUTH", raising=False)
     isolated = TestClient(create_app(store=store, ledger=ledger))
     response = isolated.get("/v1/dpps", headers=HEADERS["administrator"])
     assert response.status_code == 401
     assert response.json()["reasonCode"] == "S4C-AUTH-INVALID-TOKEN"
+
+
+def test_verification_rejects_evidence_belonging_to_another_passport(client, dpp_id):
+    from sort4circ_dpp.synthetic import SyntheticFixtureFactory
+    other = client.post("/v1/dpps", headers=HEADERS["brand"],
+                        json=SyntheticFixtureFactory().passport(2))
+    other.raise_for_status()
+    entry = next(e for e in client.app.state.store.outbox if e.dpp_id == dpp_id)
+    response = client.post(f"/v1/dpps/{other.json()['dppId']}/integrity/verify",
+                           headers=HEADERS["integrityVerifier"], json={"evidenceId": entry.evidence_id})
+    assert response.status_code == 404
+
+
+def test_same_idempotency_key_does_not_cross_caller_boundaries(client):
+    from sort4circ_dpp.synthetic import SyntheticFixtureFactory
+    first = client.post("/v1/dpps", headers={**HEADERS["brand"], "Idempotency-Key": "synthetic-shared-key"},
+                        json=SyntheticFixtureFactory().passport(3))
+    second = client.post("/v1/dpps", headers={**HEADERS["brand"], "X-DPP-Subject": "synthetic-other-caller",
+                                             "Idempotency-Key": "synthetic-shared-key"},
+                         json=SyntheticFixtureFactory().passport(4))
+    assert first.status_code == second.status_code == 201
+    assert first.json()["dppId"] != second.json()["dppId"]

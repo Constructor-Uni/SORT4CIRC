@@ -1,10 +1,7 @@
-"""Evidence state machine and the asynchronous anchoring worker.
+"""In-memory evidence state transitions and an optional integrity worker.
 
-Blockchain submission is separated from the sorting response. The evidence item
-is created inside the write transaction, queued durably, and advanced by a
-worker. The garment is routed long before any of this completes, which is the
-whole reason for the separation.
-"""
+Writes enqueue mock work in process memory. No durable queue or deployed
+network is provided by this educational implementation."""
 
 from __future__ import annotations
 
@@ -46,7 +43,7 @@ def envelope_for(entry: OutboxEntry) -> dict[str, Any]:
     """Return the evidence envelope submitted to the ledger.
 
     The envelope carries a reference and a digest and no passport content. That
-    is the only reason a public ledger satisfies the confidentiality gate: the
+    is the only reason a mock envelope limits the data disclosed: the
     property belongs to the envelope design, not to the platform.
     """
     return {

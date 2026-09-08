@@ -1,5 +1,4 @@
-"""Edge gateway: read-zone controls and the decision boundary."""
+"""Generic carrier observations; no industrial integration."""
+from .readzone import CarrierResolver, ReadObservation, ReadZoneResult
 
-from .readzone import ReadZone, ReadZoneResult  # noqa: F401
-
-__all__ = ["ReadZone", "ReadZoneResult"]
+__all__ = ["CarrierResolver", "ReadObservation", "ReadZoneResult"]

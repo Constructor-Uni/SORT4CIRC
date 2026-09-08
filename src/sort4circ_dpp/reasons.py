@@ -1,10 +1,4 @@
-"""Reason-code catalogue and RFC 9457 problem details.
-
-Reason codes are the contract between the service and every client, including
-the sorting controller. A client dispatches on the code, never on the human
-readable title, and the edge gateway maps each code to a defined safe action
-before any command reaches an actuator.
-"""
+"""Public-profile reason codes and problem details; actions are conceptual only."""
 
 from __future__ import annotations
 
@@ -92,7 +86,7 @@ def catalogue() -> dict[str, ReasonCode]:
 
 
 def safe_action(code: str) -> str:
-    """Return the normative edge-gateway action for ``code``."""
+    """Return the public-profile application action for ``code``."""
     return catalogue()[code].safe_action
 
 
@@ -102,12 +96,3 @@ def safe_action_description(action: str) -> str:
 
 def released_codes() -> list[str]:
     return sorted(catalogue())
-
-
-# Codes whose safe action stops the garment rather than routing it. A gateway
-# that receives any of these must not publish a category-specific command.
-DIVERTING_ACTIONS = frozenset({"divert", "divertAndAlert", "retryOnceThenDivert"})
-
-
-def diverts(code: str) -> bool:
-    return catalogue()[code].safe_action in DIVERTING_ACTIONS

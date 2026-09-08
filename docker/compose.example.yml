@@ -1,0 +1,17 @@
+# Synthetic local educational service; no project deployment is represented.
+services:
+  dpp-demo:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      DPP_DEMO_AUTH: "1"
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true

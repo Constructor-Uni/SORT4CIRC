@@ -1,40 +1,69 @@
-name: Specification question or change
-description: The specification is unclear, incomplete or wrong
-labels: ["specification"]
+name: Specification bug or feature request
+description: Report a non-sensitive public-profile defect or propose a feature.
+labels:
+- specification
 body:
-  - type: markdown
-    attributes:
-      value: |
-        A change under `spec/` changes what conformance means for everyone who
-        has already implemented it. Discussion first, patch second.
-  - type: dropdown
-    id: kind
-    attributes:
-      label: Kind
-      options:
-        - The text is ambiguous
-        - The rule is unimplementable as written
-        - The rule is implementable but wrong
-        - Something required is missing
-        - A new controlled value is needed
-    validations:
+- type: markdown
+  attributes:
+    value: 'Public GitHub issues are only for non-sensitive bugs and feature requests.
+
+      Do not post security vulnerabilities or suspected accidental project-data exposure here.
+
+      Use GitHub Private Vulnerability Reporting and follow SECURITY.md. If that option is
+
+      unavailable, keep the report private; do not use a public issue as a fallback.
+
+
+      Use independently synthetic reproductions only, including in private reports.
+
+      Do not submit real credentials, private configuration, partner data, project data,
+
+      pilot data or internal endpoints in payloads, attachments, screenshots, logs or comments.
+
+      Describe suspected exposure privately without reproducing the exposed material.
+
+
+      Synthetic example. Not SORT4CIRC project data.'
+- type: dropdown
+  id: kind
+  attributes:
+    label: Kind
+    options:
+    - 'Bug: the documentation or rule is unclear'
+    - 'Bug: a public-profile rule cannot be implemented as written'
+    - 'Bug: an implemented rule has incorrect behaviour'
+    - 'Feature: a public-profile capability is missing'
+    - 'Feature: a new controlled value is needed'
+  validations:
+    required: true
+- type: textarea
+  id: artefact
+  attributes:
+    label: Which artefact and clause
+  validations:
+    required: true
+- type: textarea
+  id: consequence
+  attributes:
+    label: What breaks if it stays as it is
+    description: Give a concrete case with independently synthetic data only.
+  validations:
+    required: true
+- type: textarea
+  id: migration
+  attributes:
+    label: What happens to records already written under the current rule
+    description: Describe migration with fictional records only; do not provide real datasets.
+  validations:
+    required: true
+- type: checkboxes
+  id: public_synthetic_confirmation
+  attributes:
+    label: Public issue confirmation
+    options:
+    - label: This is a non-sensitive bug or feature request, not a security or suspected data-exposure
+        report.
       required: true
-  - type: textarea
-    id: artefact
-    attributes:
-      label: Which artefact and clause
-    validations:
-      required: true
-  - type: textarea
-    id: consequence
-    attributes:
-      label: What breaks if it stays as it is
-      description: Give a concrete case, with data if possible.
-    validations:
-      required: true
-  - type: textarea
-    id: migration
-    attributes:
-      label: What happens to records already written under the current rule
-    validations:
+    - label: All reproduction material is synthetic and excludes real credentials, private configuration,
+        partner/project/pilot data and internal endpoints.
       required: true

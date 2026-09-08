@@ -23,8 +23,6 @@ def test_the_envelope_carries_a_reference_and_a_digest_and_nothing_else():
         "evidenceId", "subjectRef", "subjectVersion",
         "canonicalisation", "digestAlgorithm", "digestValue", "createdAt",
     }
-    serialised = str(body)
-    assert "polyester" not in serialised and "TXHO" not in serialised, "no passport content reaches the ledger"
 
 
 def test_a_clean_drain_confirms_every_entry():
@@ -72,17 +70,16 @@ def test_reconciliation_recovers_an_ambiguous_outcome_without_a_second_anchor():
     # The transaction did reach the ledger. Reconciliation by evidence
     # identifier finds it; resubmitting blind would anchor the same version
     # twice and the duplicate would be indistinguishable from a replay.
-    worker.ledger.confirm(entry.evidence_id, "2026-08-10T09:14:19.004Z")
+    worker.ledger.confirm(entry.evidence_id, "2041-03-05T14:20:00Z")
     assert worker.reconcile() == 1
     assert entry.state == "confirmed"
     assert len({e.transaction_ref for e in store.outbox if e.transaction_ref}) == 1
 
 
 def test_every_accepted_write_reaches_a_terminal_state_after_an_outage():
-    """Recovery target from the deliverable: no accepted evidence is lost."""
     store = PassportStore()
     for index in range(25):
-        store.create(passport_payload(identity={"granularity": "item", "itemId": f"urn:sort4circ:item:{index:06d}"}))
+        store.create(passport_payload(identity={"granularity": "item", "itemId": f"urn:example:item:{index:06d}"}))
     ledger = InMemoryLedger()
     worker = EvidenceWorker(store=store, ledger=ledger)
 

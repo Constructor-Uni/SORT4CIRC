@@ -1,47 +1,25 @@
-# Security policy
+# Security
 
-## Reporting a vulnerability
+## Private reporting
 
-Report suspected vulnerabilities privately through GitHub's security advisory
-form on this repository, or by contacting the work package 4 lead at
-Constructor University. Do not open a public issue for an unpatched
-vulnerability.
+GitHub Private Vulnerability Reporting is the official reporting mechanism for this public DPP repository. Use it for security vulnerabilities and suspected accidental project-data exposure.
 
-Expect an acknowledgement within five working days and an assessment within
-fifteen. Reports that concern the reference implementation and reports that
-concern the specification are handled differently: a defect in `spec/` may
-affect every implementation of it and is disclosed with more notice.
+Do not post either type of report in public GitHub issues, pull requests, discussions or comments. Public issues are only for non-sensitive bugs and feature requests.
 
-## Scope
+Open this repository's **Security and quality** tab and select **Report a vulnerability**. See [GitHub's private reporting instructions](https://docs.github.com/en/code-security/how-tos/report-and-fix-vulnerabilities/report-privately). Maintainers must enable and maintain this GitHub feature separately from this policy file. If the private reporting option is unavailable, keep the report private; do not use a public issue or pull request as a fallback.
 
-In scope: the reference service in `src/`, the specification artefacts in
-`spec/`, and the container definitions in `docker/`.
+## Report contents
 
-Out of scope: the development authentication stand-in in `api.py`, which is
-disabled unless `S4C_ALLOW_HEADER_AUTH` is set and is documented as a stand-in
-for an OAuth 2.0 or OIDC profile. Deployments replace it. Reporting it as a
-vulnerability is not useful.
+Use minimal, independently synthetic reproductions only, including in private reports. Describe the affected public component and version, the expected and observed behaviour, and the potential impact using fictional inputs. For suspected data exposure, describe the concern without copying the exposed material.
 
-## Deployment expectations
+Do not submit real credentials, private configuration, partner data, project data, pilot data or internal endpoints. This prohibition applies to reports, attachments, screenshots, logs, code changes and follow-up messages, whether public or private. Do not include personal data, private review material or raw operational evidence.
 
-The reference implementation is not hardened for production. A deployment is
-expected to supply, at minimum:
+Synthetic example. Not SORT4CIRC project data.
 
-- token validation verifying issuer, audience, signature, expiry, not-before
-  time and authorised party;
-- TLS on every non-local connection, and mutual TLS on industrial and privileged
-  boundaries;
-- key custody outside application configuration, with signing restricted to a
-  named service identity;
-- a durable store in place of the in-memory one;
-- log review confirming no credential, private key or complete confidential
-  payload is recorded.
+## Reference implementation boundary
 
-## Known limitations of the reference implementation
+The reference API uses PublicOnlyAuth by default. It rejects supplied demo role headers; writes need an explicitly injected authentication provider. DPP_DEMO_AUTH=1 enables a local educational stand-in that trusts X-DPP-Role and X-DPP-Organisation headers. Anyone who can reach that demo can impersonate its roles. Bind it to loopback and use synthetic data only.
 
-- Storage is in-memory and is lost on restart. The recovery tests exercise the
-  outbox invariants, not durable persistence.
-- The canonicalisation implements RFC 8785 for the value space the profile uses.
-  Numbers requiring exponential notation are refused rather than serialised in a
-  form another implementation might not reproduce.
-- Rate limiting is declared in the reason-code catalogue but is not implemented.
+The compose example exposes one API service on loopback and uses an in-memory integrity adapter. It supplies no secrets and exposes no maintenance drain endpoint. State is lost on restart. Production identity, authorisation, transport, persistence, monitoring and recovery require separate design and assessment.
+
+The public summary exporter accepts only fixed test identifiers and result statuses. It does not export raw execution output or environment data. Automated leakage checks reduce accidental inclusion; they do not approve a public release or replace a security assessment.

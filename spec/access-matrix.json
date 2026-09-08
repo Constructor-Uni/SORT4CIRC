@@ -1,7 +1,7 @@
 {
-  "$id": "https://data.sort4circ.eu/access-matrix/1.0.0",
-  "version": "1.0.0",
-  "released": "2026-08-10",
+  "$id": "https://example.org/access-matrix/2.0.0",
+  "version": "2.0.0",
+  "released": "2026-09-08",
   "policy": "defaultDeny",
   "note": "Holding a scope is necessary and not sufficient. The view determines what the caller receives. A field the caller may know exists but not read is returned with valueStatus withheld.",
   "roles": {
@@ -45,7 +45,7 @@
       ],
       "defaultView": "sorting"
     },
-    "pssrSystem": {
+    "externalSystem": {
       "scopes": [
         "dpp.read",
         "dpp.resolve",

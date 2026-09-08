@@ -8,7 +8,7 @@ import pytest
 
 from sort4circ_dpp.config import VOCAB_DIR
 from sort4circ_dpp.reasons import DppError
-from sort4circ_dpp.vocab import FIELD_VOCABULARIES, evidence_weight, load, published
+from sort4circ_dpp.vocab import FIELD_VOCABULARIES, load, published
 
 
 @pytest.mark.parametrize("name", published())
@@ -53,11 +53,6 @@ def test_manual_review_is_always_available_as_a_sorting_outcome():
 def test_unknown_and_not_measured_remain_distinct():
     tokens = load("value-status").tokens
     assert {"supplied", "notMeasured", "unknown", "notApplicable", "withheld"} <= tokens
-
-
-def test_the_reference_method_outranks_the_instrumental_ones():
-    assert evidence_weight("labQuantitativeIso1833") > evidence_weight("nirSpectroscopy")
-    assert evidence_weight("nirSpectroscopy") > evidence_weight("labelDeclaration")
 
 
 def test_legal_fibre_names_are_carried_for_regulated_terms():

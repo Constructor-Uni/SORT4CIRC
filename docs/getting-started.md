@@ -1,85 +1,14 @@
 # Getting started
 
-A working passport in about fifteen minutes, then the parts that matter.
+Synthetic example. Not SORT4CIRC project data.
 
-## Install and prove it works
-
-```bash
-git clone https://github.com/Constructor-Uni/SORT4CIRC.git
-cd SORT4CIRC
-python3 -m pip install -e ".[dev]"
-make test
-make example
-```
-
-`make example` is the important one. It runs the worked example from deliverable
-D4.3 Annex G end to end and prints a digest. That digest is published in the
-deliverable. If it matches, the canonicalisation is correct; if it does not, the
-canonicalisation is wrong and nothing built on top of it can be trusted.
-
-## Create a passport
-
-```bash
-make serve
-```
-
-Then, in another shell:
-
-```bash
-curl -sX POST localhost:8000/v1/dpps \
-  -H 'Content-Type: application/json' \
-  -H 'X-S4C-Role: brand' \
-  -H 'X-S4C-Organisation: urn:sort4circ:org:brand-a' \
-  -H 'Idempotency-Key: first-passport' \
-  -d @examples/fixtures/valid-minimum.json
-```
-
-The role header is a development stand-in for a token. It is refused unless
-`S4C_ALLOW_HEADER_AUTH` is set, so it cannot leak into a deployment by accident.
-
-## Bind a carrier and resolve it
-
-```bash
-DPP=urn:sort4circ:dpp:000001
-
-curl -sX POST "localhost:8000/v1/dpps/$DPP/carriers" \
-  -H 'Content-Type: application/json' -H 'X-S4C-Role: brand' \
-  -d '{"carrierType":"uhfRfid","encodingScheme":"gs1Sgtin96",
-       "encodedIdentifier":"urn:epc:id:sgtin:0614141.112345.400",
-       "boundBy":"urn:sort4circ:org:brand-a"}'
-
-curl -s "localhost:8000/v1/identifiers/urn%3Aepc%3Aid%3Asgtin%3A0614141.112345.400/dpp" \
-  -H 'X-S4C-Role: pssrSystem'
-```
-
-Commissioning is atomic and the identifier is never reassigned. Binding the same
-encoded identifier to a second passport returns 409 with
-`S4C-IDENT-DUPLICATE-BINDING`, and so does reusing one that was retired.
-
-## Compute a digest without running anything
-
-```bash
-python3 -m sort4circ_dpp.cli digest examples/fixtures/valid-annex-g-garment.json --show-projection
-```
-
-## Derive the latency budget for a specific line
-
-```bash
-python3 -m sort4circ_dpp.cli budget --speed-mps 2.0 --distance-m 3.1
-```
-
-The default arguments reproduce the reference configuration in D4.3 and its
-920 ms software budget. Substitute the measured parameters of the installed
-line. A published latency target that does not come out of this calculation
-cannot be justified to anyone who asks how it was derived.
-
-## Where to go next
-
-| Question | Answer |
-| --- | --- |
-| What fields exist and which are mandatory | `spec/schemas/dpp-1.0.0.schema.json` and D4.3 Annex A |
-| What values a coded field accepts | `spec/vocabularies/` |
-| What an error means and what the gateway should do about it | `spec/reason-codes.json` |
-| Who may see what | `spec/access-matrix.json` |
-| What the API does | `spec/openapi/dpp-api-v1.json`, or `/docs` on the running service |
-| What conformance means | [`conformance.md`](conformance.md) |
+1. **Understand a DPP.** A passport connects an identifier to structured product information, observations and lifecycle records. See [Concepts](concepts.md).
+2. **Understand the public profile.** Version 2.0.0 defines required fields, controlled terms and exchange behaviour. Its normative rules apply only to this public profile.
+3. **Create a synthetic passport.** Install locally with python -m pip install -e ".[dev]". Run python -m sort4circ_dpp.cli example to inspect the deterministic example. In Python, call SyntheticFixtureFactory().passport(); its returned dict can be written as UTF-8 JSON.
+4. **Validate it.** Run python -m sort4circ_dpp.cli validate examples/fixtures/valid-synthetic-textile.json. Negative fixtures include a test-only $expect member which the fixture runner removes. Run python tools/validate_fixtures.py to check both positive and negative cases.
+5. **Resolve and retrieve it.** Run python examples/worked_example.py. This uses an in-process API client, explicitly opts into demo identities, creates a passport and binds a fictional carrier before resolving it. For an interactive local server use the compose example or set DPP_DEMO_AUTH=1 explicitly and run python -m uvicorn sort4circ_dpp.api:app --host 127.0.0.1 --port 8000. View http://127.0.0.1:8000/docs locally.
+6. **Record provenance and lifecycle information.** The worked example appends an attributed observation and a collection event. Each has an independent identifier and timestamp. See [Concepts](concepts.md).
+7. **Try optional integrity.** The example drains the local in-memory worker through Python and verifies the resulting digest. This is a mock correctness exercise. See [Integrity](integrity.md).
+8. **Run public-profile tests.** Run python -m pytest -q and python tools/conformance_report.py. The latter emits an allowlisted summary; it does not publish raw test output.
+9. **Replace demo components.** Implement AuthProvider, replace PassportStore as needed and supply a LedgerAdapter to create_app. Review access scopes and recovery semantics. See [Customisation](customisation.md).
+10. **Adapt responsibly.** Identify your product and organisational needs independently, version any profile changes and obtain appropriate regulatory and security review. This repository provides no legal conformity assessment.

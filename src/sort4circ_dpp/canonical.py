@@ -1,15 +1,7 @@
-"""Deterministic serialisation and digest calculation.
+"""Deterministic serialisation and integrity projection for the public profile.
 
-Implements the canonicalisation and integrity-projection rules of deliverable
-D4.3, Annex G. The digest of a passport version is computed over an explicit
-projection of the record, not over the whole stored document, so that the digest
-stays reproducible when unrelated fields are added elsewhere in the record.
-
-The reference vector in ``examples/fixtures/`` and in ``tests/test_canonical.py``
-is the fixture that reveals a canonicalisation defect: an implementation that
-produces a different digest from the same projection is wrong, and no amount of
-ledger correctness compensates for that.
-"""
+Supported values are intentionally restricted; a vector is an example, not
+comprehensive proof of a standard or deployed-system correctness."""
 
 from __future__ import annotations
 
@@ -23,7 +15,7 @@ from typing import Any
 CANONICALISATION_PROFILE = "rfc8785"
 DIGEST_ALGORITHM = "sha-256"
 
-#: Fields carried into the integrity projection, in the order stated in D4.3.
+#: Fields covered by this public profile.
 #: Fields carrying access decisions, view artefacts and the integrity array are
 #: excluded, because including them would make the digest depend on the identity
 #: of the requester.
@@ -50,7 +42,7 @@ def _number(value: int | float) -> str:
     """Serialise a number the way ECMAScript ``Number.prototype.toString`` does.
 
     RFC 8785 defers to the ECMAScript algorithm. For integers and for decimals
-    with a short round-trip representation, which is the whole of the SORT4CIRC
+    with a short round-trip representation, which is the whole of the public
     profile, Python's shortest round-trip float repr agrees with it. Values
     outside that range are rejected rather than silently serialised in a form
     another implementation would not reproduce.

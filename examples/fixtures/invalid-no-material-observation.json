@@ -1,25 +1,22 @@
 {
-  "dppId": "urn:sort4circ:dpp:000001",
-  "schemaVersion": "1.0.0",
+  "dppId": "urn:example:dpp:000001",
+  "schemaVersion": "2.0.0",
   "recordVersion": 1,
   "status": "active",
-  "createdAt": "2026-06-18T11:00:00Z",
-  "updatedAt": "2026-08-10T09:12:44Z",
-  "responsibleOperatorId": "urn:sort4circ:org:brand-a",
+  "createdAt": "2042-02-11T08:00:00Z",
+  "updatedAt": "2042-02-13T10:30:00Z",
+  "responsibleOperatorId": "urn:example:org:manufacturer-a",
   "identity": {
     "granularity": "item",
-    "itemId": "urn:sort4circ:item:000001",
-    "epc": "urn:epc:id:sgtin:0614141.112345.400",
-    "sampleId": "TXHO-WP3-B01-001"
+    "itemId": "urn:example:item:000001",
+    "epc": "urn:example:carrier:000001",
+    "sampleId": "SYNTH-0001"
   },
   "product": {
-    "articleClass": "upperBodyKnitwear",
-    "fabricConstruction": "knitted",
-    "colourPrimary": "dark",
-    "technicalFlags": [
-      "carbonBlackPresent",
-      "hardPointZipMetal"
-    ]
+    "articleClass": "homeTextileFlat",
+    "fabricConstruction": "woven",
+    "colourPrimary": "light",
+    "technicalFlags": []
   },
   "materialObservations": [],
   "$expect": "S4C-PAYLOAD-SCHEMA-INVALID"

@@ -17,7 +17,7 @@ from .base import LedgerAdapter, LedgerError, Receipt
 
 @dataclass
 class InMemoryLedger(LedgerAdapter):
-    network_id: str = "s4c-reference"
+    network_id: str = "example-memory"
     auto_confirm: bool = True
     fail_next: str | None = None
     _receipts: dict[str, Receipt] = field(default_factory=dict)

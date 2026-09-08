@@ -1,36 +1,65 @@
-name: Bug report
-description: The reference implementation behaves differently from the specification
-labels: ["bug"]
+name: Non-sensitive bug report
+description: Report a non-sensitive bug in the public DPP reference implementation.
+labels:
+- bug
 body:
-  - type: markdown
-    attributes:
-      value: |
-        Where the code and `spec/` disagree, the specification governs. Point at
-        the clause or artefact the behaviour contradicts if possible.
-  - type: textarea
-    id: expected
-    attributes:
-      label: What the specification requires
-      description: Name the artefact, field, endpoint or reason code.
-    validations:
+- type: markdown
+  attributes:
+    value: 'Public GitHub issues are only for non-sensitive bugs and feature requests.
+
+      Do not post security vulnerabilities or suspected accidental project-data exposure here.
+
+      Use GitHub Private Vulnerability Reporting and follow SECURITY.md. If that option is
+
+      unavailable, keep the report private; do not use a public issue as a fallback.
+
+
+      Use independently synthetic reproductions only, including in private reports.
+
+      Do not submit real credentials, private configuration, partner data, project data,
+
+      pilot data or internal endpoints in payloads, attachments, screenshots, logs or comments.
+
+      Describe suspected exposure privately without reproducing the exposed material.
+
+
+      Synthetic example. Not SORT4CIRC project data.'
+- type: textarea
+  id: expected
+  attributes:
+    label: What the specification requires
+    description: Name a public specification artefact, field, API route or reason code.
+  validations:
+    required: true
+- type: textarea
+  id: actual
+  attributes:
+    label: What happens instead
+  validations:
+    required: true
+- type: textarea
+  id: reproduce
+  attributes:
+    label: Smallest synthetic reproduction
+    description: Use fictional inputs only; never attach operational logs or private data.
+    render: shell
+  validations:
+    required: true
+- type: input
+  id: version
+  attributes:
+    label: Public release version
+    description: Name a public release version; do not include private references or endpoints.
+  validations:
+    required: true
+- type: checkboxes
+  id: public_synthetic_confirmation
+  attributes:
+    label: Public issue confirmation
+    options:
+    - label: This is a non-sensitive bug or feature request, not a security or suspected data-exposure
+        report.
       required: true
-  - type: textarea
-    id: actual
-    attributes:
-      label: What happens instead
-    validations:
-      required: true
-  - type: textarea
-    id: reproduce
-    attributes:
-      label: Smallest reproduction
-      description: A failing payload or a short script is ideal.
-      render: shell
-    validations:
-      required: true
-  - type: input
-    id: version
-    attributes:
-      label: Version or commit
-    validations:
+    - label: All reproduction material is synthetic and excludes real credentials, private configuration,
+        partner/project/pilot data and internal endpoints.
       required: true

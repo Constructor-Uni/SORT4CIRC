@@ -11,10 +11,10 @@ from sort4circ_dpp.store import PassportStore, etag
 
 def carrier(encoded=EPC):
     return {
-        "carrierType": "uhfRfid",
-        "encodingScheme": "gs1Sgtin96",
+        "carrierType": "qrCode",
+        "encodingScheme": "exampleUri",
         "encodedIdentifier": encoded,
-        "boundBy": "urn:sort4circ:org:brand-a",
+        "boundBy": "urn:example:org:manufacturer-a",
     }
 
 
@@ -68,11 +68,11 @@ def test_appending_the_same_event_twice_is_idempotent(store: PassportStore):
     event = {
         "eventId": "urn:uuid:e1",
         "eventType": "collection",
-        "eventTime": "2026-08-10T09:00:00Z",
+        "eventTime": "2041-03-05T14:20:00Z",
         "eventTimeZoneOffset": "+02:00",
-        "recordedAt": "2026-08-10T09:00:01Z",
-        "actorOrganisationId": "urn:sort4circ:org:collector-a",
-        "sourceSystemId": "urn:sort4circ:system:depot",
+        "recordedAt": "2041-03-05T14:20:00Z",
+        "actorOrganisationId": "urn:example:org:sorter-a",
+        "sourceSystemId": "urn:example:system:simulator-a",
     }
     first = store.append(record["dppId"], "lifecycleEvents", event, "eventId")
     second = store.append(record["dppId"], "lifecycleEvents", event, "eventId")
@@ -83,7 +83,7 @@ def test_appending_the_same_event_twice_is_idempotent(store: PassportStore):
 def test_only_one_binding_is_commissioned_at_a_time(store: PassportStore):
     record = store.create(passport_payload())
     store.commission_carrier(record["dppId"], carrier())
-    updated = store.commission_carrier(record["dppId"], carrier("urn:epc:id:sgtin:0614141.112345.401"))
+    updated = store.commission_carrier(record["dppId"], carrier("urn:example:carrier:000002"))
     states = [c["bindingStatus"] for c in updated["carriers"]]
     assert states.count("commissioned") == 1
     assert "replaced" in states
@@ -92,7 +92,7 @@ def test_only_one_binding_is_commissioned_at_a_time(store: PassportStore):
 
 def test_an_identifier_is_never_bound_to_two_products(store: PassportStore):
     first = store.create(passport_payload())
-    second = store.create(passport_payload(identity={"granularity": "item", "itemId": "urn:sort4circ:item:000002"}))
+    second = store.create(passport_payload(identity={"granularity": "item", "itemId": "urn:example:item:000002"}))
     store.commission_carrier(first["dppId"], carrier())
     with pytest.raises(DppError) as excinfo:
         store.commission_carrier(second["dppId"], carrier())
@@ -102,8 +102,8 @@ def test_an_identifier_is_never_bound_to_two_products(store: PassportStore):
 def test_a_retired_identifier_is_not_reassigned(store: PassportStore):
     first = store.create(passport_payload())
     store.commission_carrier(first["dppId"], carrier())
-    store.commission_carrier(first["dppId"], carrier("urn:epc:id:sgtin:0614141.112345.402"))
-    second = store.create(passport_payload(identity={"granularity": "item", "itemId": "urn:sort4circ:item:000003"}))
+    store.commission_carrier(first["dppId"], carrier("urn:example:carrier:000001"))
+    second = store.create(passport_payload(identity={"granularity": "item", "itemId": "urn:example:item:000003"}))
     with pytest.raises(DppError) as excinfo:
         store.commission_carrier(second["dppId"], carrier())
     assert excinfo.value.code == "S4C-IDENT-DUPLICATE-BINDING"
@@ -111,7 +111,7 @@ def test_a_retired_identifier_is_not_reassigned(store: PassportStore):
 
 def test_resolution_of_an_unknown_identifier(store: PassportStore):
     with pytest.raises(DppError) as excinfo:
-        store.resolve_carrier("urn:epc:id:sgtin:0614141.999999.999")
+        store.resolve_carrier("urn:example:carrier:unknown")
     assert excinfo.value.code == "S4C-IDENT-UNKNOWN"
 
 

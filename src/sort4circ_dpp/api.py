@@ -1,16 +1,4 @@
-"""RESTful passport API.
-
-Implements the interface contract of D4.3 Annex B. Every response carries the
-correlation identifier the caller supplied, every error is an RFC 9457 problem
-document carrying a released reason code, and every representation carries the
-record version it was produced from.
-
-Authentication here is a header-based stand-in for the OAuth 2.0 or OIDC profile
-the security guideline requires. It is confined to :func:`principal_from_request`
-so that a deployment replaces one function and changes nothing else. The
-stand-in is refused when ``S4C_ALLOW_HEADER_AUTH`` is not set, so it cannot be
-enabled by accident outside development.
-"""
+"""Educational REST API for this repository public profile."""
 
 from __future__ import annotations
 
@@ -25,6 +13,7 @@ from fastapi.responses import JSONResponse
 
 from . import canonical
 from .access import Principal, check_patch_paths, project, require_scope, resolve_view
+from .auth import AuthProvider, DemoAuth, PublicOnlyAuth
 from .config import API_MAJOR, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, SCHEMA_VERSION
 from .evidence import EvidenceWorker
 from .index import ReadIndex
@@ -40,9 +29,17 @@ def _correlation(supplied: str | None) -> str:
     return supplied or str(uuid.uuid4())
 
 
+def _scoped_key(principal: Principal, key: str | None, operation: str, resource: str) -> str | None:
+    if key is None:
+        return None
+    import json
+    return json.dumps([principal.subject, principal.organisation_id, principal.role, operation, resource, key])
+
+
 def create_app(
     store: PassportStore | None = None,
     ledger: LedgerAdapter | None = None,
+    auth_provider: AuthProvider | None = None,
 ) -> FastAPI:
     store = store or PassportStore()
     ledger = ledger or InMemoryLedger()
@@ -51,15 +48,16 @@ def create_app(
     worker = EvidenceWorker(store=store, ledger=ledger)
 
     app = FastAPI(
-        title="SORT4CIRC Digital Product Passport API",
+        title="Generic Digital Product Passport API",
         version=SCHEMA_VERSION,
-        description=(
-            "Reference implementation of the API requirements developed under "
-            "SORT4CIRC Task 4.2 and published in deliverable D4.3. Errors use "
-            "RFC 9457 problem details and carry a reason code from the released "
-            "catalogue in spec/reason-codes.json."
-        ),
+        license_info={
+            "name": "Creative Commons Attribution 4.0 International",
+            "url": "https://creativecommons.org/licenses/by/4.0/",
+        },
+        description="Educational public-profile API with synthetic examples. No project deployment or legal conformity is represented.",
     )
+    provider = auth_provider or (DemoAuth() if os.environ.get("DPP_DEMO_AUTH") == "1" else PublicOnlyAuth())
+
     app.state.store = store
     app.state.ledger = ledger
     app.state.index = index
@@ -84,33 +82,8 @@ def create_app(
         response.headers["X-Correlation-Id"] = correlation
         return response
 
-    def principal_from_request(
-        x_s4c_role: str | None = Header(default=None),
-        x_s4c_subject: str | None = Header(default=None),
-        x_s4c_organisation: str | None = Header(default=None),
-    ) -> Principal:
-        """Resolve the caller.
-
-        Replace this function with token validation that verifies issuer,
-        audience, signature, expiry, not-before time and authorised party. The
-        rest of the service depends only on the returned Principal.
-        """
-        if x_s4c_role is None:
-            return Principal(subject="anonymous", role="public")
-        if not os.environ.get("S4C_ALLOW_HEADER_AUTH"):
-            raise DppError(
-                "S4C-AUTH-INVALID-TOKEN",
-                "header authentication is disabled; set S4C_ALLOW_HEADER_AUTH for development use",
-            )
-        from .access import matrix
-
-        if x_s4c_role not in matrix()["roles"]:
-            raise DppError("S4C-AUTH-INVALID-TOKEN", f"unknown role {x_s4c_role!r}")
-        return Principal(
-            subject=x_s4c_subject or "unknown",
-            role=x_s4c_role,
-            organisation_id=x_s4c_organisation,
-        )
+    def principal_from_request(request: Request) -> Principal:
+        return provider.authenticate(request.headers)
 
     Caller = Depends(principal_from_request)
 
@@ -129,6 +102,7 @@ def create_app(
         idempotency_key: str | None = Header(default=None, alias="Idempotency-Key"),
     ) -> dict[str, Any]:
         require_scope(principal, "dpp.write")
+        idempotency_key = _scoped_key(principal, idempotency_key, "create", "")
         cached = store.idempotent(idempotency_key, payload)
         if cached is not None:
             response.status_code = 201
@@ -167,7 +141,7 @@ def create_app(
     def verify(dpp_id: str, body: dict[str, Any], principal: Principal = Caller) -> dict[str, Any]:
         require_scope(principal, "integrity.verify")
         evidence_id = body.get("evidenceId")
-        entry = next((e for e in store.outbox if e.evidence_id == evidence_id), None)
+        entry = next((e for e in store.outbox if e.evidence_id == evidence_id and e.dpp_id == dpp_id), None)
         if entry is None:
             raise DppError("S4C-STATE-NOT-FOUND", f"{evidence_id} is not a known evidence identifier")
 
@@ -210,13 +184,14 @@ def create_app(
         idempotency_key: str | None = Header(default=None, alias="Idempotency-Key"),
     ) -> dict[str, Any]:
         require_scope(principal, "dpp.event")
+        idempotency_key = _scoped_key(principal, idempotency_key, "event", dpp_id)
         cached = store.idempotent(idempotency_key, payload)
         if cached is not None:
             return cached
         event = dict(payload)
         event.setdefault("eventId", new_urn("event"))
         event.setdefault("recordedAt", utcnow())
-        event.setdefault("actorOrganisationId", principal.organisation_id or f"urn:sort4circ:org:{principal.role}")
+        event.setdefault("actorOrganisationId", principal.organisation_id or f"urn:example:org:{principal.role}")
         record = store.append(dpp_id, "lifecycleEvents", event, "eventId")
         result = {"eventId": event["eventId"], "dppId": dpp_id, "recordVersion": record["recordVersion"]}
         store.remember(idempotency_key, payload, result)
@@ -233,6 +208,7 @@ def create_app(
         idempotency_key: str | None = Header(default=None, alias="Idempotency-Key"),
     ) -> dict[str, Any]:
         require_scope(principal, "observation.write")
+        idempotency_key = _scoped_key(principal, idempotency_key, "observation", dpp_id)
         cached = store.idempotent(idempotency_key, payload)
         if cached is not None:
             return cached
@@ -258,6 +234,7 @@ def create_app(
         idempotency_key: str | None = Header(default=None, alias="Idempotency-Key"),
     ) -> dict[str, Any]:
         require_scope(principal, "dpp.write")
+        idempotency_key = _scoped_key(principal, idempotency_key, "carrier", dpp_id)
         cached = store.idempotent(idempotency_key, payload)
         if cached is not None:
             return cached
@@ -339,20 +316,10 @@ def create_app(
 
     # -------------------------------------------------------------- operations
 
-    @app.post(f"{BASE}/internal/evidence/drain")
-    def drain(principal: Principal = Caller) -> dict[str, Any]:
-        require_scope(principal, "admin")
-        return {"states": worker.drain()}
-
     @app.get("/health")
     def health() -> dict[str, Any]:
-        return {
-            "status": "ok",
-            "schemaVersion": SCHEMA_VERSION,
-            "passports": len(store),
-            "indexed": len(index),
-            "evidence": worker.histogram(),
-        }
+        return {"status": "ok", "schemaVersion": SCHEMA_VERSION}
+
 
     return app
 

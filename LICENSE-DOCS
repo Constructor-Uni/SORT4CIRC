@@ -1,13 +1,40 @@
 Creative Commons Attribution 4.0 International (CC BY 4.0)
+SPDX identifier: CC-BY-4.0
 
-The specification artefacts in spec/ and the documentation in docs/ are licensed
-under the Creative Commons Attribution 4.0 International License.
+The repository-owned documentation and specification artefacts in docs/ and
+spec/ are licensed under the Creative Commons Attribution 4.0 International
+License. This includes schemas, ontology, vocabularies, mappings and OpenAPI,
+and retains the existing coverage of spec/access-matrix.json and
+spec/reason-codes.json.
+
+Non-code documentation examples, including the synthetic JSON fixtures and
+Markdown guides in examples/, are also licensed under CC BY 4.0.
+Executable Python examples are software under the MIT licence in LICENSE.
+
+Repository-root prose and non-code documentation/metadata are also CC BY 4.0,
+including README.md, CHANGELOG.md, CONTRIBUTING.md, SECURITY.md,
+PUBLICATION_BOUNDARY.md, LICENSING.md, CITATION.cff and MANIFEST.sha256.
+The non-code Markdown pull-request template under .github/ is documentation.
+CI, build, automation and container configuration instead use MIT, including
+structured issue forms, workflows and the configuration paths in LICENSING.md.
 
 Full licence text: https://creativecommons.org/licenses/by/4.0/legalcode
+Licence summary: https://creativecommons.org/licenses/by/4.0/
 
 Attribution: SORT4CIRC consortium, deliverable D4.3 "DPP development
 guidelines", Constructor University, work package 4. Funded by the European
 Union under Horizon Europe grant agreement number 101181988.
 
-Source code in src/, tests/, tools/ and examples/ is licensed separately under
-the Apache License 2.0; see LICENSE.
+Retain applicable attribution, identify changes and provide the licence link
+as required by CC BY 4.0. The linked legal code governs; this file does not
+add restrictions to that licence.
+
+Software in src/, tools/, tests/, executable Python examples and conformance
+tooling is covered by the MIT licence in LICENSE. The MIT software grant does
+not replace CC BY 4.0 for the separately listed documentation/specification
+artefacts, including those bundled in a Python distribution.
+
+See LICENSING.md for the complete owner-approved coverage map.
+Third-party material retains
+its own terms; this licence does not relicense third-party dependencies,
+standards or external resources.

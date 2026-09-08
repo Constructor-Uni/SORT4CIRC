@@ -1,12 +1,5 @@
-"""Shared fixtures.
-
-Every test builds its own service instance. State is never shared between
-tests, so a failure is always attributable to the test that produced it.
-"""
-
-from __future__ import annotations
-
-import os
+"""Shared independently fictional examples."""
+import copy
 import sys
 from pathlib import Path
 
@@ -14,104 +7,65 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-os.environ.setdefault("S4C_ALLOW_HEADER_AUTH", "1")
 
 from fastapi.testclient import TestClient  # noqa: E402
 
 from sort4circ_dpp.api import create_app  # noqa: E402
+from sort4circ_dpp.auth import DemoAuth  # noqa: E402
 from sort4circ_dpp.ledger.memory import InMemoryLedger  # noqa: E402
 from sort4circ_dpp.store import PassportStore  # noqa: E402
+from sort4circ_dpp.synthetic import SyntheticFixtureFactory  # noqa: E402
 
-EPC = "urn:epc:id:sgtin:0614141.112345.400"
+EPC = "urn:example:carrier:000001"
 EPC_ENCODED = EPC.replace(":", "%3A")
-
 HEADERS = {
-    "brand": {"X-S4C-Role": "brand", "X-S4C-Organisation": "urn:sort4circ:org:brand-a"},
-    "pssrSystem": {"X-S4C-Role": "pssrSystem", "X-S4C-Organisation": "urn:sort4circ:org:pssr-a"},
-    "sortingOperator": {"X-S4C-Role": "sortingOperator"},
-    "consumer": {"X-S4C-Role": "consumer"},
-    "recycler": {"X-S4C-Role": "recycler"},
-    "authority": {"X-S4C-Role": "authority"},
-    "administrator": {"X-S4C-Role": "administrator"},
-    "integrityVerifier": {"X-S4C-Role": "integrityVerifier"},
-    "collector": {"X-S4C-Role": "collector", "X-S4C-Organisation": "urn:sort4circ:org:collector-a"},
+    role: {"X-DPP-Role": role, "X-DPP-Organisation": f"urn:example:org:{org}"}
+    for role, org in {
+        "brand": "manufacturer-a", "externalSystem": "sorter-a",
+        "sortingOperator": "sorter-a", "consumer": "consumer-a", "recycler": "recycler-a",
+        "authority": "authority-a", "administrator": "admin-a",
+        "integrityVerifier": "verifier-a", "collector": "collector-a",
+    }.items()
 }
 
 
 def passport_payload(**overrides):
-    payload = {
-        "schemaVersion": "1.0.0",
-        "identity": {
-            "granularity": "item",
-            "itemId": "urn:sort4circ:item:000001",
-            "sampleId": "TXHO-WP3-B01-001",
-        },
-        "product": {
-            "articleClass": "upperBodyKnitwear",
-            "fabricConstruction": "knitted",
-            "colourPrimary": "dark",
-            "technicalFlags": ["carbonBlackPresent", "hardPointZipMetal"],
-        },
-        "materialObservations": [
-            {
-                "observationId": "urn:sort4circ:obs:000001",
-                "fibreType": "polyester",
-                "percentage": 95,
-                "percentageBasis": "mass",
-                "valueStatus": "supplied",
-                "method": "labQuantitativeIso1833",
-                "sourceOrganisationId": "urn:sort4circ:org:txho",
-                "observedAt": "2026-06-18T11:02:10Z",
-            },
-            {
-                "observationId": "urn:sort4circ:obs:000002",
-                "fibreType": "elastane",
-                "percentage": 5,
-                "percentageBasis": "mass",
-                "valueStatus": "supplied",
-                "method": "labQuantitativeIso1833",
-                "sourceOrganisationId": "urn:sort4circ:org:txho",
-                "observedAt": "2026-06-18T11:02:10Z",
-            },
-        ],
-        "responsibleOperatorId": "urn:sort4circ:org:brand-a",
-    }
+    payload = copy.deepcopy(SyntheticFixtureFactory().passport())
+    # Runtime-created record identities are distinct from the deterministic vector.
+    for name in ("dppId", "recordVersion", "createdAt", "updatedAt"):
+        payload.pop(name)
     payload.update(overrides)
     return payload
 
 
 @pytest.fixture
-def store() -> PassportStore:
+def store():
     return PassportStore()
 
 
 @pytest.fixture
-def ledger() -> InMemoryLedger:
+def ledger():
     return InMemoryLedger()
 
 
 @pytest.fixture
-def client(store, ledger) -> TestClient:
-    return TestClient(create_app(store=store, ledger=ledger))
+def client(store, ledger):
+    return TestClient(create_app(store=store, ledger=ledger, auth_provider=DemoAuth()))
 
 
 @pytest.fixture
-def dpp_id(client) -> str:
+def dpp_id(client):
     response = client.post("/v1/dpps", json=passport_payload(), headers=HEADERS["brand"])
-    assert response.status_code == 201
+    response.raise_for_status()
     return response.json()["dppId"]
 
 
 @pytest.fixture
-def bound_dpp(client, dpp_id) -> str:
-    client.post(
+def bound_dpp(client, dpp_id):
+    response = client.post(
         f"/v1/dpps/{dpp_id}/carriers",
-        json={
-            "carrierType": "uhfRfid",
-            "encodingScheme": "gs1Sgtin96",
-            "encodedIdentifier": EPC,
-            "boundBy": "urn:sort4circ:org:brand-a",
-        },
+        json=SyntheticFixtureFactory().carrier(),
         headers=HEADERS["brand"],
-    ).raise_for_status()
+    )
+    response.raise_for_status()
     return dpp_id

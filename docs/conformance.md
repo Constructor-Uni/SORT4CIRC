@@ -1,77 +1,9 @@
-# Conformance
+# Public-profile conformance
 
-## What may be claimed
+Normative means normative only for this repository's versioned public profile. The suite tests schema and vocabulary constraints, synthetic vectors, mock backend behaviour, identifier classification, API access and idempotency, JSON/XML/RDF mappings, summary filtering and release boundaries.
 
-A conformance statement names a tier, the specification version, the artefact
-versions, and every checklist row not passed. A statement that names no tier is
-not a conformance statement, and a statement that omits a failed row is not a
-redaction but a misstatement.
+Run python -m pytest -q for the full suite. Run python tools/conformance_report.py for a strict summary of its selected categories. Result values are pass, fail or not-applicable. The exporter fixes identifiers, categories, version fields, synthetic dataset label and limitations; raw output, arbitrary text and environment fields are excluded.
 
-Alignment with a harmonised standard is not conformity assessment. Citing
-EN 18219 means the identifier profile follows that standard's method; it does
-not mean a notified body has assessed anything, and presumption of conformity
-extends only to the requirements the cited standard actually covers.
+A passing run is evidence of the tests actually executed against this code. It is not physical-line validation, industrial validation, proof of durability, a performance guarantee, comprehensive security assurance or legal/regulatory conformity.
 
-Referencing ISO/IEC 27001 is not certification. Certification is claimed only
-where a valid certificate exists.
-
-## The tiers
-
-Tiers are cumulative. Tier 2 includes every tier 1 control; tier 3 includes
-every tier 2 control.
-
-**Tier 1, Core passport.** A persistent record at one declared granularity, a
-carrier bound to it, the mandatory field set, explicit unknown-value states,
-provenance on every observation, and an authenticated read API returning the
-public and partner views.
-
-**Tier 2, Operational passport.** Adds lifecycle and sorting events, the write
-path with idempotency and optimistic concurrency, the sorting projection, the
-observation interface, the translation layer with per-batch reconciliation, and
-the full access matrix.
-
-**Tier 3, Assured passport.** Adds deterministic digests, ledger anchoring
-through a replaceable adapter, independent verification of an altered record,
-the measured performance and recovery campaign, and the change and migration
-regime.
-
-## Running the checks
-
-```bash
-make conformance
-```
-
-This produces `conformance-report.json`, which separates rows decided by the
-test suite from rows that require human evidence. The second list is published
-deliberately. A suite that quietly omitted those rows would read as full
-coverage when it is not.
-
-## Rows this repository cannot decide
-
-Roughly twenty checklist rows need something a test cannot produce: a metered
-energy measurement, an executed load campaign against real hardware, a signed
-scope decision, a security scan of a deployed configuration, an
-industrial-security zone assessment, or the blockchain benchmark itself. Each is
-listed in `tests/conformance/test_checklist.py` together with the evidence that
-would decide it.
-
-## Evidence discipline
-
-Three evidence types carry different weight and are never conflated.
-
-**Executed test.** A result produced by running the named artefact in the named
-configuration against the named dataset. Only this type supports a performance
-or correctness claim.
-
-**Inspection.** A recorded examination of a configuration, document or code path
-by a named reviewer. Supports a structural claim such as "no credential appears
-in the logs". Does not support a performance claim.
-
-**Documentary.** A statement by a supplier or a published specification.
-Supports an applicability decision such as which consensus mechanism a platform
-uses. Supports nothing about the behaviour of a deployed system.
-
-The exclusion-gate assessment of EBSI, Algorand, IOTA and Ethereum in D4.3 is
-documentary. The latency figures are targets awaiting executed tests. Recording
-either as an executed test would misrepresent the state of the work, and an
-assessor is entitled to treat such a misrecording as a finding in itself.
+Human publication review, Git history remediation and an approved private security reporting channel remain separate decisions. The complete owner-approved component licence coverage is recorded in [LICENSING.md](../LICENSING.md).

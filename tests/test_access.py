@@ -44,27 +44,27 @@ def test_a_request_for_a_wider_view_is_narrowed_rather_than_refused(client, dpp_
     assert body["view"] == "public", "a tightening policy returns less, it does not break the integration"
 
 
-def test_a_pssr_system_cannot_create_a_passport(client):
+def test_a_external_system_cannot_create_a_passport(client):
     from conftest import passport_payload
 
-    response = client.post("/v1/dpps", json=passport_payload(), headers=HEADERS["pssrSystem"])
+    response = client.post("/v1/dpps", json=passport_payload(), headers=HEADERS["externalSystem"])
     assert response.status_code == 403
 
 
-def test_a_pssr_system_may_submit_an_observation(client, dpp_id):
+def test_a_external_system_may_submit_an_observation(client, dpp_id):
     response = client.post(
         f"/v1/dpps/{dpp_id}/observations",
-        headers=HEADERS["pssrSystem"],
+        headers=HEADERS["externalSystem"],
         json={
-            "observationId": "urn:sort4circ:obs:000200",
-            "fibreType": "polyester",
-            "percentage": 93.4,
+            "observationId": "urn:example:obs:000200",
+            "fibreType": "cotton",
+            "percentage": 58.25,
             "percentageBasis": "mass",
             "valueStatus": "supplied",
             "method": "nirSpectroscopy",
-            "sourceOrganisationId": "urn:sort4circ:org:pssr-a",
-            "observedAt": "2026-08-10T09:14:01.902Z",
-            "confidence": {"value": 0.87, "scale": "unitInterval"},
+            "sourceOrganisationId": "urn:example:org:sorter-a",
+            "observedAt": "2041-03-05T14:20:00Z",
+            "confidence": {"value": 0.73, "scale": "unitInterval"},
         },
     )
     assert response.status_code == 201
@@ -83,27 +83,27 @@ def test_the_integrity_verifier_cannot_widen_the_view(client, dpp_id):
 
 
 def test_the_partner_view_shows_only_the_callers_own_events(client, dpp_id):
-    for organisation, event_id in (("urn:sort4circ:org:collector-a", "urn:uuid:own"), ("urn:sort4circ:org:other", "urn:uuid:other")):
+    for organisation, event_id in (("urn:example:org:collector-a", "urn:example:event:own"), ("urn:example:org:collector-b", "urn:example:event:other")):
         client.post(
             f"/v1/dpps/{dpp_id}/events",
-            headers={"X-S4C-Role": "administrator", "X-S4C-Organisation": organisation},
+            headers={"X-DPP-Role": "administrator", "X-DPP-Organisation": organisation},
             json={
                 "eventId": event_id,
                 "eventType": "collection",
-                "eventTime": "2026-08-10T09:00:00Z",
+                "eventTime": "2041-03-05T14:20:00Z",
                 "eventTimeZoneOffset": "+02:00",
                 "actorOrganisationId": organisation,
-                "sourceSystemId": "urn:sort4circ:system:depot",
+                "sourceSystemId": "urn:example:system:simulator-a",
             },
         ).raise_for_status()
 
     body = client.get(f"/v1/dpps/{dpp_id}", headers=HEADERS["collector"]).json()
-    assert [e["eventId"] for e in body["lifecycleEvents"]] == ["urn:uuid:own"]
+    assert [e["eventId"] for e in body["lifecycleEvents"]] == ["urn:example:event:own"]
 
 
 def test_a_forbidden_read_is_indistinguishable_from_an_unknown_identifier(client):
     """The endpoint must not become an enumeration oracle."""
-    unknown = client.get("/v1/identifiers/urn%3Aepc%3Aid%3Asgtin%3A0614141.999999.999/dpp", headers=HEADERS["pssrSystem"])
+    unknown = client.get("/v1/identifiers/urn%3Aexample%3Acarrier%3Aunknown/dpp", headers=HEADERS["externalSystem"])
     forbidden = client.get(f"/v1/identifiers/{EPC_ENCODED}/dpp", headers=HEADERS["consumer"])
     assert unknown.status_code == 404
     assert forbidden.status_code == 403

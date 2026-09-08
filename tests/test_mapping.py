@@ -25,14 +25,14 @@ from sort4circ_dpp.reasons import DppError
 from sort4circ_dpp.validation import validate_payload
 
 ROOT = Path(__file__).resolve().parents[1]
-MAPPING_PATH = ROOT / "spec/mappings/dpp-mapping-1.0.0.json"
-MAPPING_SCHEMA_PATH = ROOT / "spec/mappings/dpp-mapping-1.0.0.schema.json"
-JSON_SCHEMA_PATH = ROOT / "spec/schemas/dpp-1.0.0.schema.json"
-ONTOLOGY_PATH = ROOT / "spec/ontology/sort4circ-1.0.0.ttl"
+MAPPING_PATH = ROOT / "spec/mappings/dpp-mapping-2.0.0.json"
+MAPPING_SCHEMA_PATH = ROOT / "spec/mappings/dpp-mapping-2.0.0.schema.json"
+JSON_SCHEMA_PATH = ROOT / "spec/schemas/dpp-2.0.0.schema.json"
+ONTOLOGY_PATH = ROOT / "spec/ontology/sort4circ-2.0.0.ttl"
 VALID_FIXTURES = sorted((ROOT / "examples/fixtures").glob("valid-*.json"))
 S4C = Namespace(RDF_NAMESPACE)
-XML_NS = {"dpp": "https://data.sort4circ.eu/dpp/1.0.0"}
-XSD11 = xmlschema.XMLSchema11(ROOT / "spec/mappings/dpp-1.0.0.xsd")
+XML_NS = {"dpp": "https://example.org/dpp/2.0.0"}
+XSD11 = xmlschema.XMLSchema11(ROOT / "spec/mappings/dpp-2.0.0.xsd")
 
 
 def load(path: Path):
@@ -76,7 +76,7 @@ def test_mapping_document_is_versioned_and_schema_valid():
     Draft202012Validator.check_schema(mapping_schema)
     errors = list(Draft202012Validator(mapping_schema).iter_errors(document))
     assert not errors, errors
-    assert document["mappingVersion"] == "1.0.0"
+    assert document["mappingVersion"] == "2.0.0"
     assert all(row["mappingVersion"] == document["mappingVersion"] for row in document["rows"])
 
 
@@ -98,7 +98,7 @@ def test_csv_is_an_exact_generated_projection():
         text=True,
     )
     assert result.returncode == 0, result.stdout + result.stderr
-    with (ROOT / "spec/mappings/dpp-mapping-1.0.0.csv").open(encoding="utf-8", newline="") as handle:
+    with (ROOT / "spec/mappings/dpp-mapping-2.0.0.csv").open(encoding="utf-8", newline="") as handle:
         csv_rows = list(csv.DictReader(handle))
     assert [row["mappingId"] for row in csv_rows] == [row["mappingId"] for row in mapping()["rows"]]
 
@@ -147,8 +147,8 @@ def test_every_controlled_vocabulary_reference_resolves():
 
 
 def test_xsd_is_versioned_and_declares_every_mapped_xml_element():
-    root = ET.parse(ROOT / "spec/mappings/dpp-1.0.0.xsd").getroot()
-    assert root.attrib["version"] == "1.0.0"
+    root = ET.parse(ROOT / "spec/mappings/dpp-2.0.0.xsd").getroot()
+    assert root.attrib["version"] == "2.0.0"
     declared = {
         element.attrib["name"]
         for element in root.iter("{http://www.w3.org/2001/XMLSchema}element")
@@ -167,40 +167,40 @@ def test_xsd_11_accepts_every_valid_xml_projection(fixture):
 
 
 def _payload_with_conditional_sections():
-    payload = copy.deepcopy(load(ROOT / "examples/fixtures/valid-annex-g-garment.json"))
+    payload = copy.deepcopy(load(ROOT / "examples/fixtures/valid-synthetic-textile.json"))
     payload["carriers"] = [
         {
-            "carrierId": "urn:sort4circ:carrier:1",
+            "carrierId": "urn:example:carrier:1",
             "carrierType": "qrCode",
             "encodingScheme": "gs1DigitalLink",
             "encodedIdentifier": "https://example.test/01/1",
             "bindingStatus": "commissioned",
-            "boundAt": "2026-08-10T09:12:44Z",
-            "boundBy": "urn:sort4circ:org:brand-a",
+            "boundAt": "2041-03-05T14:20:00Z",
+            "boundBy": "urn:example:org:manufacturer-a",
         }
     ]
     payload["lifecycleEvents"] = [
         {
-            "eventId": "urn:sort4circ:event:1",
+            "eventId": "urn:example:event:1",
             "eventType": "transformation",
-            "eventTime": "2026-08-10T09:12:44Z",
+            "eventTime": "2041-03-05T14:20:00Z",
             "eventTimeZoneOffset": "+00:00",
-            "recordedAt": "2026-08-10T09:12:45Z",
-            "actorOrganisationId": "urn:sort4circ:org:brand-a",
-            "sourceSystemId": "urn:sort4circ:system:1",
+            "recordedAt": "2041-03-05T14:20:00Z",
+            "actorOrganisationId": "urn:example:org:manufacturer-a",
+            "sourceSystemId": "urn:example:system:simulator-a",
             "inputRefs": [payload["identity"]["itemId"]],
-            "outputRefs": ["urn:sort4circ:item:output-1"],
+            "outputRefs": ["urn:example:item:output-1"],
         }
     ]
     payload["sortingDecisions"] = [
         {
-            "decisionId": "urn:sort4circ:decision:1",
+            "decisionId": "urn:example:decision:1",
             "basedOnObservations": [payload["materialObservations"][0]["observationId"]],
-            "ruleSetId": "urn:sort4circ:ruleset:1",
-            "ruleSetVersion": "1.0.0",
+            "ruleSetId": "urn:example:ruleset:1",
+            "ruleSetVersion": "2.0.0",
             "sortingCategory": "manualReview",
-            "decidedAt": "2026-08-10T09:12:46Z",
-            "decidedBy": "urn:sort4circ:org:sorter-a",
+            "decidedAt": "2041-03-05T14:20:00Z",
+            "decidedBy": "urn:example:org:sorter-a",
             "outcomeStatus": "overridden",
             "overrideReason": "manual inspection",
         }
@@ -209,7 +209,7 @@ def _payload_with_conditional_sections():
 
 
 def test_xsd_11_enforces_identity_granularity_identifier():
-    root = ET.fromstring(json_to_xml(load(ROOT / "examples/fixtures/valid-annex-g-garment.json")))
+    root = ET.fromstring(json_to_xml(load(ROOT / "examples/fixtures/valid-synthetic-textile.json")))
     identity = root.find("dpp:identity", XML_NS)
     identity.remove(identity.find("dpp:itemId", XML_NS))
     assert not XSD11.is_valid(root)
@@ -314,8 +314,36 @@ def test_multiple_methods_remain_separate_observations():
 
 
 def test_mandatory_information_loss_count_is_zero():
-    payload = load(ROOT / "examples/fixtures/valid-annex-g-garment.json")
+    payload = load(ROOT / "examples/fixtures/valid-synthetic-textile.json")
     schema = load(JSON_SCHEMA_PATH)
     required = set(schema["required"])
     for result in (xml_to_json(json_to_xml(payload)), rdf_to_json(json_to_rdf(payload))):
         assert sum(result.get(key) != payload[key] for key in required) == 0
+
+
+def test_mapping_works_with_an_installed_package_layout(tmp_path):
+    import shutil
+
+    from tools.verify_public_release import load_policy
+    installed = tmp_path / "installed"
+    for name in load_policy()["files"]:
+        if name.startswith("src/sort4circ_dpp/"):
+            target = installed / name[len("src/"):]
+        elif name.startswith("spec/"):
+            target = installed / "sort4circ_dpp" / name
+        else:
+            continue
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(ROOT / name, target)
+    script = """import sys
+sys.path.insert(0, sys.argv[1])
+from sort4circ_dpp.synthetic import SyntheticFixtureFactory
+from sort4circ_dpp.mapping import json_to_xml, xml_to_json, json_to_rdf, rdf_to_json
+from sort4circ_dpp.validation import validate_payload
+record = SyntheticFixtureFactory().passport()
+validate_payload(xml_to_json(json_to_xml(record)))
+validate_payload(rdf_to_json(json_to_rdf(record)))
+"""
+    result = subprocess.run([sys.executable, "-I", "-B", "-c", script, str(installed)],
+                            cwd=installed, capture_output=True)
+    assert result.returncode == 0, "installed public mapping regression"
