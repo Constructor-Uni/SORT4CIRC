@@ -110,7 +110,7 @@ def test_documentation_states_profile_scope_and_owner_actions():
     assert "Apache-2.0 for software" in readme
     assert "CC BY 4.0" in readme
     assert "MIT" not in readme, "the unrecorded MIT licence change must stay reverted"
-    assert "**Repository release: v1.3.0**" in readme
+    assert "**Repository release: v1.3.1**" in readme
     assert "**DPP implementation profile: 1.0.0**" in readme
     assert "GitHub Private Vulnerability Reporting is the official reporting mechanism" in (ROOT / "SECURITY.md").read_text()
     for name in ("examples/README.md", "examples/fixtures/README.md"):

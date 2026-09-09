@@ -72,7 +72,7 @@ covers the record field by field.
 
 ## Versioning
 
-**Repository release: v1.3.0**<br>
+**Repository release: v1.3.1**<br>
 **DPP implementation profile: 1.0.0**
 
 Individual specification assets may carry compatible patch versions.

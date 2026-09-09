@@ -9,9 +9,9 @@ The most common source of confusion. These are deliberately independent:
 | | Version | What it means |
 | --- | --- | --- |
 | **Normative profile** | **1.0.0** | The SORT4CIRC DPP implementation profile: schema, vocabularies, mappings, ontology, access matrix and reason codes. Changing it changes what a conformant record *is*. |
-| **This repository and package** | **1.3.0** | The reference implementation, its documentation and its tooling. Changing it does not redefine the profile. |
+| **This repository and package** | **1.3.1** | The reference implementation, its documentation and its tooling. Changing it does not redefine the profile. |
 
-Repository release v1.3.0 implements DPP implementation profile 1.0.0. A new repository release does
+Repository release v1.3.1 implements DPP implementation profile 1.0.0. A new repository release does
 **not** mean your records need revalidating; a new *profile* version would.
 
 ## What carries a version
@@ -19,7 +19,7 @@ Repository release v1.3.0 implements DPP implementation profile 1.0.0. A new rep
 | Thing | Current | Notes |
 | --- | --- | --- |
 | Profile: schema, vocabularies, mappings, ontology, access matrix, reason codes | **1.0.0** | Versioned together. A change to one is a change to the profile. |
-| Repository, Python package, GitHub release | **1.3.0** | `sort4circ_dpp.__version__`. Independent of the profile. |
+| Repository, Python package, GitHub release | **1.3.1** | `sort4circ_dpp.__version__`. Independent of the profile. |
 | API route prefix | **`/v1`** | An independently versioned exchange-route major. Route shape changes far less often than payload content. |
 | `schemaVersion` in every payload | **1.0.0** | Lets a consumer decide how to read the document |
 | `accessPolicyVersion` | **1.0.0** | Which access-matrix release applied when the projection was produced |

@@ -4,6 +4,46 @@ Format follows Keep a Changelog. Two version numbers are tracked separately:
 the **repository release** (this file's headings) and the **SORT4CIRC DPP
 implementation profile** version carried by the artefacts under `spec/`.
 
+## [1.3.1] - 2026-09-09
+
+Patch release. Documentation, licensing and metadata corrections from an external
+pre-publication review. No specification asset, schema, vocabulary, ontology, mapping,
+XSD, OpenAPI contract or reason code is changed, and the DPP implementation profile
+remains at 1.0.0.
+
+### Added
+
+- EU funding statement in `README.md`, recording Horizon Europe grant agreement number
+  101181988 and the standard disclaimer of Union responsibility.
+- Named software copyright notice in `LICENSE`, replacing the unfilled Apache appendix
+  placeholder. The software copyright holder is Constructor University gGmbH.
+
+### Fixed
+
+- Restored four documentation statements that a previous README revision had rewritten,
+  reinstating the normative-scope and release-identification wording asserted by
+  `tests/test_public_release.py`.
+- Removed a self-contradiction in `CITATION.cff`, where `date-released` was set while an
+  adjacent comment stated that no date had been recorded.
+- Corrected the statement in `LICENSING.md` about the scope of the coverage map: the
+  repository's Git history is public, and the map makes no licence grant over material
+  reachable only through earlier commits.
+
+### Changed
+
+- `LICENSING.md` now states the current licensing position, that the software component is
+  licensed under Apache-2.0 and that Apache-2.0 is the licence in force, in place of
+  narrating an earlier licence change and its reversal.
+- `PUBLICATION_BOUNDARY.md` and `LICENSING.md` record that the publication boundary review
+  was applied on 2026-09-09 and covers the repository as published at release v1.3.0, and
+  that the automated checks support that review rather than replacing it. The record is
+  anchored to the review date so that it remains verifiable independently of the release
+  in which the statement ships.
+- Repository release version advanced to 1.3.1 in `README.md`, `pyproject.toml`,
+  `src/sort4circ_dpp/config.py`, `CITATION.cff`, `SECURITY.md` and
+  `docs/versioning-and-migration.md`. The DPP implementation profile remains at 1.0.0 and
+  no specification asset version changed.
+
 ## [1.3.0] - 2026-09-09
 
 Repository release 1.3.0 implements the SORT4CIRC DPP implementation profile
