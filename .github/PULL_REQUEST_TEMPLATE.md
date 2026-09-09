@@ -20,4 +20,4 @@ List the tests actually run. Confirm fixture, mapping/OpenAPI and release-policy
 - [ ] No personal data, private reviews, raw operational logs or historical evidence are attached.
 - [ ] New public files were deliberately reviewed for the explicit allowlist.
 - [ ] Claims describe public-profile conformance only.
-- [ ] The approved component licences and third-party notices are respected; new public files have explicit coverage under LICENSING.md.
+- [ ] The component licences (Apache-2.0 software, CC BY 4.0 docs/spec) and third-party notices are respected; new public files have explicit coverage under LICENSING.md.

@@ -38,4 +38,4 @@ Normative statements apply only to this repository's versioned public profile. P
 
 ## Contribution boundary
 
-Submit generic improvements and independently synthetic examples only. Exclude operational configurations, private review material, personal data, partner records, secrets and raw execution evidence. The approved component licences are recorded in LICENSING.md. All current public files have owner-approved licence coverage. Publication still requires review of reporting arrangements and history.
+Submit generic improvements and independently synthetic examples only. Exclude operational configurations, private review material, personal data, partner records, secrets and raw execution evidence. The component licences are recorded in LICENSING.md: Apache-2.0 for software, CC BY 4.0 for documentation and specifications. Every public file has exactly one documented scope. Publication still requires review of reporting arrangements and history.

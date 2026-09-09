@@ -15,6 +15,17 @@ import zipfile
 from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def distribution_version() -> str:
+    """The packaged release version, read from pyproject so it cannot go stale."""
+    text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    match = re.search(r'(?m)^version\s*=\s*"([^"]+)"', text)
+    if not match:
+        raise ReleaseError("package version not declared")
+    return match.group(1)
+
+
 POLICY_NAME = "public-release-policy.json"
 MANIFEST_NAME = "MANIFEST.sha256"
 LOCAL_DIRS = {".git", ".vscode", ".pytest_cache", ".ruff_cache", "__pycache__", ".venv",
@@ -247,8 +258,9 @@ def verify_archive(path: Path, policy: dict | None = None) -> int:
         raise ReleaseError("unexpected archive directory")
     wheel = path.suffix == ".whl"
     root_prefixes = {name.split("/")[0] for name in members}
+    version = distribution_version()
     if not wheel and (len(root_prefixes) != 1 or not root_prefixes <= {
-        "public-profile", "sort4circ-dpp-2.0.0", "sort4circ_dpp-2.0.0"
+        "public-profile", f"sort4circ-dpp-{version}", f"sort4circ_dpp-{version}"
     }):
         raise ReleaseError("unexpected source archive root")
     expected = set(policy["files"])
@@ -266,7 +278,7 @@ def verify_archive(path: Path, policy: dict | None = None) -> int:
                 mapped = "src/" + relative
             elif ".dist-info/" in relative:
                 prefix, meta = relative.split(".dist-info/", 1)
-                if not re.fullmatch(r"sort4circ_dpp-2\.0\.0", prefix) or meta not in {
+                if prefix != f"sort4circ_dpp-{version}" or meta not in {
                     "METADATA", "WHEEL", "RECORD", "entry_points.txt", "top_level.txt",
                     "licenses/LICENSE", "licenses/LICENSE-DOCS", "licenses/LICENSING.md", "LICENSE", "LICENSE-DOCS", "LICENSING.md"}:
                     raise ReleaseError("unexpected wheel metadata")

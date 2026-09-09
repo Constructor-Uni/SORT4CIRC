@@ -1,4 +1,4 @@
-"""Generate the owner-approved CC BY 4.0 OpenAPI specification from the app."""
+"""Generate the CC BY 4.0 OpenAPI specification from the application definition."""
 import argparse
 import json
 import sys
@@ -23,7 +23,7 @@ def main(argv=None):
     if args.check:
         return int(json.loads(target.read_text(encoding="utf-8")) != value)
     target.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-    print("Public OpenAPI generated with the approved CC BY 4.0 licence.")
+    print("Public OpenAPI generated with the CC BY 4.0 specification licence.")
     return 0
 
 

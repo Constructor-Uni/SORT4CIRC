@@ -19,7 +19,7 @@ class SyntheticFixtureFactory:
         suffix = f"{number:06d}"
         return {
             "dppId": f"urn:example:dpp:{suffix}",
-            "schemaVersion": "2.0.0",
+            "schemaVersion": "1.0.0",
             "recordVersion": 1,
             "status": "active",
             "createdAt": "2042-02-11T08:00:00Z",
@@ -64,7 +64,7 @@ class SyntheticFixtureFactory:
     def carrier(self, number: int = 1) -> dict:
         return {
             "carrierType": "qrCode",
-            "encodingScheme": "exampleUri",
+            "encodingScheme": "proprietary",
             "encodedIdentifier": f"urn:example:carrier:{number:06d}",
             "resolverUri": f"https://example.org/dpp/{number:06d}",
             "boundBy": "urn:example:org:manufacturer-a",
@@ -96,9 +96,11 @@ class SyntheticFixtureFactory:
 
     def fixtures(self) -> dict[str, dict]:
         base = self.passport()
+        # valid-annex-g-garment.json is deliberately absent: it reproduces the worked
+        # example published as Annex G of the specification, and is maintained by hand so
+        # that a change to this generator cannot silently move the published record.
         result = {
             "valid-minimum.json": copy.deepcopy(base),
-            "valid-synthetic-textile.json": copy.deepcopy(base),
         }
         disagreement = copy.deepcopy(base)
         disagreement["materialObservations"].append(self.observation())

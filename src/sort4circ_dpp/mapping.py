@@ -1,4 +1,4 @@
-"""Deterministic JSON, XML and RDF projections for mapping package 2.0.0.
+"""Deterministic JSON, XML and RDF projections for mapping package 1.0.0.
 
 JSON remains the normative exchange representation.  XML is decoded with the
 normative JSON Schema so scalar types are never guessed. RDF carries
@@ -16,9 +16,9 @@ from typing import Any
 from .config import SCHEMA_DIR
 from .validation import validate_payload
 
-SCHEMA_PATH = SCHEMA_DIR / "dpp-2.0.0.schema.json"
-XML_NAMESPACE = "https://example.org/dpp/2.0.0"
-RDF_NAMESPACE = "https://example.org/vocabulary/"
+SCHEMA_PATH = SCHEMA_DIR / "dpp-1.0.0.schema.json"
+XML_NAMESPACE = "https://data.sort4circ.eu/dpp/1.0.0"
+RDF_NAMESPACE = "https://data.sort4circ.eu/vocabulary/"
 
 ARRAY_ITEM_NAMES = {
     "carriers": "carrier",
@@ -78,7 +78,7 @@ def json_to_xml(payload: dict[str, Any]) -> bytes:
     validate_payload(payload)
     schema = _schema()
     ET.register_namespace("dpp", XML_NAMESPACE)
-    root = ET.Element(f"{{{XML_NAMESPACE}}}dpp", {"mappingVersion": "2.0.0"})
+    root = ET.Element(f"{{{XML_NAMESPACE}}}dpp", {"mappingVersion": "1.0.0"})
     _encode_xml(root, payload, schema, schema)
     return ET.tostring(root, encoding="utf-8", xml_declaration=True)
 
@@ -120,8 +120,8 @@ def xml_to_json(document: bytes | str) -> dict[str, Any]:
     """Decode the versioned XML representation and validate the resulting JSON."""
     root = ET.fromstring(document)
     if root.tag != f"{{{XML_NAMESPACE}}}dpp":
-        raise ValueError("not a SORT4CIRC DPP 2.0.0 XML document")
-    if root.get("mappingVersion") != "2.0.0":
+        raise ValueError("not a SORT4CIRC DPP 1.0.0 XML document")
+    if root.get("mappingVersion") != "1.0.0":
         raise ValueError("unsupported or missing XML mappingVersion")
     schema = _schema()
     result = _decode_xml(root, schema, schema)

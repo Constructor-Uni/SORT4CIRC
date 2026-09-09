@@ -1,6 +1,8 @@
 """Strict public summaries; never a pipeline for publishing raw execution evidence."""
 from dataclasses import dataclass
 
+from .config import PROFILE_VERSION, RELEASE_VERSION, SCHEMA_VERSION
+
 TEST_CATEGORIES = {
     "schema": "validation", "canonical": "integrity", "integrity": "integrity",
     "identifier": "identifiers", "api": "exchange", "mapping": "interoperability",
@@ -39,9 +41,9 @@ class PublicConformanceSummary:
 
     def document(self) -> dict:
         return {
-            "publicProfileVersion": "2.0.0",
-            "specificationVersion": "2.0.0",
-            "publicImplementationVersion": "2.0.0",
+            "publicProfileVersion": PROFILE_VERSION,
+            "specificationVersion": SCHEMA_VERSION,
+            "publicImplementationVersion": RELEASE_VERSION,
             "syntheticDataset": "synthetic-public-fixtures",
             "results": [
                 {"testIdentifier": name, "category": TEST_CATEGORIES[name], "status": status}

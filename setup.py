@@ -1,9 +1,16 @@
 """Bundle only explicitly allowed public package and specification files."""
+import sys
 from pathlib import Path
 
 from setuptools import setup
 from setuptools.command.build_py import build_py
 from setuptools.command.sdist import sdist
+
+# A PEP 517 backend does not guarantee that the project root is importable, so the
+# release policy helpers below must be reachable however the build was invoked.
+_ROOT = str(Path(__file__).resolve().parent)
+if _ROOT not in sys.path:
+    sys.path.insert(0, _ROOT)
 
 
 class BuildWithSpec(build_py):

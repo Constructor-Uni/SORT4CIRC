@@ -134,3 +134,18 @@ def validate_record(record: dict[str, Any]) -> None:
 
     for index, entry in enumerate(record.get("integrity") or []):
         _check(entry, "evidenceState", "evidence-state", f"integrity[{index}].evidenceState")
+
+
+def evidence_weight(method: str) -> int:
+    """Return the declared evidence weight of an observation method.
+
+    Used by consuming rule sets to decide which observation governs when two
+    methods disagree. The weight is a property of the method, not of the
+    passport, and a rule set is free to apply a different ordering provided the
+    ordering is versioned with the rule set.
+    """
+    doc = json.loads((VOCAB_DIR / "method.json").read_text(encoding="utf-8"))
+    for term in doc["terms"]:
+        if term["token"] == method:
+            return int(term.get("evidenceWeight", 0))
+    raise KeyError(method)

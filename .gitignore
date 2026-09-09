@@ -14,3 +14,16 @@ evidence/runs/
 .env
 *.log
 .DS_Store
+
+# Owner-private release-review material: never publish. These files are working
+# documents that identify project-linked content and history locations, and they
+# declare themselves owner-private. Keep the exclusion here (versioned) rather
+# than only in .git/info/exclude, which does not survive a fresh clone.
+PUBLIC_RELEASE_AUDIT.md
+PUBLIC_RELEASE_REMEDIATION_BRIEF.md
+
+# Private-indicator scan inputs. These belong outside the checkout entirely
+# (tools/verify_public_release.py refuses a rules file inside it); this is a
+# second line of defence only.
+private-indicators*.txt
+private-rules*.json

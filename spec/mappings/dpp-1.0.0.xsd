@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning"
-           targetNamespace="https://example.org/dpp/2.0.0"
-           xmlns:dpp="https://example.org/dpp/2.0.0"
+           targetNamespace="https://data.sort4circ.eu/dpp/1.0.0"
+           xmlns:dpp="https://data.sort4circ.eu/dpp/1.0.0"
            elementFormDefault="qualified"
            xpathDefaultNamespace="##targetNamespace"
            vc:minVersion="1.1"
-           version="2.0.0">
+           version="1.0.0">
   <xs:annotation>
     <xs:documentation>
-      XSD 1.1 XML projection of the normative DPP JSON Schema 2.0.0.
+      XSD 1.1 XML projection of the normative DPP JSON Schema 1.0.0.
       Assertions enforce the profile's conditional identity, carrier,
       observation, transformation and sorting rules. JSON Schema remains the
       normative JSON validation path.
@@ -233,7 +233,7 @@
       <xs:element name="environmentalValues" type="dpp:EnvironmentalValuesType" minOccurs="0"/>
       <xs:element name="integrity" type="dpp:IntegrityType" minOccurs="0"/>
     </xs:all>
-    <xs:attribute name="mappingVersion" type="dpp:SemVerType" use="required" fixed="2.0.0"/>
+    <xs:attribute name="mappingVersion" type="dpp:SemVerType" use="required" fixed="1.0.0"/>
   </xs:complexType>
   <xs:element name="dpp" type="dpp:DppType"/>
 </xs:schema>

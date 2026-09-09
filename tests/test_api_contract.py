@@ -24,7 +24,7 @@ def test_errors_are_rfc9457_problem_documents(client):
     response = client.get("/v1/dpps/urn:example:dpp:missing", headers=HEADERS["brand"])
     assert response.status_code == 404
     assert set(response.json()) >= PROBLEM_MEMBERS
-    assert response.json()["type"].startswith("https://example.org/problems/")
+    assert response.json()["type"].startswith("https://data.sort4circ.eu/problems/")
 
 
 def test_conditional_get_returns_not_modified(client, dpp_id):
@@ -126,9 +126,9 @@ def test_a_garment_with_no_characterisation_is_representable(client):
 
 
 def test_resolution_reports_the_five_negative_outcomes_distinctly(client, bound_dpp):
-    assert client.get(f"/v1/identifiers/{EPC_ENCODED}/dpp", headers=HEADERS["externalSystem"]).status_code == 200
+    assert client.get(f"/v1/identifiers/{EPC_ENCODED}/dpp", headers=HEADERS["pssrSystem"]).status_code == 200
     unknown = client.get(
-        "/v1/identifiers/urn%3Aexample%3Acarrier%3Aunknown/dpp", headers=HEADERS["externalSystem"]
+        "/v1/identifiers/urn%3Aexample%3Acarrier%3Aunknown/dpp", headers=HEADERS["pssrSystem"]
     )
     assert (unknown.status_code, unknown.json()["reasonCode"]) == (404, "S4C-IDENT-UNKNOWN")
     forbidden = client.get(f"/v1/identifiers/{EPC_ENCODED}/dpp", headers=HEADERS["consumer"])
@@ -140,13 +140,13 @@ def test_a_replaced_carrier_resolves_as_retired_rather_than_unknown(client, boun
         f"/v1/dpps/{bound_dpp}/carriers",
         json={
             "carrierType": "qrCode",
-            "encodingScheme": "exampleUri",
+            "encodingScheme": "proprietary",
             "encodedIdentifier": "urn:example:carrier:000002",
             "boundBy": "urn:example:org:manufacturer-a",
         },
         headers=HEADERS["brand"],
     ).raise_for_status()
-    response = client.get(f"/v1/identifiers/{EPC_ENCODED}/dpp", headers=HEADERS["externalSystem"])
+    response = client.get(f"/v1/identifiers/{EPC_ENCODED}/dpp", headers=HEADERS["pssrSystem"])
     assert response.status_code == 410
     assert response.json()["reasonCode"] == "S4C-IDENT-RETIRED"
 
@@ -171,7 +171,7 @@ def test_cursor_pagination_traverses_without_omission_or_duplication(client):
 
 
 def test_health_returns_only_public_status(client):
-    assert client.get("/health").json() == {"status": "ok", "schemaVersion": "2.0.0"}
+    assert client.get("/health").json() == {"status": "ok", "schemaVersion": "1.0.0"}
 
 
 def test_the_development_auth_stand_in_is_off_by_default(monkeypatch, store, ledger):

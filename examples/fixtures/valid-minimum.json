@@ -1,6 +1,6 @@
 {
   "dppId": "urn:example:dpp:000001",
-  "schemaVersion": "2.0.0",
+  "schemaVersion": "1.0.0",
   "recordVersion": 1,
   "status": "active",
   "createdAt": "2042-02-11T08:00:00Z",

@@ -86,8 +86,11 @@ def test_docker_context_has_only_allowed_public_files():
     assert not any(p.startswith(("evidence/", "tests/")) for p in selected)
 
 def test_openapi_has_no_maintenance_operations():
+    """Implementation administration must not enter the public interoperability contract."""
     document = json.loads((ROOT / "spec/openapi/dpp-api-v1.json").read_text())
     assert not any("/internal/" in path for path in document["paths"])
+    assert not any("/admin/" in path for path in document["paths"])
+    assert not any(path.rstrip("/").endswith(("/internal", "/admin")) for path in document["paths"])
 
 def test_public_docs_link_only_existing_local_files():
     import re
@@ -104,8 +107,11 @@ def test_documentation_states_profile_scope_and_owner_actions():
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     assert "normative only for conformance with the public profile" in readme
     assert "does not constitute an official European Union specification" in readme
-    assert "MIT for software" in readme
+    assert "Apache-2.0 for software" in readme
     assert "CC BY 4.0" in readme
+    assert "MIT" not in readme, "the unrecorded MIT licence change must stay reverted"
+    assert "**Repository release: v1.2.0**" in readme
+    assert "**DPP implementation profile: 1.0.0**" in readme
     assert "GitHub Private Vulnerability Reporting is the official reporting mechanism" in (ROOT / "SECURITY.md").read_text()
     for name in ("examples/README.md", "examples/fixtures/README.md"):
         assert "Synthetic example. Not SORT4CIRC project data." in (ROOT / name).read_text()

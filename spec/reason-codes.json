@@ -1,216 +1,232 @@
 {
-  "$id": "https://example.org/reason-codes/2.0.0",
-  "version": "2.0.0",
-  "released": "2026-09-08",
-  "note": "Public-profile reason codes. Actions describe application responses and never physical commands.",
+  "$id": "https://data.sort4circ.eu/reason-codes/1.0.0",
+  "version": "1.0.0",
+  "released": "2026-08-10",
+  "note": "Reason codes are stable strings. A released code is never reworded or renumbered. Clients dispatch on the code, not on the title.",
   "safeActions": {
-    "reviewIdentifier": "Review the identifier before attempting resolution.",
-    "noResolution": "Do not attempt resolution for this observation.",
-    "rejectAtClient": "Apply the named public-profile recovery action; no industrial behaviour is specified.",
-    "reviewRecord": "Review the record before accepting it.",
-    "noEffectOnExchange": "Record the condition without changing passport exchange.",
-    "retrySameEvidenceId": "Retry the simulated submission with the same evidence identifier.",
-    "reconcileBeforeResubmit": "Check the submission status before retrying.",
-    "investigate": "Apply the named public-profile recovery action; no industrial behaviour is specified.",
-    "backOff": "Apply the named public-profile recovery action; no industrial behaviour is specified.",
-    "rereadAndReapply": "Apply the named public-profile recovery action; no industrial behaviour is specified."
+    "divert": "Route to the manual-review destination; engage no category-specific actuator.",
+    "divertAndAlert": "Divert and raise an operational alert.",
+    "retryOnceThenDivert": "One re-attempt after credential refresh, then divert.",
+    "noCommand": "Emit no new sorting command. Not an error.",
+    "rejectAtClient": "Not on the read path; the client corrects the request.",
+    "quarantine": "Hold the source row for operator review; never discard it.",
+    "noEffectOnSorting": "Sorting continues; evidence remains queued.",
+    "retrySameEvidenceId": "Retry using the same evidence identifier and digest.",
+    "reconcileBeforeResubmit": "Reconcile by evidence identifier before creating another transaction.",
+    "investigate": "A verification verdict, not an error response.",
+    "backOff": "Back off using the Retry-After header.",
+    "rereadAndReapply": "Re-read the current version and reapply the change. Never force the write."
   },
   "codes": [
     {
       "code": "S4C-IDENT-MALFORMED",
       "httpStatus": 400,
       "condition": "Identifier fails syntax or check-digit validation.",
-      "safeAction": "reviewIdentifier",
-      "type": "https://example.org/problems/s4c-ident-malformed"
+      "safeAction": "divert",
+      "type": "https://data.sort4circ.eu/problems/s4c-ident-malformed"
     },
     {
       "code": "S4C-IDENT-UNKNOWN",
       "httpStatus": 404,
       "condition": "Well-formed identifier with no passport.",
-      "safeAction": "reviewIdentifier",
-      "type": "https://example.org/problems/s4c-ident-unknown"
+      "safeAction": "divert",
+      "type": "https://data.sort4circ.eu/problems/s4c-ident-unknown"
     },
     {
       "code": "S4C-IDENT-RETIRED",
       "httpStatus": 410,
       "condition": "Passport retired; successor returned where present.",
-      "safeAction": "reviewIdentifier",
-      "type": "https://example.org/problems/s4c-ident-retired"
+      "safeAction": "divert",
+      "type": "https://data.sort4circ.eu/problems/s4c-ident-retired"
     },
     {
       "code": "S4C-IDENT-AMBIGUOUS",
       "httpStatus": 409,
       "condition": "More than one tag read within the zone window.",
-      "safeAction": "reviewIdentifier",
-      "type": "https://example.org/problems/s4c-ident-ambiguous"
+      "safeAction": "divert",
+      "type": "https://data.sort4circ.eu/problems/s4c-ident-ambiguous"
     },
     {
       "code": "S4C-IDENT-DUPLICATE-BINDING",
       "httpStatus": 409,
       "condition": "One identifier resolves to two active passports.",
-      "safeAction": "reviewIdentifier",
-      "type": "https://example.org/problems/s4c-ident-duplicate-binding"
+      "safeAction": "divertAndAlert",
+      "type": "https://data.sort4circ.eu/problems/s4c-ident-duplicate-binding"
+    },
+    {
+      "code": "S4C-READ-SUPPRESSED-DUPLICATE",
+      "httpStatus": 200,
+      "condition": "Repeat read inside the suppression window.",
+      "safeAction": "noCommand",
+      "type": "https://data.sort4circ.eu/problems/s4c-read-suppressed-duplicate"
+    },
+    {
+      "code": "S4C-READ-WEAK-SIGNAL",
+      "httpStatus": 200,
+      "condition": "Read below the configured confidence floor.",
+      "safeAction": "divert",
+      "type": "https://data.sort4circ.eu/problems/s4c-read-weak-signal"
     },
     {
       "code": "S4C-AUTH-MISSING-TOKEN",
       "httpStatus": 401,
       "condition": "No credential presented.",
-      "safeAction": "reviewIdentifier",
-      "type": "https://example.org/problems/s4c-auth-missing-token"
+      "safeAction": "divertAndAlert",
+      "type": "https://data.sort4circ.eu/problems/s4c-auth-missing-token"
     },
     {
       "code": "S4C-AUTH-INVALID-TOKEN",
       "httpStatus": 401,
       "condition": "Signature, issuer or audience invalid.",
-      "safeAction": "reviewIdentifier",
-      "type": "https://example.org/problems/s4c-auth-invalid-token"
+      "safeAction": "divertAndAlert",
+      "type": "https://data.sort4circ.eu/problems/s4c-auth-invalid-token"
     },
     {
       "code": "S4C-AUTH-EXPIRED-TOKEN",
       "httpStatus": 401,
       "condition": "Token outside the stated validity window.",
-      "safeAction": "reviewIdentifier",
-      "type": "https://example.org/problems/s4c-auth-expired-token"
+      "safeAction": "retryOnceThenDivert",
+      "type": "https://data.sort4circ.eu/problems/s4c-auth-expired-token"
     },
     {
       "code": "S4C-AUTHZ-OPERATION-FORBIDDEN",
       "httpStatus": 403,
       "condition": "Caller lacks the required scope.",
-      "safeAction": "reviewIdentifier",
-      "type": "https://example.org/problems/s4c-authz-operation-forbidden"
+      "safeAction": "divertAndAlert",
+      "type": "https://data.sort4circ.eu/problems/s4c-authz-operation-forbidden"
     },
     {
       "code": "S4C-AUTHZ-VIEW-FORBIDDEN",
       "httpStatus": 403,
       "condition": "Caller may not receive the requested view.",
-      "safeAction": "reviewIdentifier",
-      "type": "https://example.org/problems/s4c-authz-view-forbidden"
+      "safeAction": "divertAndAlert",
+      "type": "https://data.sort4circ.eu/problems/s4c-authz-view-forbidden"
     },
     {
       "code": "S4C-PAYLOAD-SCHEMA-INVALID",
       "httpStatus": 422,
       "condition": "Body fails schema validation; failing paths returned.",
       "safeAction": "rejectAtClient",
-      "type": "https://example.org/problems/s4c-payload-schema-invalid"
+      "type": "https://data.sort4circ.eu/problems/s4c-payload-schema-invalid"
     },
     {
       "code": "S4C-PAYLOAD-VOCAB-INVALID",
       "httpStatus": 422,
       "condition": "Coded value outside the declared vocabulary version.",
       "safeAction": "rejectAtClient",
-      "type": "https://example.org/problems/s4c-payload-vocab-invalid"
+      "type": "https://data.sort4circ.eu/problems/s4c-payload-vocab-invalid"
     },
     {
       "code": "S4C-PAYLOAD-UNIT-INVALID",
       "httpStatus": 422,
       "condition": "Unit missing or not permitted for the quantity.",
       "safeAction": "rejectAtClient",
-      "type": "https://example.org/problems/s4c-payload-unit-invalid"
+      "type": "https://data.sort4circ.eu/problems/s4c-payload-unit-invalid"
     },
     {
       "code": "S4C-PAYLOAD-VERSION-UNSUPPORTED",
       "httpStatus": 400,
       "condition": "Schema version not served.",
       "safeAction": "rejectAtClient",
-      "type": "https://example.org/problems/s4c-payload-version-unsupported"
+      "type": "https://data.sort4circ.eu/problems/s4c-payload-version-unsupported"
     },
     {
       "code": "S4C-STATE-VERSION-CONFLICT",
       "httpStatus": 412,
       "condition": "If-Match does not equal the current record version.",
       "safeAction": "rereadAndReapply",
-      "type": "https://example.org/problems/s4c-state-version-conflict"
+      "type": "https://data.sort4circ.eu/problems/s4c-state-version-conflict"
     },
     {
       "code": "S4C-STATE-IDEMPOTENCY-CONFLICT",
       "httpStatus": 409,
       "condition": "Same idempotency key, different request body.",
       "safeAction": "rejectAtClient",
-      "type": "https://example.org/problems/s4c-state-idempotency-conflict"
+      "type": "https://data.sort4circ.eu/problems/s4c-state-idempotency-conflict"
     },
     {
       "code": "S4C-STATE-APPEND-ONLY-VIOLATION",
       "httpStatus": 422,
       "condition": "Attempt to remove an append-only entry.",
       "safeAction": "rejectAtClient",
-      "type": "https://example.org/problems/s4c-state-append-only-violation"
+      "type": "https://data.sort4circ.eu/problems/s4c-state-append-only-violation"
     },
     {
       "code": "S4C-STATE-NOT-FOUND",
       "httpStatus": 404,
       "condition": "The addressed resource does not exist.",
       "safeAction": "rejectAtClient",
-      "type": "https://example.org/problems/s4c-state-not-found"
+      "type": "https://data.sort4circ.eu/problems/s4c-state-not-found"
     },
     {
       "code": "S4C-MAP-NO-TARGET-RULE",
       "httpStatus": 422,
       "condition": "Source field has no approved mapping.",
-      "safeAction": "reviewRecord",
-      "type": "https://example.org/problems/s4c-map-no-target-rule"
+      "safeAction": "quarantine",
+      "type": "https://data.sort4circ.eu/problems/s4c-map-no-target-rule"
     },
     {
       "code": "S4C-MAP-UNIT-CONVERSION-FAILED",
       "httpStatus": 422,
       "condition": "Conversion undefined or out of range.",
-      "safeAction": "reviewRecord",
-      "type": "https://example.org/problems/s4c-map-unit-conversion-failed"
+      "safeAction": "quarantine",
+      "type": "https://data.sort4circ.eu/problems/s4c-map-unit-conversion-failed"
     },
     {
       "code": "S4C-MAP-VOCAB-UNMAPPED",
       "httpStatus": 422,
       "condition": "Source term absent from the mapping table.",
-      "safeAction": "reviewRecord",
-      "type": "https://example.org/problems/s4c-map-vocab-unmapped"
+      "safeAction": "quarantine",
+      "type": "https://data.sort4circ.eu/problems/s4c-map-vocab-unmapped"
     },
     {
       "code": "S4C-LEDGER-UNAVAILABLE",
       "httpStatus": 503,
       "condition": "Ledger endpoint unreachable.",
-      "safeAction": "noEffectOnExchange",
-      "type": "https://example.org/problems/s4c-ledger-unavailable"
+      "safeAction": "noEffectOnSorting",
+      "type": "https://data.sort4circ.eu/problems/s4c-ledger-unavailable"
     },
     {
       "code": "S4C-LEDGER-SUBMIT-REJECTED",
       "httpStatus": 502,
       "condition": "Transaction rejected by the network.",
       "safeAction": "retrySameEvidenceId",
-      "type": "https://example.org/problems/s4c-ledger-submit-rejected"
+      "type": "https://data.sort4circ.eu/problems/s4c-ledger-submit-rejected"
     },
     {
       "code": "S4C-LEDGER-TIMEOUT-AFTER-BROADCAST",
       "httpStatus": 504,
       "condition": "Outcome unknown after broadcast.",
       "safeAction": "reconcileBeforeResubmit",
-      "type": "https://example.org/problems/s4c-ledger-timeout-after-broadcast"
+      "type": "https://data.sort4circ.eu/problems/s4c-ledger-timeout-after-broadcast"
     },
     {
       "code": "S4C-LEDGER-DIGEST-MISMATCH",
       "httpStatus": 200,
       "condition": "Recomputed digest differs from the anchored value.",
       "safeAction": "investigate",
-      "type": "https://example.org/problems/s4c-ledger-digest-mismatch"
+      "type": "https://data.sort4circ.eu/problems/s4c-ledger-digest-mismatch"
     },
     {
       "code": "S4C-DEP-UNAVAILABLE",
       "httpStatus": 503,
       "condition": "A dependency needed for the operation is unavailable.",
-      "safeAction": "reviewIdentifier",
-      "type": "https://example.org/problems/s4c-dep-unavailable"
+      "safeAction": "divert",
+      "type": "https://data.sort4circ.eu/problems/s4c-dep-unavailable"
     },
     {
       "code": "S4C-RATE-LIMITED",
       "httpStatus": 429,
       "condition": "Caller exceeded the applicable quota.",
       "safeAction": "backOff",
-      "type": "https://example.org/problems/s4c-rate-limited"
+      "type": "https://data.sort4circ.eu/problems/s4c-rate-limited"
     },
     {
       "code": "S4C-INTERNAL-ERROR",
       "httpStatus": 500,
       "condition": "Unclassified server fault.",
-      "safeAction": "reviewIdentifier",
-      "type": "https://example.org/problems/s4c-internal-error"
+      "safeAction": "divertAndAlert",
+      "type": "https://data.sort4circ.eu/problems/s4c-internal-error"
     }
   ]
 }

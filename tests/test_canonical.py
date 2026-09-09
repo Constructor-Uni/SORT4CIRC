@@ -1,4 +1,10 @@
-"""Independent synthetic canonical reference vector; no project records."""
+"""Canonicalisation and digest.
+
+The reference vector is the published value from deliverable D4.3, Annex G. It
+is reproduced here rather than imported, so that a change to the projection code
+cannot silently change the expectation as well.
+"""
+
 from __future__ import annotations
 
 import json
@@ -14,20 +20,57 @@ from sort4circ_dpp.canonical import (
     verify_digest,
 )
 
-REFERENCE = {'dppId': 'urn:example:dpp:000001', 'schemaVersion': '2.0.0', 'recordVersion': 1, 'status': 'active', 'createdAt': '2042-02-11T08:00:00Z', 'updatedAt': '2042-02-13T10:30:00Z', 'responsibleOperatorId': 'urn:example:org:manufacturer-a', 'identity': {'granularity': 'item', 'itemId': 'urn:example:item:000001', 'epc': 'urn:example:carrier:000001', 'sampleId': 'SYNTH-0001'}, 'product': {'articleClass': 'homeTextileFlat', 'fabricConstruction': 'woven', 'colourPrimary': 'light', 'technicalFlags': []}, 'materialObservations': [{'observationId': 'urn:example:observation:000001-cotton', 'fibreType': 'cotton', 'percentage': 62, 'percentageBasis': 'declaredLabel', 'valueStatus': 'supplied', 'method': 'supplierDeclaration', 'sourceOrganisationId': 'urn:example:org:manufacturer-a', 'observedAt': '2042-02-12T09:00:00Z'}, {'observationId': 'urn:example:observation:000001-flax', 'fibreType': 'flax', 'percentage': 38, 'percentageBasis': 'declaredLabel', 'valueStatus': 'supplied', 'method': 'supplierDeclaration', 'sourceOrganisationId': 'urn:example:org:manufacturer-a', 'observedAt': '2042-02-12T09:00:00Z'}]}
-PUBLISHED_DIGEST = "c99a12da1b69a0acce1b3f7f3dca0a6af740ebc7cdd80ab08060e908986da715"
-ALTERED_DIGEST = "9d7655e4bd291c2755a81e996da7877dfca1bad46ed82a6f099379b4550a4b7d"
-PUBLISHED_LENGTH = 860
+PUBLISHED_DIGEST = "dd14a3f2487f2b22deda4a7bc2b37e775f378e05d60dc1e6ad26fdf26038ae9f"
+ALTERED_DIGEST = "270e6f8790eebae533171aa62635a96c7a8e7e4366b9a9c1593262d857069f3b"
+PUBLISHED_LENGTH = 871
+
+REFERENCE = {
+    "dppId": "urn:sort4circ:dpp:000001",
+    "recordVersion": 7,
+    "updatedAt": "2026-08-10T09:12:44Z",
+    "identity": {
+        "granularity": "item",
+        "itemId": "urn:sort4circ:item:000001",
+        "epc": "urn:epc:id:sgtin:0614141.112345.400",
+    },
+    "product": {
+        "articleClass": "upperBodyKnitwear",
+        "fabricConstruction": "knitted",
+        "technicalFlags": ["carbonBlackPresent", "hardPointZipMetal"],
+    },
+    "materialObservations": [
+        {
+            "observationId": "urn:sort4circ:obs:000001",
+            "fibreType": "polyester",
+            "percentage": 95,
+            "percentageBasis": "mass",
+            "valueStatus": "supplied",
+            "method": "labQuantitativeIso1833",
+            "sourceOrganisationId": "urn:sort4circ:org:txho",
+            "observedAt": "2026-06-18T11:02:10Z",
+        },
+        {
+            "observationId": "urn:sort4circ:obs:000002",
+            "fibreType": "elastane",
+            "percentage": 5,
+            "percentageBasis": "mass",
+            "valueStatus": "supplied",
+            "method": "labQuantitativeIso1833",
+            "sourceOrganisationId": "urn:sort4circ:org:txho",
+            "observedAt": "2026-06-18T11:02:10Z",
+        },
+    ],
+}
 
 
-def test_independent_synthetic_reference_vector():
+def test_reference_vector_matches_the_deliverable():
     assert len(canonical_bytes(REFERENCE)) == PUBLISHED_LENGTH
     assert digest(REFERENCE) == PUBLISHED_DIGEST
 
 
 def test_single_digit_change_produces_a_different_digest():
     altered = json.loads(json.dumps(REFERENCE))
-    altered["materialObservations"][0]["percentage"] = 61
+    altered["materialObservations"][0]["percentage"] = 94
     assert digest(altered) == ALTERED_DIGEST
     assert digest(altered) != PUBLISHED_DIGEST
 
@@ -40,7 +83,7 @@ def test_verify_digest_accepts_and_rejects():
 
 def test_projection_excludes_access_and_integrity_members():
     noisy = json.loads(json.dumps(REFERENCE))
-    noisy["integrity"] = [{"evidenceId": "urn:example:evidence:1"}]
+    noisy["integrity"] = [{"evidenceId": "urn:sort4circ:evidence:1"}]
     noisy["accessPolicyVersion"] = "9.9.9"
     noisy["status"] = "active"
     assert digest(noisy) == PUBLISHED_DIGEST, "the digest must not depend on who asked or on anchoring state"
@@ -61,8 +104,8 @@ def test_array_order_does_change_the_digest():
     "value,expected",
     [
         (1, "1"),
-        (62, "62"),
-        (58.25, "58.25"),
+        (95, "95"),
+        (93.4, "93.4"),
         (0.5, "0.5"),
         (-2, "-2"),
         (True, "true"),
@@ -86,3 +129,28 @@ def test_non_finite_numbers_are_refused():
 def test_projection_is_a_subset():
     projection = integrity_projection(REFERENCE)
     assert set(projection) <= {"dppId", "recordVersion", "updatedAt", "identity", "product", "materialObservations"}
+
+
+def test_annex_g_fixture_and_reference_vector_describe_the_same_item():
+    """The shipped worked example and the digest vector are both D4.3 Annex G.
+
+    D4.3 publishes the Annex G record twice: as the worked example (record version 1,
+    carrying the sample identifier) and as the canonical digest vector (record version 7,
+    after the sample identifier is withheld). They are different record versions of one
+    item, so their digests differ by design. What must never drift is the identity and the
+    observations underneath them.
+    """
+    import json as _json
+    from pathlib import Path
+
+    fixture = _json.loads(
+        (Path(__file__).resolve().parents[1] / "examples/fixtures/valid-annex-g-garment.json")
+        .read_text(encoding="utf-8")
+    )
+    assert fixture["dppId"] == REFERENCE["dppId"]
+    assert fixture["identity"]["itemId"] == REFERENCE["identity"]["itemId"]
+    assert fixture["identity"]["epc"] == REFERENCE["identity"]["epc"]
+    assert fixture["materialObservations"] == REFERENCE["materialObservations"]
+    for member in ("articleClass", "fabricConstruction", "technicalFlags"):
+        assert fixture["product"][member] == REFERENCE["product"][member]
+    assert digest(fixture) != PUBLISHED_DIGEST, "record version 1 is not the version 7 vector"

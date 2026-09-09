@@ -9,8 +9,8 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "spec" / "mappings" / "dpp-mapping-2.0.0.json"
-TARGET = ROOT / "spec" / "mappings" / "dpp-mapping-2.0.0.csv"
+SOURCE = ROOT / "spec" / "mappings" / "dpp-mapping-1.0.0.json"
+TARGET = ROOT / "spec" / "mappings" / "dpp-mapping-1.0.0.csv"
 FIELDS = (
     "mappingId", "mappingVersion", "jsonPath", "xmlXPath", "rdfSubjectType",
     "rdfProperty", "rdfConstruct", "rdfMappingStatus", "rdfMappingReason",

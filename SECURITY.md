@@ -1,25 +1,87 @@
-# Security
+# Security policy
 
-## Private reporting
+## Supported releases
 
-GitHub Private Vulnerability Reporting is the official reporting mechanism for this public DPP repository. Use it for security vulnerabilities and suspected accidental project-data exposure.
+| Release | Supported |
+| --- | --- |
+| Repository release **1.2.0** (current), implementing DPP profile **1.0.0** | Yes — security reports are accepted and addressed on this line |
+| 1.1.1 and earlier repository releases | No — upgrade to 1.2.0 before reporting |
 
-Do not post either type of report in public GitHub issues, pull requests, discussions or comments. Public issues are only for non-sensitive bugs and feature requests.
+There is one supported line at a time. Fixes are made on the current repository release;
+there is no backport policy for earlier releases. Note that the repository version (1.2.0)
+and the normative DPP implementation profile version (1.0.0) are separate numbers — see
+[docs/versioning-and-migration.md](docs/versioning-and-migration.md#two-version-numbers).
 
-Open this repository's **Security and quality** tab and select **Report a vulnerability**. See [GitHub's private reporting instructions](https://docs.github.com/en/code-security/how-tos/report-and-fix-vulnerabilities/report-privately). Maintainers must enable and maintain this GitHub feature separately from this policy file. If the private reporting option is unavailable, keep the report private; do not use a public issue or pull request as a fallback.
+## This is a reference implementation, not a production security configuration
 
-## Report contents
+Before reporting, please note what this repository ships by design:
 
-Use minimal, independently synthetic reproductions only, including in private reports. Describe the affected public component and version, the expected and observed behaviour, and the potential impact using fictional inputs. For suspected data exposure, describe the concern without copying the exposed material.
+- **In-memory storage.** No persistence, no backup, no recovery. State is lost on restart.
+- **A mock integrity backend.** `InMemoryLedger` simulates outcomes. No network, account,
+  key material or contract is supplied.
+- **No credential validation.** The default `PublicOnlyAuth` grants read-only public access
+  and rejects claimed role headers. The opt-in `DemoAuth` (`DPP_DEMO_AUTH=1`) trusts
+  `X-DPP-Role` and `X-DPP-Organisation` headers without verifying anything. It is a local
+  teaching stand-in, **not authentication**, and anyone who can reach a service running with
+  it can assert any role, including `administrator`.
+- **No transport security, rate limiting, secret management, audit logging or monitoring.**
 
-Do not submit real credentials, private configuration, partner data, project data, pilot data or internal endpoints. This prohibition applies to reports, attachments, screenshots, logs, code changes and follow-up messages, whether public or private. Do not include personal data, private review material or raw operational evidence.
+The Docker compose example is fail-closed by default (`DPP_DEMO_AUTH: "${DPP_DEMO_AUTH:-0}"`),
+binds to `127.0.0.1` only, runs the container read-only with all capabilities dropped and
+`no-new-privileges`, and ships no secrets. It is a local demonstration, not a hardened
+deployment.
 
-Synthetic example. Not SORT4CIRC project data.
+Production identity, authorisation, transport, persistence, monitoring and recovery require
+separate design and assessment. See [docs/security.md](docs/security.md) for the access
+model and what to replace, and [docs/customisation.md](docs/customisation.md) for how.
 
-## Reference implementation boundary
+Reports that these documented boundaries exist are not vulnerabilities. Reports that the
+implementation **fails to honour a boundary it claims** — for example a projection
+disclosing a field the access matrix withholds, or a write accepted without the required
+scope — are, and are wanted.
 
-The reference API uses PublicOnlyAuth by default. It rejects supplied demo role headers; writes need an explicitly injected authentication provider. DPP_DEMO_AUTH=1 enables a local educational stand-in that trusts X-DPP-Role and X-DPP-Organisation headers. Anyone who can reach that demo can impersonate its roles. Bind it to loopback and use synthetic data only.
+## Reporting a vulnerability
 
-The compose example exposes one API service on loopback and uses an in-memory integrity adapter. It supplies no secrets and exposes no maintenance drain endpoint. State is lost on restart. Production identity, authorisation, transport, persistence, monitoring and recovery require separate design and assessment.
+GitHub Private Vulnerability Reporting is the official reporting mechanism for this
+repository. Use it for security vulnerabilities and for suspected accidental exposure of
+confidential data.
 
-The public summary exporter accepts only fixed test identifiers and result statuses. It does not export raw execution output or environment data. Automated leakage checks reduce accidental inclusion; they do not approve a public release or replace a security assessment.
+Open the repository's **Security** tab and select **Report a vulnerability**. See
+[GitHub's private reporting instructions](https://docs.github.com/en/code-security/how-tos/report-and-fix-vulnerabilities/report-privately).
+
+**Do not** post either kind of report in a public GitHub issue, pull request, discussion or
+comment. Public issues are for non-sensitive bugs and feature requests only. If private
+reporting is unavailable at the time you need it, keep the report private and wait — do not
+use a public issue or pull request as a fallback.
+
+Maintainers must enable and maintain the GitHub private reporting feature; this policy file
+does not enable it.
+
+## What to include in a report
+
+- the affected component, the repository release and the profile version;
+- expected and observed behaviour;
+- a **minimal, independently synthetic** reproduction;
+- the potential impact.
+
+## What never to include
+
+Do not submit real credentials, private configuration, partner data, project data, pilot
+data, personal data, private review material, raw operational evidence or internal
+endpoints. This applies to reports, attachments, screenshots, logs, code changes and
+follow-up messages — **including private ones**.
+
+For suspected data exposure, describe the concern without copying the exposed material.
+
+Use fictional inputs generated by `SyntheticFixtureFactory`, with the reserved
+`urn:example:` and `https://example.org/` namespaces. See
+[CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Automated checks and their limits
+
+`tools/verify_public_release.py` enforces an explicit public file allowlist, rejects
+forbidden paths and suffixes, and refuses private-key content. `public_summary.py` exports
+only fixed identifiers and result statuses, never raw output or environment data.
+
+These reduce accidental inclusion. They do not approve a public release and do not replace
+a security assessment. See [docs/public-release.md](docs/public-release.md).

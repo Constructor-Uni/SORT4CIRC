@@ -1,19 +1,51 @@
 cff-version: 1.2.0
+message: >-
+  Please cite the SORT4CIRC DPP Development Guidelines and reference implementation.
+title: SORT4CIRC DPP Development Guidelines and reference implementation
+abstract: >-
+  A public technical implementation profile for a textile Digital Product Passport,
+  with a versioned JSON Schema, controlled vocabularies, an RDF/OWL semantic model,
+  JSON/XML/RDF mappings, an OpenAPI exchange contract, identifier and data-carrier
+  guidance, an optional integrity profile, a Python reference implementation,
+  synthetic worked examples and a conformance test suite. This is repository release
+  1.2.0, which implements the SORT4CIRC DPP implementation profile 1.0.0; the two
+  version numbers are independent. The specification originates in SORT4CIRC Horizon
+  Europe project deliverable D4.3, "DPP Development Guidelines". All distributed
+  examples and identifiers are synthetic or demonstrative.
+type: software
+version: 1.2.0
+# date-released: set this to the actual release date in the tagging commit.
+# Left unset deliberately: no provisional or invented date is recorded here.
 authors:
-- name: SORT4CIRC consortium, work package 4
-  website: https://sort4circ.eu
-- name: Constructor University
-  city: Bremen
-  country: DE
+  - name: SORT4CIRC consortium, work package 4
+    website: https://sort4circ.eu
+  - name: Constructor University
+    city: Bremen
+    country: DE
 license:
-- MIT
-- CC-BY-4.0
+  - Apache-2.0
+  - CC-BY-4.0
 repository-code: https://github.com/Constructor-Uni/SORT4CIRC
 url: https://sort4circ.eu
-message: Please cite the public educational DPP reference profile.
-type: software
-title: Public Digital Product Passport reference profile
-version: 2.0.0
-date-released: '2026-09-08'
-abstract: Generic educational DPP public profile with independently synthetic examples,
-  associated with the SORT4CIRC Horizon Europe project.
+keywords:
+  - digital product passport
+  - dpp
+  - textile
+  - circularity
+  - traceability
+  - provenance
+  - interoperability
+  - espr
+# After the first tagged GitHub release is archived and a DOI is minted, add the DOI
+# here. Do not add a placeholder or an invented value. The expected form is:
+#
+#   identifiers:
+#     - type: doi
+#       value: 10.5281/zenodo.XXXXXXX
+#       description: Archived release of this version
+#
+# and, if a concept DOI covering all versions is issued, a second entry describing it.
+# Add `date-released` and update `version` in the same commit as the tag.
+#
+# `version` is the repository/release version (1.2.0). The normative DPP
+# implementation profile version is 1.0.0 and is not the same number.

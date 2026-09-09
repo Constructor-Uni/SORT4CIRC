@@ -1,4 +1,19 @@
-# Synthetic local educational service; no project deployment is represented.
+# Local educational service for the SORT4CIRC DPP reference implementation.
+# Synthetic data only. No project deployment is represented and this is not a
+# production configuration.
+#
+# Identity is fail-closed by default: DPP_DEMO_AUTH defaults to 0, so the service
+# starts with PublicOnlyAuth (read-only public access, claimed role headers are
+# rejected). Nothing here is authentication.
+#
+# To opt into the local header-based demo identity, which is required for the
+# write examples, set the variable explicitly in your shell before starting:
+#
+#   sh / bash:   DPP_DEMO_AUTH=1 docker compose -f docker/compose.example.yml up --build
+#   PowerShell:  $env:DPP_DEMO_AUTH = "1"; docker compose -f docker/compose.example.yml up --build
+#
+# Only do this on a loopback-bound local instance with synthetic records. Anyone
+# who can reach a service with DPP_DEMO_AUTH=1 can assert any role.
 services:
   dpp-demo:
     build:
@@ -7,7 +22,7 @@ services:
     ports:
       - "127.0.0.1:8000:8000"
     environment:
-      DPP_DEMO_AUTH: "1"
+      DPP_DEMO_AUTH: "${DPP_DEMO_AUTH:-0}"
     read_only: true
     tmpfs:
       - /tmp

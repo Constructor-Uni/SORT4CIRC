@@ -12,7 +12,7 @@ from sort4circ_dpp.store import PassportStore, etag
 def carrier(encoded=EPC):
     return {
         "carrierType": "qrCode",
-        "encodingScheme": "exampleUri",
+        "encodingScheme": "proprietary",
         "encodedIdentifier": encoded,
         "boundBy": "urn:example:org:manufacturer-a",
     }

@@ -1,4 +1,4 @@
-@prefix s4c:   <https://example.org/vocabulary/> .
+@prefix s4c:   <https://data.sort4circ.eu/vocabulary/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
@@ -10,13 +10,13 @@
 # Ontology metadata
 #################################################################
 
-<https://example.org/vocabulary/> a owl:Ontology ;
-    owl:versionIRI <https://example.org/vocabulary/2.0.0> ;
-    owl:versionInfo "2.0.0" ;
-    dcterms:title "Generic Textile Digital Product Passport vocabulary" ;
-    dcterms:description "Educational RDF and OWL model for this repository public profile; independent of any project deployment." ;
-    dcterms:created "2026-09-08"^^xsd:date ;
-    dcterms:publisher "Constructor University, SORT4CIRC" ;
+<https://data.sort4circ.eu/vocabulary/> a owl:Ontology ;
+    owl:versionIRI <https://data.sort4circ.eu/vocabulary/1.0.0> ;
+    owl:versionInfo "1.0.0" ;
+    dcterms:title "SORT4CIRC Textile Digital Product Passport vocabulary" ;
+    dcterms:description "Shared RDF and OWL model for the SORT4CIRC Textile Digital Product Passport, developed under Task 4.2.2 and published in deliverable D4.3. The model is independent of any blockchain, database, reader, ERP, MES or sorting technology." ;
+    dcterms:created "2026-08-10"^^xsd:date ;
+    dcterms:publisher "Constructor University, SORT4CIRC WP4" ;
     dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
     rdfs:comment "Declared OWL 2 profile: OWL 2 DL. The EL subset excludes the disjointness and asymmetry axioms." .
 

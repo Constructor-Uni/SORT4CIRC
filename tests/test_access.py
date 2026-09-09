@@ -47,14 +47,14 @@ def test_a_request_for_a_wider_view_is_narrowed_rather_than_refused(client, dpp_
 def test_a_external_system_cannot_create_a_passport(client):
     from conftest import passport_payload
 
-    response = client.post("/v1/dpps", json=passport_payload(), headers=HEADERS["externalSystem"])
+    response = client.post("/v1/dpps", json=passport_payload(), headers=HEADERS["pssrSystem"])
     assert response.status_code == 403
 
 
 def test_a_external_system_may_submit_an_observation(client, dpp_id):
     response = client.post(
         f"/v1/dpps/{dpp_id}/observations",
-        headers=HEADERS["externalSystem"],
+        headers=HEADERS["pssrSystem"],
         json={
             "observationId": "urn:example:obs:000200",
             "fibreType": "cotton",
@@ -103,7 +103,7 @@ def test_the_partner_view_shows_only_the_callers_own_events(client, dpp_id):
 
 def test_a_forbidden_read_is_indistinguishable_from_an_unknown_identifier(client):
     """The endpoint must not become an enumeration oracle."""
-    unknown = client.get("/v1/identifiers/urn%3Aexample%3Acarrier%3Aunknown/dpp", headers=HEADERS["externalSystem"])
+    unknown = client.get("/v1/identifiers/urn%3Aexample%3Acarrier%3Aunknown/dpp", headers=HEADERS["pssrSystem"])
     forbidden = client.get(f"/v1/identifiers/{EPC_ENCODED}/dpp", headers=HEADERS["consumer"])
     assert unknown.status_code == 404
     assert forbidden.status_code == 403

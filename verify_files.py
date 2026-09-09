@@ -1,4 +1,4 @@
-"""Regenerate hashes only for the explicitly approved public file set."""
+"""Regenerate hashes only for the explicit public file set in the release policy."""
 import argparse
 
 from tools.verify_public_release import ROOT, ReleaseError, verify_tree, write_manifests

@@ -7,7 +7,7 @@ import pytest
 from sort4circ_dpp.ledger.base import LedgerError
 from sort4circ_dpp.ledger.memory import InMemoryLedger
 
-DIGEST = "c99a12da1b69a0acce1b3f7f3dca0a6af740ebc7cdd80ab08060e908986da715"
+DIGEST = "dd14a3f2487f2b22deda4a7bc2b37e775f378e05d60dc1e6ad26fdf26038ae9f"
 
 
 def envelope(evidence_id="urn:example:evidence:1", digest=DIGEST):

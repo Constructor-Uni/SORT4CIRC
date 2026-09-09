@@ -21,7 +21,7 @@ EPC_ENCODED = EPC.replace(":", "%3A")
 HEADERS = {
     role: {"X-DPP-Role": role, "X-DPP-Organisation": f"urn:example:org:{org}"}
     for role, org in {
-        "brand": "manufacturer-a", "externalSystem": "sorter-a",
+        "brand": "manufacturer-a", "pssrSystem": "sorter-a",
         "sortingOperator": "sorter-a", "consumer": "consumer-a", "recycler": "recycler-a",
         "authority": "authority-a", "administrator": "admin-a",
         "integrityVerifier": "verifier-a", "collector": "collector-a",

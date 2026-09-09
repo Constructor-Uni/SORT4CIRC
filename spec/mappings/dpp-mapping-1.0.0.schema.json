@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.org/mappings/dpp/2.0.0/schema",
-  "title": "SORT4CIRC DPP mapping package 2.0.0",
+  "$id": "https://data.sort4circ.eu/mappings/dpp/1.0.0/schema",
+  "title": "SORT4CIRC DPP mapping package 1.0.0",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -12,8 +12,8 @@
     "$schema": {"type": "string", "format": "uri"},
     "$id": {"type": "string", "format": "uri"},
     "title": {"type": "string"},
-    "mappingVersion": {"const": "2.0.0"},
-    "jsonSchemaVersion": {"const": "2.0.0"},
+    "mappingVersion": {"const": "1.0.0"},
+    "jsonSchemaVersion": {"const": "1.0.0"},
     "ontologyVersionIRI": {"type": "string", "format": "uri"},
     "jsonNamespace": {"type": "string", "format": "uri"},
     "xmlNamespace": {"type": "string", "format": "uri"},
@@ -39,7 +39,7 @@
       ],
       "properties": {
         "mappingId": {"type": "string", "minLength": 1},
-        "mappingVersion": {"const": "2.0.0"},
+        "mappingVersion": {"const": "1.0.0"},
         "jsonPath": {"type": "string", "minLength": 1},
         "xmlXPath": {"type": "string", "pattern": "^/dpp:dpp/"},
         "rdfSubjectType": {"type": "string", "pattern": "^s4c:"},

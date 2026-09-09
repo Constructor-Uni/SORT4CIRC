@@ -25,14 +25,14 @@ from sort4circ_dpp.reasons import DppError
 from sort4circ_dpp.validation import validate_payload
 
 ROOT = Path(__file__).resolve().parents[1]
-MAPPING_PATH = ROOT / "spec/mappings/dpp-mapping-2.0.0.json"
-MAPPING_SCHEMA_PATH = ROOT / "spec/mappings/dpp-mapping-2.0.0.schema.json"
-JSON_SCHEMA_PATH = ROOT / "spec/schemas/dpp-2.0.0.schema.json"
-ONTOLOGY_PATH = ROOT / "spec/ontology/sort4circ-2.0.0.ttl"
+MAPPING_PATH = ROOT / "spec/mappings/dpp-mapping-1.0.0.json"
+MAPPING_SCHEMA_PATH = ROOT / "spec/mappings/dpp-mapping-1.0.0.schema.json"
+JSON_SCHEMA_PATH = ROOT / "spec/schemas/dpp-1.0.0.schema.json"
+ONTOLOGY_PATH = ROOT / "spec/ontology/sort4circ-1.0.0.ttl"
 VALID_FIXTURES = sorted((ROOT / "examples/fixtures").glob("valid-*.json"))
 S4C = Namespace(RDF_NAMESPACE)
-XML_NS = {"dpp": "https://example.org/dpp/2.0.0"}
-XSD11 = xmlschema.XMLSchema11(ROOT / "spec/mappings/dpp-2.0.0.xsd")
+XML_NS = {"dpp": "https://data.sort4circ.eu/dpp/1.0.0"}
+XSD11 = xmlschema.XMLSchema11(ROOT / "spec/mappings/dpp-1.0.0.xsd")
 
 
 def load(path: Path):
@@ -76,7 +76,7 @@ def test_mapping_document_is_versioned_and_schema_valid():
     Draft202012Validator.check_schema(mapping_schema)
     errors = list(Draft202012Validator(mapping_schema).iter_errors(document))
     assert not errors, errors
-    assert document["mappingVersion"] == "2.0.0"
+    assert document["mappingVersion"] == "1.0.0"
     assert all(row["mappingVersion"] == document["mappingVersion"] for row in document["rows"])
 
 
@@ -98,7 +98,7 @@ def test_csv_is_an_exact_generated_projection():
         text=True,
     )
     assert result.returncode == 0, result.stdout + result.stderr
-    with (ROOT / "spec/mappings/dpp-mapping-2.0.0.csv").open(encoding="utf-8", newline="") as handle:
+    with (ROOT / "spec/mappings/dpp-mapping-1.0.0.csv").open(encoding="utf-8", newline="") as handle:
         csv_rows = list(csv.DictReader(handle))
     assert [row["mappingId"] for row in csv_rows] == [row["mappingId"] for row in mapping()["rows"]]
 
@@ -147,8 +147,8 @@ def test_every_controlled_vocabulary_reference_resolves():
 
 
 def test_xsd_is_versioned_and_declares_every_mapped_xml_element():
-    root = ET.parse(ROOT / "spec/mappings/dpp-2.0.0.xsd").getroot()
-    assert root.attrib["version"] == "2.0.0"
+    root = ET.parse(ROOT / "spec/mappings/dpp-1.0.0.xsd").getroot()
+    assert root.attrib["version"] == "1.0.0"
     declared = {
         element.attrib["name"]
         for element in root.iter("{http://www.w3.org/2001/XMLSchema}element")
@@ -167,7 +167,7 @@ def test_xsd_11_accepts_every_valid_xml_projection(fixture):
 
 
 def _payload_with_conditional_sections():
-    payload = copy.deepcopy(load(ROOT / "examples/fixtures/valid-synthetic-textile.json"))
+    payload = copy.deepcopy(load(ROOT / "examples/fixtures/valid-annex-g-garment.json"))
     payload["carriers"] = [
         {
             "carrierId": "urn:example:carrier:1",
@@ -197,7 +197,7 @@ def _payload_with_conditional_sections():
             "decisionId": "urn:example:decision:1",
             "basedOnObservations": [payload["materialObservations"][0]["observationId"]],
             "ruleSetId": "urn:example:ruleset:1",
-            "ruleSetVersion": "2.0.0",
+            "ruleSetVersion": "1.0.0",
             "sortingCategory": "manualReview",
             "decidedAt": "2041-03-05T14:20:00Z",
             "decidedBy": "urn:example:org:sorter-a",
@@ -209,7 +209,7 @@ def _payload_with_conditional_sections():
 
 
 def test_xsd_11_enforces_identity_granularity_identifier():
-    root = ET.fromstring(json_to_xml(load(ROOT / "examples/fixtures/valid-synthetic-textile.json")))
+    root = ET.fromstring(json_to_xml(load(ROOT / "examples/fixtures/valid-annex-g-garment.json")))
     identity = root.find("dpp:identity", XML_NS)
     identity.remove(identity.find("dpp:itemId", XML_NS))
     assert not XSD11.is_valid(root)
@@ -314,7 +314,7 @@ def test_multiple_methods_remain_separate_observations():
 
 
 def test_mandatory_information_loss_count_is_zero():
-    payload = load(ROOT / "examples/fixtures/valid-synthetic-textile.json")
+    payload = load(ROOT / "examples/fixtures/valid-annex-g-garment.json")
     schema = load(JSON_SCHEMA_PATH)
     required = set(schema["required"])
     for result in (xml_to_json(json_to_xml(payload)), rdf_to_json(json_to_rdf(payload))):
