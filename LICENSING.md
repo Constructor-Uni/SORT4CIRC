@@ -2,9 +2,9 @@
 
 This repository is licensed in two components: **Apache License 2.0** for software, CI, build, automation and container configuration; **CC BY 4.0** for documentation, specifications and non-code repository metadata. These licences cover different components, not a choice of either licence for every file. Third-party material retains its own terms.
 
-The Apache-2.0 software grant is the licence this repository has carried since its specification and reference implementation were first published. A change to MIT was introduced in commit `fb16abe` without a recorded decision; it has been reverted, and Apache-2.0 restored.
+The software component has been licensed under the Apache License 2.0 since the specification and reference implementation were first published, and Apache-2.0 is the licence in force. No other software licence grant applies to any file in this repository.
 
-This map applies to the public files listed in public-release-policy.json. It does not publish or license excluded private reviews, evidence, local files or Git history.
+This map scopes the files listed in public-release-policy.json. It makes no licence grant over material outside that list, including private reviews, evidence packages and local files. The repository's Git history is public; the coverage map applies to the listed files as published, and confers no grant over content reachable only through earlier commits.
 
 ## Apache-2.0 coverage
 
@@ -65,7 +65,7 @@ Every file in `public-release-policy.json` matches exactly one scope in the tabl
 
 The generated OpenAPI document is a specification asset and carries the CC BY 4.0 grant, consistent with the rest of `spec/`. This resolves the earlier conflict between the OpenAPI's own licence metadata and the declared specification licence.
 
-Coverage being unambiguous is a statement about this map, not an approval record. Private security reporting arrangements, Git history and public-release sign-off remain separate matters.
+Coverage being unambiguous is a statement about this map, not an approval record. The publication boundary review, covering security reporting arrangements and repository history, was applied on 2026-09-09 and covers the repository as published at release v1.3.0; it is recorded in PUBLICATION_BOUNDARY.md. The automated checks in this repository support that review and do not replace it.
 
 ## Third-party review
 

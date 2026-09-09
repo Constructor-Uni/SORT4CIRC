@@ -15,8 +15,6 @@ abstract: >-
 type: software
 version: 1.3.0
 date-released: 2026-09-09
-# date-released: set this to the actual release date in the tagging commit.
-# Left unset deliberately: no provisional or invented date is recorded here.
 authors:
   - name: SORT4CIRC consortium, work package 4
     website: https://sort4circ.eu
@@ -46,7 +44,7 @@ keywords:
 #       description: Archived release of this version
 #
 # and, if a concept DOI covering all versions is issued, a second entry describing it.
-# Add `date-released` and update `version` in the same commit as the tag.
+# For a subsequent release, update `version` and `date-released` in the tagging commit.
 #
 # `version` is the repository/release version (1.3.0). The normative DPP
 # implementation profile version is 1.0.0 and is not the same number.
