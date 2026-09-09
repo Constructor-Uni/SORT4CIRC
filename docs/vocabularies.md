@@ -141,8 +141,8 @@ Adapting them is expected. Do it deliberately:
 3. **Retire with `deprecated` and `replacedBy`,** rather than deleting a token. Deleting
    makes historical records unvalidatable.
 4. **Update every representation.** A token added to a vocabulary must also appear in the
-   [XSD](../spec/mappings/dpp-1.0.0.xsd), the
-   [ontology](../spec/ontology/sort4circ-1.0.0.ttl) and the
+   [XSD](../spec/schemas/dpp-1.0.0.xsd), the
+   [ontology](../spec/ontology/sort4circ-1.0.1.ttl) and the
    [mapping table](../spec/mappings/dpp-mapping-1.0.0.json) where relevant, or the
    representations diverge. `python -m pytest tests/test_mapping.py -q` checks this.
 5. **Add fixtures.** A positive fixture using the new token and a negative fixture proving

@@ -20,7 +20,7 @@ run against your own implementation.
 No prior reading is required. Everything you need is in this repository.
 
 > **Two version numbers.**
-> **Repository release: v1.2.0** · **DPP implementation profile: 1.0.0**
+> **Repository release: v1.3.0** · **DPP implementation profile: 1.0.0**
 >
 > The repository, package and documentation evolve on their own version line. The
 > normative profile — schema, vocabularies, mappings, ontology, access matrix and reason
@@ -168,7 +168,11 @@ issue — follow [SECURITY.md](SECURITY.md).
 The reference service is a teaching implementation. Specifically:
 
 - storage is **in-process memory**; all records are lost when the process exits;
-- the integrity backend is an **in-memory mock**, not a distributed ledger;
+- the default integrity backend is an **in-memory mock**, not a distributed ledger. A
+  reference Besu adapter ships alongside it as an **optional** example of the adapter
+  contract; it is an implementation, **not the outcome of the assessment** that would
+  select a ledger platform for any deployment, and no platform is ranked or recommended
+  here. Nothing in the default developer path requires it, or any blockchain at all;
 - the default identity provider (`PublicOnlyAuth`) grants read-only public access and
   **rejects** claimed role headers. The header-based demo identity (`DemoAuth`) is
   opt-in, is not authentication, and must never protect a deployed system;

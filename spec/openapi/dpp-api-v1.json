@@ -56,14 +56,18 @@
       }
     }
   },
+  "externalDocs": {
+    "description": "SORT4CIRC DPP Development Guidelines",
+    "url": "https://github.com/Constructor-Uni/SORT4CIRC"
+  },
   "info": {
-    "description": "Educational public-profile API with synthetic examples. No project deployment or legal conformity is represented.",
+    "description": "The /v1 exchange API of the SORT4CIRC DPP implementation profile. Application and body-validation errors use RFC 9457 problem details with a reason code from spec/reason-codes.json. Examples are synthetic; no deployment or legal conformity is represented.",
     "license": {
       "name": "Creative Commons Attribution 4.0 International",
       "url": "https://creativecommons.org/licenses/by/4.0/"
     },
-    "title": "Generic Digital Product Passport API",
-    "version": "1.0.0"
+    "title": "SORT4CIRC Digital Product Passport API",
+    "version": "1.1.0"
   },
   "openapi": "3.1.0",
   "paths": {
@@ -174,6 +178,13 @@
                 "title": "Payload",
                 "type": "object"
               }
+            },
+            "application/xml": {
+              "schema": {
+                "additionalProperties": true,
+                "title": "Payload",
+                "type": "object"
+              }
             }
           },
           "required": true
@@ -185,6 +196,13 @@
                 "schema": {
                   "additionalProperties": true,
                   "title": "Response Create Dpp V1 Dpps Post",
+                  "type": "object"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Payload",
                   "type": "object"
                 }
               }
@@ -257,6 +275,13 @@
               "application/json": {
                 "schema": {
                   "title": "Response Get Dpp V1 Dpps  Dpp Id  Get"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Payload",
+                  "type": "object"
                 }
               }
             },

@@ -20,11 +20,77 @@ def test_every_response_echoes_the_correlation_identifier(client, dpp_id):
     assert response.headers["X-Correlation-Id"] == correlation
 
 
+def test_an_unsupplied_correlation_identifier_is_generated_once_and_reused(client, monkeypatch):
+    generated = []
+
+    def fake_uuid4():
+        value = f"generated-{len(generated) + 1}"
+        generated.append(value)
+        return value
+
+    monkeypatch.setattr("sort4circ_dpp.api.uuid.uuid4", fake_uuid4)
+    response = client.get("/v1/dpps/urn:sort4circ:dpp:missing", headers=HEADERS["brand"])
+
+    assert generated == ["generated-1"]
+    assert response.headers["X-Correlation-Id"] == "generated-1"
+    assert response.json()["correlationId"] == "generated-1"
+
+
 def test_errors_are_rfc9457_problem_documents(client):
     response = client.get("/v1/dpps/urn:example:dpp:missing", headers=HEADERS["brand"])
     assert response.status_code == 404
     assert set(response.json()) >= PROBLEM_MEMBERS
     assert response.json()["type"].startswith("https://data.sort4circ.eu/problems/")
+
+
+def test_malformed_json_body_uses_the_payload_problem_contract(client):
+    response = client.post(
+        "/v1/dpps",
+        content="{",
+        headers={**HEADERS["brand"], "Content-Type": "application/json"},
+    )
+    body = response.json()
+
+    assert response.status_code == 422
+    assert response.headers["content-type"] == "application/problem+json"
+    assert body["reasonCode"] == "S4C-PAYLOAD-SCHEMA-INVALID"
+    assert body["status"] == 422
+    assert body["errors"] == [{"path": "body"}]
+    assert body["correlationId"] == response.headers["X-Correlation-Id"]
+
+
+def test_missing_body_uses_the_payload_problem_contract(client):
+    response = client.post("/v1/dpps", headers=HEADERS["brand"])
+    body = response.json()
+
+    assert response.status_code == 422
+    assert response.headers["content-type"] == "application/problem+json"
+    assert body["reasonCode"] == "S4C-PAYLOAD-SCHEMA-INVALID"
+    assert body["status"] == 422
+    assert body["errors"] == [{"path": "body"}]
+    assert body["correlationId"] == response.headers["X-Correlation-Id"]
+
+
+def test_invalid_query_parameter_keeps_fastapi_validation_behavior(client):
+    response = client.get("/v1/dpps?limit=not-an-int")
+    body = response.json()
+
+    assert response.status_code == 422
+    assert response.headers["content-type"] == "application/json"
+    assert "reasonCode" not in body
+    assert "correlationId" not in body
+    assert body["detail"][0]["loc"] == ["query", "limit"]
+
+
+def test_empty_object_remains_application_schema_validation(client):
+    response = client.post("/v1/dpps", json={}, headers=HEADERS["brand"])
+    body = response.json()
+
+    assert response.status_code == 422
+    assert response.headers["content-type"] == "application/problem+json"
+    assert body["reasonCode"] == "S4C-PAYLOAD-SCHEMA-INVALID"
+    assert body["errors"]
+    assert body["correlationId"] == response.headers["X-Correlation-Id"]
 
 
 def test_conditional_get_returns_not_modified(client, dpp_id):
@@ -70,6 +136,80 @@ def test_idempotency_repeats_the_outcome_and_refuses_a_changed_body(client):
     )
     assert changed.status_code == 409
     assert changed.json()["reasonCode"] == "S4C-STATE-IDEMPOTENCY-CONFLICT"
+
+
+def test_idempotency_same_key_is_independent_per_dpp_for_events(client, dpp_id):
+    second_dpp = client.post(
+        "/v1/dpps", json=passport_payload(identity={"granularity": "item", "itemId": "urn:sort4circ:item:000002"}), headers=HEADERS["brand"]
+    ).json()["dppId"]
+    event = {
+        "eventType": "collection",
+        "eventTime": "2026-08-10T09:00:00Z",
+        "eventTimeZoneOffset": "+02:00",
+        "sourceSystemId": "urn:sort4circ:system:depot",
+    }
+    headers = {**HEADERS["collector"], "Idempotency-Key": "same-event-key"}
+
+    first = client.post(f"/v1/dpps/{dpp_id}/events", json=event, headers=headers)
+    second = client.post(f"/v1/dpps/{second_dpp}/events", json=event, headers=headers)
+
+    assert first.status_code == second.status_code == 201
+    assert first.json()["dppId"] == dpp_id
+    assert second.json()["dppId"] == second_dpp
+
+
+def test_idempotency_same_key_does_not_cross_replay_between_operations(client, dpp_id):
+    headers = {**HEADERS["brand"], "Idempotency-Key": "operation-key"}
+    event = {
+        "eventType": "collection",
+        "eventTime": "2026-08-10T09:00:00Z",
+        "eventTimeZoneOffset": "+02:00",
+        "sourceSystemId": "urn:sort4circ:system:depot",
+    }
+    observation = {
+        "observationId": "urn:sort4circ:obs:cross-operation",
+        "fibreType": "polyester",
+        "percentage": 100,
+        "percentageBasis": "mass",
+        "valueStatus": "supplied",
+        "method": "nirSpectroscopy",
+        "sourceOrganisationId": "urn:sort4circ:org:brand-a",
+        "observedAt": "2026-08-10T09:14:01.902Z",
+        "confidence": {"value": 0.87, "scale": "unitInterval"},
+    }
+
+    event_response = client.post(f"/v1/dpps/{dpp_id}/events", json=event, headers=headers)
+    observation_response = client.post(
+        f"/v1/dpps/{dpp_id}/observations", json=observation, headers=headers
+    )
+
+    assert event_response.status_code == observation_response.status_code == 201
+    assert "eventId" in event_response.json()
+    assert "observationId" in observation_response.json()
+
+
+def test_idempotency_same_key_does_not_cross_replay_create_and_resource_operation(client, dpp_id):
+    key = "create-and-event-key"
+    created = client.post(
+        "/v1/dpps",
+        json=passport_payload(identity={"granularity": "item", "itemId": "urn:sort4circ:item:000003"}),
+        headers={**HEADERS["brand"], "Idempotency-Key": key},
+    )
+    event = {
+        "eventType": "collection",
+        "eventTime": "2026-08-10T09:00:00Z",
+        "eventTimeZoneOffset": "+02:00",
+        "sourceSystemId": "urn:sort4circ:system:depot",
+    }
+    event_response = client.post(
+        f"/v1/dpps/{dpp_id}/events",
+        json=event,
+        headers={**HEADERS["collector"], "Idempotency-Key": key},
+    )
+
+    assert created.status_code == 201
+    assert event_response.status_code == 201
+    assert event_response.json()["dppId"] == dpp_id
 
 
 def test_an_invalid_payload_names_the_failing_path(client):

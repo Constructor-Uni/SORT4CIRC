@@ -1,0 +1,21 @@
+{
+  "recordType": "standardsDeviation",
+  "standard": "EN 18223:2026",
+  "affectedClauses": ["Clause 5", "Annex A", "Annex B"],
+  "deviationScope": "SORT4CIRC native JSON/XML serialisation does not implement the EN 18223 common-model serialisations.",
+  "reason": "Open pending a validated field-level mapping, Clause 5 and Annex A/B artefacts, and an approved decision.",
+  "fieldLevelMapping": [],
+  "consequences": {
+    "conformity": "Full EN 18223 conformity and presumption of conformity through EN 18223 are not claimed while this deviation is open.",
+    "exploitation": "Interoperability must rely on the documented SORT4CIRC mapping until the deviation is resolved."
+  },
+  "preparedBy": { "individualId": "", "name": "", "role": "preparer" },
+  "recommendation": "",
+  "approvedBy": null,
+  "decisionDate": null,
+  "decisionDeadline": "",
+  "status": "open",
+  "closureEvidence": [],
+  "affectedDeliverables": ["D4.3"],
+  "notification": { "recipient": "", "notifiedAt": null }
+}

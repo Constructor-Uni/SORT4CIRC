@@ -61,7 +61,7 @@ VIEW_RANK = {
 
 @lru_cache(maxsize=1)
 def matrix() -> dict[str, Any]:
-    return json.loads((SPEC_DIR / "access-matrix.json").read_text(encoding="utf-8"))
+    return json.loads(SPEC_DIR.joinpath("access-matrix.json").read_text(encoding="utf-8"))
 
 
 def known_roles() -> list[str]:

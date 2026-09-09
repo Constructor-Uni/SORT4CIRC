@@ -41,7 +41,7 @@
         "mappingId": {"type": "string", "minLength": 1},
         "mappingVersion": {"const": "1.0.0"},
         "jsonPath": {"type": "string", "minLength": 1},
-        "xmlXPath": {"type": "string", "pattern": "^/dpp:dpp/"},
+        "xmlXPath": {"type": "string", "pattern": "^/s4c:DigitalProductPassport(/|$)"},
         "rdfSubjectType": {"type": "string", "pattern": "^s4c:"},
         "rdfProperty": {"$ref": "#/$defs/nullableString"},
         "rdfConstruct": {"$ref": "#/$defs/nullableString"},

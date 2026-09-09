@@ -7,7 +7,7 @@ authoritative machine-readable source is
 `dpp-mapping-1.0.0.schema.json`. The CSV is a generated review projection.
 
 The package is derived from `spec/schemas/dpp-1.0.0.schema.json` and
-`spec/ontology/sort4circ-1.0.0.ttl`. JSON paths use dot notation and `[]` for
+`spec/ontology/sort4circ-1.0.1.ttl`. JSON paths use dot notation and `[]` for
 repeated values. XML uses the `https://data.sort4circ.eu/dpp/1.0.0` namespace.
 RDF uses `https://data.sort4circ.eu/vocabulary/` and the class/property IRIs
 present in the ontology.

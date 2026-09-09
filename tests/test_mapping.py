@@ -28,11 +28,11 @@ ROOT = Path(__file__).resolve().parents[1]
 MAPPING_PATH = ROOT / "spec/mappings/dpp-mapping-1.0.0.json"
 MAPPING_SCHEMA_PATH = ROOT / "spec/mappings/dpp-mapping-1.0.0.schema.json"
 JSON_SCHEMA_PATH = ROOT / "spec/schemas/dpp-1.0.0.schema.json"
-ONTOLOGY_PATH = ROOT / "spec/ontology/sort4circ-1.0.0.ttl"
+ONTOLOGY_PATH = ROOT / "spec/ontology/sort4circ-1.0.1.ttl"
 VALID_FIXTURES = sorted((ROOT / "examples/fixtures").glob("valid-*.json"))
 S4C = Namespace(RDF_NAMESPACE)
-XML_NS = {"dpp": "https://data.sort4circ.eu/dpp/1.0.0"}
-XSD11 = xmlschema.XMLSchema11(ROOT / "spec/mappings/dpp-1.0.0.xsd")
+XML_NS = {"s4c": "https://data.sort4circ.eu/vocabulary/"}
+XSD11 = xmlschema.XMLSchema11(ROOT / "spec/schemas/dpp-1.0.0.xsd")
 
 
 def load(path: Path):
@@ -104,7 +104,7 @@ def test_csv_is_an_exact_generated_projection():
 
 
 def test_every_rdf_binding_resolves_to_the_ontology_or_a_declared_rdf_construct():
-    graph = __import__("rdflib").Graph().parse(ONTOLOGY_PATH, format="turtle")
+    graph = __import__("rdflib").Graph().parse(str(ONTOLOGY_PATH), format="turtle")
     classes = {str(subject) for subject in graph.subjects(RDF.type, OWL.Class)}
     properties = {
         str(subject)
@@ -147,17 +147,27 @@ def test_every_controlled_vocabulary_reference_resolves():
 
 
 def test_xsd_is_versioned_and_declares_every_mapped_xml_element():
-    root = ET.parse(ROOT / "spec/mappings/dpp-1.0.0.xsd").getroot()
-    assert root.attrib["version"] == "1.0.0"
+    """Every path in the term-level mapping resolves in the released XSD."""
+    root = ET.parse(ROOT / "spec/schemas/dpp-1.0.0.xsd").getroot()
+    assert root.attrib["version"] == "1.1"
     declared = {
         element.attrib["name"]
         for element in root.iter("{http://www.w3.org/2001/XMLSchema}element")
         if "name" in element.attrib
     }
+    attributes = {
+        attribute.attrib["name"]
+        for attribute in root.iter("{http://www.w3.org/2001/XMLSchema}attribute")
+        if "name" in attribute.attrib
+    }
     for row in mapping()["rows"]:
-        names = [part.removeprefix("dpp:") for part in row["xmlXPath"].split("/") if part][1:]
-        assert names
-        assert all(name in declared for name in names)
+        parts = [part for part in row["xmlXPath"].split("/") if part][1:]
+        assert parts, row["jsonPath"]
+        for part in parts:
+            if part.startswith("@"):
+                assert part[1:] in attributes, row["jsonPath"]
+            else:
+                assert part.removeprefix("s4c:") in declared, row["jsonPath"]
     assert XSD11.XSD_VERSION == "1.1"
 
 
@@ -210,39 +220,39 @@ def _payload_with_conditional_sections():
 
 def test_xsd_11_enforces_identity_granularity_identifier():
     root = ET.fromstring(json_to_xml(load(ROOT / "examples/fixtures/valid-annex-g-garment.json")))
-    identity = root.find("dpp:identity", XML_NS)
-    identity.remove(identity.find("dpp:itemId", XML_NS))
+    identity = root.find("s4c:Identity", XML_NS)
+    identity.remove(identity.find("s4c:ItemId", XML_NS))
     assert not XSD11.is_valid(root)
 
 
 def test_xsd_11_enforces_carrier_closure():
     root = ET.fromstring(json_to_xml(_payload_with_conditional_sections()))
-    root.find("dpp:carriers/dpp:carrier/dpp:bindingStatus", XML_NS).text = "retired"
+    root.find("s4c:Carriers/s4c:Carrier/s4c:BindingStatus", XML_NS).text = "retired"
     assert not XSD11.is_valid(root)
 
 
 def test_xsd_11_enforces_observation_percentage_rules():
     root = ET.fromstring(json_to_xml(_payload_with_conditional_sections()))
-    observation = root.find("dpp:materialObservations/dpp:materialObservation", XML_NS)
-    observation.remove(observation.find("dpp:percentageBasis", XML_NS))
+    observation = root.find("s4c:MaterialObservations/s4c:MaterialObservation", XML_NS)
+    observation.remove(observation.find("s4c:PercentageBasis", XML_NS))
     assert not XSD11.is_valid(root)
 
     root = ET.fromstring(json_to_xml(_payload_with_conditional_sections()))
-    root.find("dpp:materialObservations/dpp:materialObservation/dpp:valueStatus", XML_NS).text = "unknown"
+    root.find("s4c:MaterialObservations/s4c:MaterialObservation/s4c:ValueStatus", XML_NS).text = "unknown"
     assert not XSD11.is_valid(root)
 
 
 def test_xsd_11_enforces_transformation_references():
     root = ET.fromstring(json_to_xml(_payload_with_conditional_sections()))
-    event = root.find("dpp:lifecycleEvents/dpp:lifecycleEvent", XML_NS)
-    event.remove(event.find("dpp:inputRefs", XML_NS))
+    event = root.find("s4c:LifecycleEvents/s4c:LifecycleEvent", XML_NS)
+    event.remove(event.find("s4c:InputRefs", XML_NS))
     assert not XSD11.is_valid(root)
 
 
 def test_xsd_11_enforces_sorting_override_reason():
     root = ET.fromstring(json_to_xml(_payload_with_conditional_sections()))
-    decision = root.find("dpp:sortingDecisions/dpp:sortingDecision", XML_NS)
-    decision.remove(decision.find("dpp:overrideReason", XML_NS))
+    decision = root.find("s4c:SortingDecisions/s4c:SortingDecision", XML_NS)
+    decision.remove(decision.find("s4c:OverrideReason", XML_NS))
     assert not XSD11.is_valid(root)
 
 

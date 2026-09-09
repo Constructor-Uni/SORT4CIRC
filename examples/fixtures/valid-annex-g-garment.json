@@ -1,7 +1,7 @@
 {
   "dppId": "urn:sort4circ:dpp:000001",
   "schemaVersion": "1.0.0",
-  "recordVersion": 1,
+  "recordVersion": 7,
   "status": "active",
   "createdAt": "2026-06-18T11:00:00Z",
   "updatedAt": "2026-08-10T09:12:44Z",

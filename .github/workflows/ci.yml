@@ -1,44 +1,254 @@
-name: Public profile checks
-on: [push, pull_request, workflow_dispatch]
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
 permissions:
   contents: read
-env:
-  PYTHONDONTWRITEBYTECODE: "1"
+
 jobs:
   test:
+    name: Test on Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         python-version: ["3.11", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: ${{ matrix.python-version }}
-      - run: python -m pip install -e ".[dev]"
-      - run: python -m ruff check --no-cache src tests tools examples
-      - run: python -m pytest -q
-      - run: python tools/validate_fixtures.py
-      - run: python examples/worked_example.py
-      - run: python tools/gen_openapi.py --check
-      - run: python tools/gen_mapping_csv.py --check
-      - run: python tools/verify_public_release.py --files-only
-      - run: python tools/conformance_report.py
-  package:
+          cache: pip
+
+      - name: Install
+        run: python -m pip install -c constraints-py311-py312-py313.txt -e ".[dev]"
+
+      - name: Lint
+        run: ruff check src tests tools examples
+
+      - name: Test
+        run: python -m pytest -q
+
+      - name: Validate fixtures
+        run: python tools/validate_fixtures.py
+
+      - name: Worked example
+        run: python examples/worked_example.py
+
+      - name: Mapping CSV is up to date
+        run: python tools/gen_mapping_csv.py --check
+
+      - name: Public file policy
+        run: python tools/verify_public_release.py --files-only
+
+      - name: Public manifest
+        run: python verify_files.py
+
+  spec:
+    name: Specification artefacts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install
+        run: pip install -c constraints-py311-py312-py313.txt -e ".[dev]"
+
+      - name: Ontology parses without error
+        run: |
+          python - <<'PY'
+          from rdflib import Graph
+          g = Graph().parse("spec/ontology/sort4circ-1.0.1.ttl", format="turtle")
+          print(f"{len(g)} triples")
+          assert len(g) > 200, "the ontology lost content"
+          PY
+
+      - name: Every JSON artefact parses
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          for path in sorted(pathlib.Path("spec").rglob("*.json")):
+              json.loads(path.read_text(encoding="utf-8"))
+              print("ok", path)
+          PY
+
+      - name: The OpenAPI contract is up to date
+        run: |
+          python tools/gen_openapi.py
+          git diff --exit-code spec/openapi/ || {
+            echo "::error::spec/openapi is stale. Run 'make openapi' and commit the result."
+            exit 1
+          }
+
+  conformance:
+    name: Conformance report
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
-          python-version: "3.13"
-      - run: python -m pip install build
-      - run: python tools/verify_public_release.py --files-only --export ../public-profile-export
-      - run: python -m build ../public-profile-export --outdir ../public-profile-dist
-      - name: Inspect built distributions
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -c constraints-py311-py312-py313.txt -e ".[dev]"
+      - run: python tools/conformance_report.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: conformance-report
+          path: conformance-report.json
+
+  wheel-smoke:
+    name: Installed wheel smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Build wheel outside the checkout
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/s4c-wheel"
+          mkdir -p "$RUNNER_TEMP/s4c-wheel-smoke"
+          python -m pip wheel . --no-deps --wheel-dir "$RUNNER_TEMP/s4c-wheel"
+
+      - name: Inspect packaged runtime resources
+        run: |
+          python - <<'PY'
+          import os
+          import pathlib
+          import zipfile
+
+          root = pathlib.Path.cwd()
+          wheel = next((pathlib.Path(os.environ["RUNNER_TEMP"]) / "s4c-wheel").glob("*.whl"))
+          expected = {
+              "access-matrix.json",
+              "reason-codes.json",
+              "schemas/dpp-1.0.0.schema.json",
+              "schemas/dpp-1.0.0.xsd",
+              *(path.relative_to(root / "spec").as_posix()
+                for path in (root / "spec" / "vocabularies").glob("*.json")),
+          }
+          with zipfile.ZipFile(wheel) as archive:
+              prefix = "sort4circ_dpp/_spec/"
+              actual = {
+                  name.removeprefix(prefix)
+                  for name in archive.namelist()
+                  if name.startswith(prefix) and not name.endswith("/")
+              }
+          assert actual == expected, (sorted(actual), sorted(expected))
+          print(f"verified {len(actual)} runtime resources")
+          PY
+
+      - name: Install wheel in a clean environment
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/s4c-wheel-venv"
+          "$RUNNER_TEMP/s4c-wheel-venv/bin/python" -m pip install \
+            -c "$GITHUB_WORKSPACE/constraints-py311-py312-py313.txt" \
+            "$(find "$RUNNER_TEMP/s4c-wheel" -name '*.whl' -print -quit)"
+
+      - name: Exercise installed wheel outside the checkout
+        env:
+          WHEEL_VENV: ${{ runner.temp }}/s4c-wheel-venv
+        working-directory: ${{ runner.temp }}/s4c-wheel-smoke
+        run: |
+          set -euo pipefail
+          test ! -e spec
+          "$WHEEL_VENV/bin/python" - <<'PY'
+          import asyncio
+          import os
+          import pathlib
+          import sys
+
+          import sort4circ_dpp
+          from fastapi import FastAPI
+          from sort4circ_dpp.api import create_app
+          from sort4circ_dpp.reasons import released_codes
+          from sort4circ_dpp.validation import schema, validate_schema
+          from sort4circ_dpp.vocab import load
+
+          origin = pathlib.Path(sort4circ_dpp.__file__).resolve()
+          prefix = pathlib.Path(sys.prefix).resolve()
+          assert origin.is_relative_to(prefix), (origin, prefix)
+          assert released_codes()
+          assert load("article-class").tokens
+          assert schema()["$schema"]
+          try:
+              validate_schema({})
+          except Exception:
+              pass
+          else:
+              raise AssertionError("an empty payload unexpectedly passed schema validation")
+
+          app = create_app()
+          assert isinstance(app, FastAPI)
+          messages = []
+
+          async def receive():
+              return {"type": "http.request", "body": b"", "more_body": False}
+
+          async def send(message):
+              messages.append(message)
+
+          scope = {
+              "type": "http",
+              "asgi": {"version": "3.0", "spec_version": "2.0"},
+              "method": "GET",
+              "path": "/health",
+              "raw_path": b"/health",
+              "query_string": b"",
+              "headers": [],
+              "http_version": "1.1",
+              "client": ("127.0.0.1", 1),
+              "server": ("test", 80),
+              "scheme": "http",
+              "root_path": "",
+          }
+
+          asyncio.run(app(scope, receive, send))
+          response = next(message for message in messages if message["type"] == "http.response.start")
+          assert response["status"] == 200
+          print("installed wheel smoke passed")
+          PY
+
+      - name: Clean temporary wheel resources
+        if: always()
+        run: |
+          rm -rf "$RUNNER_TEMP/s4c-wheel" \
+                 "$RUNNER_TEMP/s4c-wheel-venv" \
+                 "$RUNNER_TEMP/s4c-wheel-smoke"
+
+  package:
+    name: Public export and distributions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -m pip install -c constraints-py311-py312-py313.txt build
+      - name: Export only the allowlisted public files
+        run: python tools/verify_public_release.py --files-only --export ../public-profile-export
+      - name: Build the distributions from the export
+        run: python -m build ../public-profile-export --outdir ../public-profile-dist
+      - name: Verify the built distributions against the file policy
         run: |
           python - <<'PY'
           from pathlib import Path
           from tools.verify_public_release import verify_archive
-          for path in Path("../public-profile-dist").iterdir():
-              verify_archive(path)
+          for path in sorted(Path("../public-profile-dist").iterdir()):
+              print(path.name, verify_archive(path), "files verified")
           PY

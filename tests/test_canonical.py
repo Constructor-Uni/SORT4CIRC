@@ -8,6 +8,7 @@ cannot silently change the expectation as well.
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 import pytest
 
@@ -24,7 +25,7 @@ PUBLISHED_DIGEST = "dd14a3f2487f2b22deda4a7bc2b37e775f378e05d60dc1e6ad26fdf26038
 ALTERED_DIGEST = "270e6f8790eebae533171aa62635a96c7a8e7e4366b9a9c1593262d857069f3b"
 PUBLISHED_LENGTH = 871
 
-REFERENCE = {
+INLINE_REFERENCE = {
     "dppId": "urn:sort4circ:dpp:000001",
     "recordVersion": 7,
     "updatedAt": "2026-08-10T09:12:44Z",
@@ -62,13 +63,21 @@ REFERENCE = {
     ],
 }
 
+FIXTURE = Path(__file__).resolve().parents[1] / "examples" / "fixtures" / "valid-annex-g-garment.json"
+
+
+def reference_fixture():
+    return json.loads(FIXTURE.read_text(encoding="utf-8"))
+
 
 def test_reference_vector_matches_the_deliverable():
+    REFERENCE = reference_fixture()
     assert len(canonical_bytes(REFERENCE)) == PUBLISHED_LENGTH
     assert digest(REFERENCE) == PUBLISHED_DIGEST
 
 
 def test_single_digit_change_produces_a_different_digest():
+    REFERENCE = reference_fixture()
     altered = json.loads(json.dumps(REFERENCE))
     altered["materialObservations"][0]["percentage"] = 94
     assert digest(altered) == ALTERED_DIGEST
@@ -76,12 +85,14 @@ def test_single_digit_change_produces_a_different_digest():
 
 
 def test_verify_digest_accepts_and_rejects():
+    REFERENCE = reference_fixture()
     assert verify_digest(REFERENCE, PUBLISHED_DIGEST)
     assert verify_digest(REFERENCE, PUBLISHED_DIGEST.upper())
     assert not verify_digest(REFERENCE, ALTERED_DIGEST)
 
 
 def test_projection_excludes_access_and_integrity_members():
+    REFERENCE = reference_fixture()
     noisy = json.loads(json.dumps(REFERENCE))
     noisy["integrity"] = [{"evidenceId": "urn:sort4circ:evidence:1"}]
     noisy["accessPolicyVersion"] = "9.9.9"
@@ -90,11 +101,13 @@ def test_projection_excludes_access_and_integrity_members():
 
 
 def test_member_order_does_not_change_the_digest():
+    REFERENCE = reference_fixture()
     reordered = {k: REFERENCE[k] for k in reversed(list(REFERENCE))}
     assert digest(reordered) == PUBLISHED_DIGEST
 
 
 def test_array_order_does_change_the_digest():
+    REFERENCE = reference_fixture()
     swapped = json.loads(json.dumps(REFERENCE))
     swapped["materialObservations"].reverse()
     assert digest(swapped) != PUBLISHED_DIGEST, "observation order is meaningful and is preserved"
@@ -127,6 +140,7 @@ def test_non_finite_numbers_are_refused():
 
 
 def test_projection_is_a_subset():
+    REFERENCE = reference_fixture()
     projection = integrity_projection(REFERENCE)
     assert set(projection) <= {"dppId", "recordVersion", "updatedAt", "identity", "product", "materialObservations"}
 
@@ -134,11 +148,10 @@ def test_projection_is_a_subset():
 def test_annex_g_fixture_and_reference_vector_describe_the_same_item():
     """The shipped worked example and the digest vector are both D4.3 Annex G.
 
-    D4.3 publishes the Annex G record twice: as the worked example (record version 1,
-    carrying the sample identifier) and as the canonical digest vector (record version 7,
-    after the sample identifier is withheld). They are different record versions of one
-    item, so their digests differ by design. What must never drift is the identity and the
-    observations underneath them.
+    The shipped fixture is the same record version as the published digest vector, so it
+    must reproduce the published digest byte for byte. The sample identifier the fixture
+    carries is outside the integrity projection, which is why it does not change the
+    digest. This test is the one that fails if either artefact drifts from the other.
     """
     import json as _json
     from pathlib import Path
@@ -147,10 +160,10 @@ def test_annex_g_fixture_and_reference_vector_describe_the_same_item():
         (Path(__file__).resolve().parents[1] / "examples/fixtures/valid-annex-g-garment.json")
         .read_text(encoding="utf-8")
     )
-    assert fixture["dppId"] == REFERENCE["dppId"]
-    assert fixture["identity"]["itemId"] == REFERENCE["identity"]["itemId"]
-    assert fixture["identity"]["epc"] == REFERENCE["identity"]["epc"]
-    assert fixture["materialObservations"] == REFERENCE["materialObservations"]
+    assert fixture["dppId"] == INLINE_REFERENCE["dppId"]
+    assert fixture["identity"]["itemId"] == INLINE_REFERENCE["identity"]["itemId"]
+    assert fixture["identity"]["epc"] == INLINE_REFERENCE["identity"]["epc"]
+    assert fixture["materialObservations"] == INLINE_REFERENCE["materialObservations"]
     for member in ("articleClass", "fabricConstruction", "technicalFlags"):
-        assert fixture["product"][member] == REFERENCE["product"][member]
-    assert digest(fixture) != PUBLISHED_DIGEST, "record version 1 is not the version 7 vector"
+        assert fixture["product"][member] == INLINE_REFERENCE["product"][member]
+    assert digest(fixture) == PUBLISHED_DIGEST, "the fixture must reproduce the published digest"

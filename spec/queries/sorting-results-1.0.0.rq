@@ -1,0 +1,2 @@
+PREFIX s4c: <https://data.sort4circ.eu/vocabulary/>
+ASK { ?dpp s4c:hasSortingDecision ?decision . ?decision a s4c:SortingDecision ; s4c:basedOnObservation ?observation . }

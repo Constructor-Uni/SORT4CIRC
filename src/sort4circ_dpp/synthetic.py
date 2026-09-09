@@ -102,9 +102,6 @@ class SyntheticFixtureFactory:
         result = {
             "valid-minimum.json": copy.deepcopy(base),
         }
-        disagreement = copy.deepcopy(base)
-        disagreement["materialObservations"].append(self.observation())
-        result["valid-two-technologies-disagree.json"] = disagreement
         unknown = copy.deepcopy(base)
         unknown["materialObservations"] = [{
             "observationId": "urn:example:observation:unknown",

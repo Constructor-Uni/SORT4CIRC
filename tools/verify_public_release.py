@@ -52,7 +52,7 @@ def forbidden(name: str) -> bool:
     return (not valid_name(name) or any(p.casefold() in FORBIDDEN_PARTS for p in path.parts)
             or path.name in FORBIDDEN_NAMES or path.name.startswith(".env.")
             or path.suffix.casefold() in FORBIDDEN_SUFFIXES
-            or name.startswith(("evidence/", "docs/benchmarks/"))
+            or name.startswith("evidence/")
             or any(p.endswith(".egg-info") for p in path.parts))
 
 def load_policy(root: Path = ROOT) -> dict:
@@ -116,8 +116,7 @@ def file_set(root: Path, *, workspace: bool, allowed_dirs: set[str] | None = Non
         kept = []
         for name in dirs:
             path = base / name
-            if workspace and (name in LOCAL_DIRS or name.endswith(".egg-info")
-                              or path.relative_to(root).as_posix() == "docs/benchmarks"):
+            if workspace and (name in LOCAL_DIRS or name.endswith(".egg-info")):
                 continue
             if allowed_dirs is not None and path.relative_to(root).as_posix() not in allowed_dirs:
                 raise ReleaseError("unexpected public directory")

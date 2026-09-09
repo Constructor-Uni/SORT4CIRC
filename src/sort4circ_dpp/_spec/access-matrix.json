@@ -1,0 +1,145 @@
+{
+  "$id": "https://data.sort4circ.eu/access-matrix/1.0.0",
+  "version": "1.0.0",
+  "released": "2026-08-10",
+  "policy": "defaultDeny",
+  "note": "Holding a scope is necessary and not sufficient. The view determines what the caller receives. A field the caller may know exists but not read is returned with valueStatus withheld.",
+  "roles": {
+    "public": {
+      "scopes": [
+        "dpp.read"
+      ],
+      "defaultView": "public"
+    },
+    "consumer": {
+      "scopes": [
+        "dpp.read"
+      ],
+      "defaultView": "public"
+    },
+    "brand": {
+      "scopes": [
+        "dpp.read",
+        "dpp.write",
+        "dpp.event",
+        "dpp.resolve",
+        "observation.write",
+        "integrity.read"
+      ],
+      "defaultView": "full"
+    },
+    "collector": {
+      "scopes": [
+        "dpp.read",
+        "dpp.event",
+        "dpp.resolve"
+      ],
+      "defaultView": "partner"
+    },
+    "sortingOperator": {
+      "scopes": [
+        "dpp.read",
+        "dpp.event",
+        "dpp.resolve",
+        "sorting.read"
+      ],
+      "defaultView": "sorting"
+    },
+    "pssrSystem": {
+      "scopes": [
+        "dpp.read",
+        "dpp.resolve",
+        "sorting.read",
+        "observation.write",
+        "dpp.event"
+      ],
+      "defaultView": "sorting"
+    },
+    "recycler": {
+      "scopes": [
+        "dpp.read",
+        "dpp.event",
+        "dpp.resolve"
+      ],
+      "defaultView": "recycler"
+    },
+    "authority": {
+      "scopes": [
+        "dpp.read",
+        "integrity.read",
+        "integrity.verify"
+      ],
+      "defaultView": "authority"
+    },
+    "administrator": {
+      "scopes": [
+        "dpp.read",
+        "dpp.write",
+        "dpp.event",
+        "dpp.resolve",
+        "sorting.read",
+        "observation.write",
+        "integrity.read",
+        "integrity.verify",
+        "admin"
+      ],
+      "defaultView": "full"
+    },
+    "integrityVerifier": {
+      "scopes": [
+        "dpp.read",
+        "integrity.read",
+        "integrity.verify"
+      ],
+      "defaultView": "integrityOnly"
+    }
+  },
+  "views": {
+    "public": [
+      "dppId",
+      "schemaVersion",
+      "recordVersion",
+      "status",
+      "identity.granularity",
+      "product.articleClass",
+      "product.fabricConstruction",
+      "product.technicalFlags",
+      "materialObservations"
+    ],
+    "partner": [
+      "public",
+      "identity.modelId",
+      "identity.batchId",
+      "lifecycleEvents.own"
+    ],
+    "sorting": [
+      "public",
+      "identity.itemId",
+      "identity.epc",
+      "product.colourPrimary",
+      "product.condition",
+      "sortingDecisions",
+      "carriers.active"
+    ],
+    "recycler": [
+      "sorting",
+      "components",
+      "product.mass"
+    ],
+    "authority": [
+      "sorting",
+      "recycler",
+      "lifecycleEvents",
+      "integrity",
+      "identity",
+      "carriers"
+    ],
+    "full": [
+      "*"
+    ],
+    "integrityOnly": [
+      "dppId",
+      "integrity"
+    ]
+  }
+}

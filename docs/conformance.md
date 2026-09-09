@@ -193,8 +193,8 @@ impossible transitions; and keep passport content out of the envelope.
 
 ### 10. Representation round trips — Tier 2
 
-*Assets:* [XSD](../spec/mappings/dpp-1.0.0.xsd),
-[ontology](../spec/ontology/sort4circ-1.0.0.ttl),
+*Assets:* [XSD](../spec/schemas/dpp-1.0.0.xsd),
+[ontology](../spec/ontology/sort4circ-1.0.1.ttl),
 [mapping](../spec/mappings/dpp-mapping-1.0.0.json).
 
 ~~~sh

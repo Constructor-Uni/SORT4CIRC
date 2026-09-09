@@ -91,8 +91,8 @@ to the others, or the representations silently diverge.
 2. **Vocabularies** — `spec/vocabularies/*.json`. Add terms; do not redefine existing ones.
    Retire with `deprecated` + `replacedBy`, never by deletion. Bind any new coded field in
    `FIELD_VOCABULARIES` in [`src/sort4circ_dpp/vocab.py`](src/sort4circ_dpp/vocab.py).
-3. **XSD** — `spec/mappings/dpp-1.0.0.xsd`
-4. **Ontology** — `spec/ontology/sort4circ-1.0.0.ttl`
+3. **XSD** — `spec/schemas/dpp-1.0.0.xsd`
+4. **Ontology** — `spec/ontology/sort4circ-1.0.1.ttl`
 5. **Mapping** — one row per schema-defined exchange path in
    `spec/mappings/dpp-mapping-1.0.0.json`, then regenerate the CSV with
    `python tools/gen_mapping_csv.py`

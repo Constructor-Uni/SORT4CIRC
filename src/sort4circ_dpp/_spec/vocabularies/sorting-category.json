@@ -1,0 +1,69 @@
+{
+  "$id": "https://data.sort4circ.eu/vocabulary/sorting-category/1.0.0",
+  "name": "sorting-category",
+  "version": "1.0.0",
+  "released": "2026-08-10",
+  "owner": "Constructor University, SORT4CIRC WP4",
+  "terms": [
+    {
+      "token": "reuseGradeA",
+      "definition": "Reuse, highest grade.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "reuseGradeB",
+      "definition": "Reuse, secondary grade.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "repair",
+      "definition": "Route to repair.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "mechanicalRecyclingFibre",
+      "definition": "Mechanical fibre recycling.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "chemicalRecyclingPolyester",
+      "definition": "Chemical recycling, polyester route.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "chemicalRecyclingCellulosic",
+      "definition": "Chemical recycling, cellulosic route.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "wiper",
+      "definition": "Industrial wiper production.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "insulationFill",
+      "definition": "Insulation or filling material.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "residualWaste",
+      "definition": "Residual waste.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "manualReview",
+      "definition": "Divert to manual review. Every rule set shall be able to produce this value.",
+      "deprecated": false,
+      "replacedBy": null
+    }
+  ]
+}

@@ -18,9 +18,9 @@ console script `s4c-dpp validate path/to/my-dpp.json` is equivalent.
 | --- | --- | --- |
 | JSON Schema (2020-12) | [`spec/schemas/dpp-1.0.0.schema.json`](../spec/schemas/dpp-1.0.0.schema.json) | Structure, types, required members, conditional requirements |
 | Controlled vocabularies | 18 files under `spec/vocabularies/`, e.g. [`fibre-type.json`](../spec/vocabularies/fibre-type.json) | Coded values |
-| XSD | [`spec/mappings/dpp-1.0.0.xsd`](../spec/mappings/dpp-1.0.0.xsd) | The XML representation |
+| XSD | [`spec/schemas/dpp-1.0.0.xsd`](../spec/schemas/dpp-1.0.0.xsd) | The XML representation |
 | Mapping contract | [`spec/mappings/dpp-mapping-1.0.0.json`](../spec/mappings/dpp-mapping-1.0.0.json) | JSON ↔ XML ↔ RDF field correspondence |
-| Ontology | [`spec/ontology/sort4circ-1.0.0.ttl`](../spec/ontology/sort4circ-1.0.0.ttl) | RDF classes and properties |
+| Ontology | [`spec/ontology/sort4circ-1.0.1.ttl`](../spec/ontology/sort4circ-1.0.1.ttl) | RDF classes and properties |
 | OpenAPI | [`spec/openapi/dpp-api-v1.json`](../spec/openapi/dpp-api-v1.json) | The exchange contract |
 | Access matrix | [`spec/access-matrix.json`](../spec/access-matrix.json) | Roles, scopes and views |
 | Reason codes | [`spec/reason-codes.json`](../spec/reason-codes.json) | Error identity and HTTP status |
@@ -165,7 +165,7 @@ python tools/gen_mapping_csv.py --check        # generated CSV matches the mappi
 python tools/gen_openapi.py --check            # checked-in OpenAPI matches the application
 ~~~
 
-XML is validated against [`dpp-1.0.0.xsd`](../spec/mappings/dpp-1.0.0.xsd) with
+XML is validated against [`dpp-1.0.0.xsd`](../spec/schemas/dpp-1.0.0.xsd) with
 `xmlschema`; RDF round trips use `rdflib` against the ontology. Both are development
 dependencies (`pip install -e ".[dev]"`). See
 [Representations and semantics](interoperability.md).

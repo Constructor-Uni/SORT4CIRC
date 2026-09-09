@@ -75,7 +75,7 @@ Guides: [Data model](concepts.md) · [Validation](validation.md)
 | A non-`supplied` value status forbids a percentage | Engineering | schema `materialObservation.allOf` | schema | fixture `invalid-unknown-carrying-a-value` | Implemented |
 | Percentage requires an explicit basis | Engineering | schema `materialObservation.allOf` | schema | fixture `invalid-percentage-without-basis` | Implemented |
 | Conflicting observations retained, never merged | Project scope | schema (array) + `observation_sets()` | `store.py` append semantics | `test_mapping.py`, fixture `valid-two-technologies-disagree` | Implemented |
-| A methodless or sourceless observation is inconsistent | Engineering | `spec/ontology/sort4circ-1.0.0.ttl` OWL restriction | ontology axiom | `test_mapping.py` | Specified |
+| A methodless or sourceless observation is inconsistent | Engineering | `spec/ontology/sort4circ-1.0.1.ttl` OWL restriction | ontology axiom | `test_mapping.py` | Specified |
 
 Guide: [Provenance](provenance.md)
 
@@ -148,9 +148,15 @@ Guides: [Security model](security.md) · [Customisation](customisation.md)
 | --- | --- | --- | --- | --- | --- |
 | One mapping row per schema-defined exchange path | Engineering | `spec/mappings/dpp-mapping-1.0.0.json` | `mapping.py` | `test_mapping.py` | Implemented |
 | Generated CSV rendering, drift-checked | Engineering | `tools/gen_mapping_csv.py` | — | `test_mapping.py` | Implemented |
-| XSD 1.1 projection with conditional assertions | Standards | `spec/mappings/dpp-1.0.0.xsd` | `mapping.py` | `test_mapping.py` | Implemented |
+| XSD 1.1 projection with conditional assertions | Standards | `spec/schemas/dpp-1.0.0.xsd` | `exchange.py` | `test_mapping.py`, `test_exchange.py` | Implemented |
+| One XML serialiser, not two | Engineering | mapping contract | `exchange.py`; `mapping.py` delegates | `test_mapping.py` | Implemented |
+| XML content negotiation on the exchange API | Engineering | `spec/openapi/dpp-api-v1.json` | `api.py` | `test_exchange.py` | Implemented |
 | JSON ↔ XML round trip without information loss | Engineering | mapping contract | `json_to_xml`, `xml_to_json` | `test_mapping.py` | Implemented |
-| OWL 2 DL ontology; EL subset explicitly excluded | Standards | `spec/ontology/sort4circ-1.0.0.ttl` header | — | `test_mapping.py` | Specified — the deviation is recorded, not hidden |
+| OWL 2 DL ontology; EL subset explicitly excluded | Standards | `spec/ontology/sort4circ-1.0.1.ttl` header | — | `test_mapping.py` | Specified — the deviation is recorded, not hidden |
+| RDF projection resolves to ontology terms | Engineering | ontology + mapping rows | `mapping.py` (`json_to_rdf`) | `test_mapping.py` | Implemented |
+| SPARQL conformance queries with expected results | Engineering | `spec/queries/*.rq`, `expected-results-1.0.0.json` | — | `test_exchange.py` | Implemented |
+| Governance record schemas for selection and deviation | Project scope | `spec/governance/*.schema.json` | `governance.py` | `test_governance.py` | Implemented — templates ship unpopulated; the records themselves are deployment-dependent |
+| Specification resources available from an installed distribution | Engineering | `src/sort4circ_dpp/_spec/**` | `config.py` | `test_packaged_resources.py` | Implemented |
 | JSON ↔ RDF round trip without information loss | Engineering | mapping contract | `json_to_rdf`, `rdf_to_json` | `test_mapping.py` | Implemented |
 | Transport snapshot not counted as semantic coverage | Engineering | `rdfMappingStatus` column | `mapping.py` | `test_mapping.py` | Implemented |
 | Alignment with external vocabularies (GS1, event standards, EU registries) | — | — | not implemented | — | Out of scope — define and test your own alignment |

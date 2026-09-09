@@ -7,6 +7,7 @@ import time
 from dataclasses import dataclass, field
 from typing import Any
 
+from .config import INDEX_STALENESS_LIMIT_MS
 from .reasons import DppError
 from .store import PassportStore
 
@@ -24,7 +25,10 @@ class ReadIndex:
     """A compact operational view keyed by passport identifier."""
 
     store: PassportStore
-    max_lag_ms: float | None = None
+    #: Refuse a projected read once the projection trails its source by more than this.
+    #: On by default: serving a stale projection to a sorting decision is the failure
+    #: this limit exists to prevent. Set to None to disable, or override per index.
+    max_lag_ms: float | None = INDEX_STALENESS_LIMIT_MS
     lag_ms: float = 0.0
     _entries: dict[str, _Entry] = field(default_factory=dict)
     _lock: threading.RLock = field(default_factory=threading.RLock)

@@ -44,3 +44,32 @@ def main(argv=None):
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
+def build_report(
+    rows: dict[str, dict[str, str]],
+    human_evidence: dict[str, str],
+    passed: bool,
+) -> dict[str, object]:
+    """Build a checklist report without attributing a suite failure to individual rows.
+
+    A suite-level run cannot say which row failed, so ``automatedRowsPassed`` is null on
+    failure rather than implying per-row outcomes. Rows needing human evidence stay listed
+    so that a partial suite is never mistaken for full coverage.
+    """
+    automated_rows = sorted(key for key, value in rows.items() if value["decidedBy"] == "automated test")
+    return {
+        "profile": "SORT4CIRC DPP implementation profile",
+        "suiteResult": "pass" if passed else "fail",
+        "automatedRows": automated_rows,
+        "automatedRowsPassed": automated_rows if passed else None,
+        "rowsRequiringHumanEvidence": sorted(human_evidence),
+        "rows": dict(sorted(rows.items())),
+        "note": (
+            "automatedRows identifies rows that have automated tests, not their individual "
+            "outcomes. When the full suite passes, automatedRowsPassed lists those rows. When "
+            "the suite fails, automatedRowsPassed is null because this suite-level report does "
+            "not attribute the failure to individual rows. Rows requiring human evidence remain "
+            "listed so that a conformance statement cannot silently omit them."
+        ),
+    }

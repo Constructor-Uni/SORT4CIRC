@@ -1,0 +1,93 @@
+{
+  "$id": "https://data.sort4circ.eu/vocabulary/article-class/1.0.0",
+  "name": "article-class",
+  "version": "1.0.0",
+  "released": "2026-08-10",
+  "owner": "Constructor University, SORT4CIRC WP4",
+  "terms": [
+    {
+      "token": "upperBodyKnitwear",
+      "definition": "Sweaters, cardigans and knitted tops.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "upperBodyWoven",
+      "definition": "Shirts, blouses and woven tops.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "tShirtJersey",
+      "definition": "Jersey short-sleeve and long-sleeve tops.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "trousers",
+      "definition": "Trousers and shorts other than denim.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "denim",
+      "definition": "Denim articles of any body position.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "dressSkirt",
+      "definition": "Dresses and skirts.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "outerwear",
+      "definition": "Jackets, coats and other outer layers.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "activewear",
+      "definition": "Performance garments, usually elastane bearing.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "underwearHosiery",
+      "definition": "Underwear, socks and hosiery.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "homeTextileFlat",
+      "definition": "Bed linen, table linen and other flat household textiles.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "homeTextileTerry",
+      "definition": "Towelling and terry articles.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "accessory",
+      "definition": "Scarves, hats, gloves and textile bags.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "footwearTextile",
+      "definition": "Footwear with a predominantly textile upper.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "unclassified",
+      "definition": "The article could not be assigned. A valid outcome, not an error.",
+      "deprecated": false,
+      "replacedBy": null
+    }
+  ]
+}

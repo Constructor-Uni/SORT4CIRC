@@ -1,7 +1,11 @@
 """In-memory evidence state transitions and an optional integrity worker.
 
-Writes enqueue mock work in process memory. No durable queue or deployed
-network is provided by this educational implementation."""
+Ledger submission is separated from the write response. The evidence item is created
+inside the write transaction, placed in the reference implementation's process-local
+in-memory outbox, and advanced by a worker, so a caller is never blocked on anchoring.
+
+The outbox is process memory: no durable queue and no deployed network is provided here.
+"""
 
 from __future__ import annotations
 

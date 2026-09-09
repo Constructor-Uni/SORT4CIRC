@@ -1,22 +1,28 @@
 Creative Commons Attribution 4.0 International (CC BY 4.0)
 SPDX identifier: CC-BY-4.0
 
-The repository-owned documentation and specification artefacts in docs/ and
+The repository-owned documentation and specification artefacts under docs/ and
 spec/ are licensed under the Creative Commons Attribution 4.0 International
-License. This includes schemas, ontology, vocabularies, mappings and OpenAPI,
-and retains the existing coverage of spec/access-matrix.json and
-spec/reason-codes.json.
+License. This covers the JSON Schema, XSD, ontology, controlled vocabularies,
+mapping package, SPARQL queries, governance schemas, generated OpenAPI contract,
+spec/access-matrix.json and spec/reason-codes.json.
 
-Non-code documentation examples, including the synthetic JSON fixtures and
-Markdown guides in examples/, are also licensed under CC BY 4.0.
-Executable Python examples are software under the MIT licence in LICENSE.
+The runtime resource copies under src/sort4circ_dpp/_spec/ are byte-for-byte
+distribution copies of those CC BY 4.0 specification resources and remain
+licensed under CC BY 4.0; their location under src/ does not change their
+licence.
+
+Non-code documentation examples, including the synthetic JSON and XML fixtures
+and the Markdown guides in examples/, are also licensed under CC BY 4.0.
+Executable Python examples are software under the Apache License 2.0 in LICENSE.
 
 Repository-root prose and non-code documentation/metadata are also CC BY 4.0,
 including README.md, CHANGELOG.md, CONTRIBUTING.md, SECURITY.md,
 PUBLICATION_BOUNDARY.md, LICENSING.md, CITATION.cff and MANIFEST.sha256.
 The non-code Markdown pull-request template under .github/ is documentation.
-CI, build, automation and container configuration instead use MIT, including
-structured issue forms, workflows and the configuration paths in LICENSING.md.
+CI, build, automation and container configuration instead use the Apache
+License 2.0, including structured issue forms, workflows and the configuration
+paths listed in LICENSING.md.
 
 Full licence text: https://creativecommons.org/licenses/by/4.0/legalcode
 Licence summary: https://creativecommons.org/licenses/by/4.0/
@@ -29,12 +35,13 @@ Retain applicable attribution, identify changes and provide the licence link
 as required by CC BY 4.0. The linked legal code governs; this file does not
 add restrictions to that licence.
 
-Software in src/, tools/, tests/, executable Python examples and conformance
-tooling is covered by the MIT licence in LICENSE. The MIT software grant does
-not replace CC BY 4.0 for the separately listed documentation/specification
-artefacts, including those bundled in a Python distribution.
+Implementation source under src/, excluding src/sort4circ_dpp/_spec/, together
+with tests, tools, executable Python examples, Docker files, GitHub
+configuration and repository development/build configuration, is licensed
+separately under the Apache License 2.0; see LICENSE. The Apache-2.0 software
+grant does not replace CC BY 4.0 for the separately listed documentation and
+specification artefacts, including those bundled in a Python distribution.
 
-See LICENSING.md for the complete owner-approved coverage map.
-Third-party material retains
-its own terms; this licence does not relicense third-party dependencies,
-standards or external resources.
+See LICENSING.md for the complete per-path coverage map. Third-party material
+retains its own terms; this licence does not relicense third-party
+dependencies, standards or external resources.

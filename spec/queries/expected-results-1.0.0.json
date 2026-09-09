@@ -1,0 +1,10 @@
+{
+  "fixture": "Annex G disagreement record extended only with non-material query subjects by tests/test_exchange.py",
+  "identity-resolution-1.0.0.rq": { "rowCount": 1 },
+  "product-hierarchy-1.0.0.rq": true,
+  "material-divergence-1.0.0.rq": { "rowCount": 1 },
+  "lifecycle-events-1.0.0.rq": true,
+  "sorting-results-1.0.0.rq": true,
+  "environmental-values-1.0.0.rq": true,
+  "note": "The actual Annex G observations report 95 and 93.4 for polyester using different methods. The ordering condition emits that cross-method disagreement exactly once."
+}

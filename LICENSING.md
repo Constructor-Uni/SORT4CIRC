@@ -18,6 +18,7 @@ The software and configuration grant is in [LICENSE](LICENSE).
 | examples/**/*.py | Executable Python examples |
 | setup.py, verify_files.py, Makefile | Build, reference and conformance executables |
 | pyproject.toml, pytest.ini | Package/build and test configuration |
+| constraints-py311-py312-py313.txt | Pinned dependency constraints for reproducible builds and CI |
 | MANIFEST.in, public-release-policy.json | Distribution inclusion and release automation configuration |
 | .dockerignore, .editorconfig, .gitattributes, .gitignore | Container, editor and repository tooling configuration |
 | .github/workflows/** | CI and automation workflows |
@@ -37,10 +38,12 @@ The documentation/specification grant and attribution are in [LICENSE-DOCS](LICE
 | spec/schemas/** | JSON schemas |
 | spec/ontology/** | Ontology artefacts |
 | spec/vocabularies/** | Controlled vocabularies |
-| spec/mappings/** | Mapping tables, schemas, XML definitions and mapping documentation |
+| spec/mappings/** | Mapping tables, schemas and mapping documentation |
+| spec/queries/** | SPARQL conformance queries and their expected-result fixtures |
+| spec/governance/** | Governance record schemas and unpopulated templates |
 | spec/openapi/** | Generated OpenAPI exchange specifications |
 | spec/access-matrix.json, spec/reason-codes.json | Specification policy and reason-code catalogues |
-| examples/**/*.json, examples/**/*.md | Non-code synthetic fixtures and example documentation |
+| examples/**/*.json, examples/**/*.xml, examples/**/*.md | Non-code synthetic fixtures and example documentation |
 | README.md, CHANGELOG.md, CONTRIBUTING.md, SECURITY.md, PUBLICATION_BOUNDARY.md, LICENSING.md | Repository-root prose and documentation |
 | CITATION.cff, MANIFEST.sha256 | Non-code citation and generated integrity metadata |
 | .github/PULL_REQUEST_TEMPLATE.md | Non-code contribution documentation |

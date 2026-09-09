@@ -7,11 +7,30 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from sort4circ_dpp.api import create_app  # noqa: E402
+from sort4circ_dpp.config import API_MAJOR  # noqa: E402
 
 
 def document():
-    """Use the application contract, without inheriting previous licence metadata."""
-    return create_app().openapi()
+    """Build the contract from the application, without inheriting previous metadata.
+
+    FastAPI models the JSON request and response bodies. The profile additionally offers
+    the same complete passport record as ``application/xml``, validated against the
+    released XSD before conversion, so that negotiated representation is added here. It
+    is added only where a whole record is exchanged, never for a partial or projected
+    payload.
+    """
+    doc = create_app().openapi()
+    doc["externalDocs"] = {
+        "description": "SORT4CIRC DPP Development Guidelines",
+        "url": "https://github.com/Constructor-Uni/SORT4CIRC",
+    }
+    create = doc["paths"][f"/{API_MAJOR}/dpps"]["post"]
+    record_schema = create["requestBody"]["content"]["application/json"]["schema"]
+    create["requestBody"]["content"]["application/xml"] = {"schema": record_schema}
+    create["responses"]["201"]["content"]["application/xml"] = {"schema": record_schema}
+    read = doc["paths"][f"/{API_MAJOR}/dpps/{{dpp_id}}"]["get"]
+    read["responses"]["200"]["content"]["application/xml"] = {"schema": record_schema}
+    return doc
 
 
 def main(argv=None):

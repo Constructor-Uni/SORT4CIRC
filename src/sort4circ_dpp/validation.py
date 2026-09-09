@@ -20,7 +20,7 @@ from .vocab import validate_record
 
 @lru_cache(maxsize=1)
 def schema() -> dict[str, Any]:
-    return json.loads((SCHEMA_DIR / "dpp-1.0.0.schema.json").read_text(encoding="utf-8"))
+    return json.loads(SCHEMA_DIR.joinpath("dpp-1.0.0.schema.json").read_text(encoding="utf-8"))
 
 
 @lru_cache(maxsize=1)

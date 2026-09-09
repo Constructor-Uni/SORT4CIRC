@@ -4,9 +4,9 @@ Format follows Keep a Changelog. Two version numbers are tracked separately:
 the **repository release** (this file's headings) and the **SORT4CIRC DPP
 implementation profile** version carried by the artefacts under `spec/`.
 
-## [1.2.0] - unreleased
+## [1.3.0] - unreleased
 
-Repository release 1.2.0 implements the SORT4CIRC DPP implementation profile
+Repository release 1.3.0 implements the SORT4CIRC DPP implementation profile
 **1.0.0**. This release changes the documentation, tooling, packaging and tests.
 It does **not** change the normative profile: records valid under 1.1.1 remain
 valid and no migration is required.
@@ -49,7 +49,7 @@ valid and no migration is required.
   the **public** OpenAPI contract. It is implementation administration, not part
   of the interoperability surface, and its absence does not change the profile.
   A test keeps `/internal` and `/admin` plumbing out of the public contract.
-- Package metadata declares the repository release version (1.2.0) separately
+- Package metadata declares the repository release version (1.3.0) separately
   from the profile version (1.0.0); `sort4circ_dpp.config.PROFILE_VERSION`
   carries the latter.
 
@@ -80,10 +80,122 @@ valid and no migration is required.
 - Removed a duplicate positive fixture whose content was identical to
   `valid-minimum.json`.
 
+### Reconciled with the published 1.2.0 line
+
+Release 1.2.0 was published while this developer-focused work was in progress. 1.3.0 is
+the union of both, not a replacement for either. Carried forward from 1.2.0:
+
+- **Ontology 1.0.1** — an additive patch (33 classes, 109 properties, 585 triples): two
+  object properties and ten datatype properties added, nothing removed or changed. The
+  other specification assets remain at 1.0.0; asset versions are independent.
+- **SPARQL conformance queries** — six released queries under `spec/queries/` with an
+  expected-result fixture, exercised against the RDF projection.
+- **Governance record schemas** — selection and standards-deviation schemas with
+  unpopulated templates under `spec/governance/`. No name, approval, threshold or
+  measurement is supplied or inferred.
+- **XML exchange** — `exchange.py`, XML content negotiation on `/v1`, the released
+  XSD 1.1 at `spec/schemas/dpp-1.0.0.xsd`, and two XML fixtures.
+- **Packaged specification resources** — `src/sort4circ_dpp/_spec/` so an installed wheel
+  resolves the profile without a source checkout.
+- **RFC 9457 body-validation normalisation**, the always-on read-projection staleness
+  guard, the reference Besu ledger adapter with its fail-closed verification, `rdflib` and
+  `xmlschema` as runtime dependencies, and the wider CI matrix.
+
+### One normative exchange path
+
+Two parallel JSON/XML/RDF mappings existed across the two lines. They are now one:
+
+- the **124-row term-level mapping package** is normative, and its `xmlXPath` column was
+  regenerated onto the published XML profile;
+- the **published XML namespace `https://data.sort4circ.eu/vocabulary/` is unchanged**, as
+  is the document shape, so previously produced XML remains valid;
+- `exchange.py` is the single serialiser; `mapping.py` delegates XML to it and owns the RDF
+  projection. The partial 21-row mapping and the competing XSD were retired.
+- The XSD now accepts an empty optional list, and the parser reads an empty wrapper back as
+  an empty array, so a present-but-empty array survives a JSON→XML→JSON round trip. This
+  relaxation accepts strictly more documents than before.
+
+### Security
+
+- No configuration in this repository enables header authentication by default. The
+  previous development compose file, which set `S4C_ALLOW_HEADER_AUTH=1` and published the
+  service on all interfaces, is replaced by `docker/compose.example.yml`: fail-closed,
+  bound to `127.0.0.1`, read-only, all capabilities dropped, `no-new-privileges`.
+- No Besu service ships in any default configuration, and no default binds a JSON-RPC
+  endpoint to `0.0.0.0` or opens CORS. The Besu adapter is optional, imported by nothing,
+  and configured only through environment variables.
+- Benchmark records keep their workload, seed, run count, payload size, latency
+  percentiles and digest, and no longer carry CPU model, core count, memory, kernel or
+  build strings, or runner identifiers.
+- Project-status traceability was replaced by organisation-neutral requirement →
+  asset → implementation → test rows using implemented / specified / optional /
+  deployment-dependent / external validation required / outside reference implementation.
+
 ### Security
 
 - `SECURITY.md` states the supported release line, the reference-implementation
   boundary, and which reports are and are not vulnerabilities.
+
+## [1.2.0] - 2026-08-17
+
+Published release. Specification artefacts retain independent semantic versions:
+this release advanced the ontology to 1.0.1 and the OpenAPI contract to 1.1.0
+while the DPP JSON Schema stayed at 1.0.0.
+
+### Specification
+
+- Added XML Schema 1.1, XML fixtures, a versioned mandatory-field JSON/XML/RDF
+  mapping, and the six-subject SPARQL conformance query package.
+- Released ontology `sort4circ-1.0.1`, adding terms required by that mapping for
+  passport state, responsibility, identity, component, event, sorting and
+  environmental projections. Existing identifiers and meanings are unchanged;
+  records conforming to 1.0.0 require no migration.
+- Added environmental-selection governance controls and open EN 18223 deviation
+  controls with unpopulated templates, machine-checked separation of duties and
+  deployment gates.
+- Corrected the material-divergence query to return one ordered pair when
+  different methods report different percentages for the same fibre. The actual
+  Annex G values 95 and 93.4 are the positive conformance fixture.
+
+### Implementation and evidence
+
+- Added negotiated XML API support with XSD 1.1 validation while retaining JSON
+  as the existing representation. The independently versioned OpenAPI contract
+  advances to 1.1.0 for this backward-compatible addition; the `/v1` path and
+  DPP JSON Schema version remain unchanged.
+- Added RDF derivation, JSON/XML/RDF round-trip tests and released SPARQL
+  conformance queries tied to expected-result fixtures.
+- Added read-index reconstruction and write-prohibition controls, plus
+  repository-wide guards against superseded terminology and unselected
+  serialisation profiles.
+- Expanded requirement traceability across specification, implementation,
+  governance and conformance, recording for each row whether it is implemented,
+  specified, optional, deployment-dependent or requires external validation.
+- Recorded the limits of the reference implementation rather than manufacturing
+  evidence for claims it does not support.
+
+## [1.1.2] - 2026-08-13
+
+Correctness, packaging, reproducibility and documentation maintenance for the
+reference implementation. Normative specification artefacts are unchanged.
+
+### Fixed
+
+- Reused one correlation identifier throughout each request, normalized body
+  validation errors, scoped idempotency keys by operation and resource, and
+  made unsupported Besu digest verification fail closed as unverifiable.
+
+### Packaging and reproducibility
+
+- Packaged the runtime specification resources, added an installed-wheel smoke
+  check, constrained CI dependency resolution, and made pytest and generated
+  OpenAPI checks portable across Windows and Linux.
+
+### Documentation
+
+- Aligned API, Besu, persistence, idempotency, D4.3/project-context,
+  licensing, citation, security-reporting and README claims with the current
+  reference implementation.
 
 ## [1.1.1] - 2026-08-11
 

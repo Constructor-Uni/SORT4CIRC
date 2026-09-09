@@ -1,7 +1,22 @@
-"""Educational REST API for this repository public profile."""
+"""The /v1 exchange API of the SORT4CIRC DPP implementation profile.
+
+Every response carries a correlation identifier and the record version it was produced
+from. Application errors and body-level request-validation errors both use RFC 9457
+problem details with a released reason code; non-body validation and routing responses
+keep their FastAPI/Starlette behaviour.
+
+Identity is confined to :mod:`sort4circ_dpp.auth`, so a deployment replaces one provider
+and changes nothing else. The default provider is fail-closed: it grants read-only public
+access and refuses claimed role headers. The header-based demo identity is opt-in through
+``DPP_DEMO_AUTH=1`` and is not authentication.
+
+JSON is the normative representation. XML is offered by content negotiation and is
+produced and parsed by :mod:`sort4circ_dpp.exchange`.
+"""
 
 from __future__ import annotations
 
+import json
 import os
 import uuid
 from collections.abc import Callable
@@ -9,13 +24,16 @@ from typing import Any
 from urllib.parse import unquote
 
 from fastapi import Depends, FastAPI, Header, Query, Request, Response
+from fastapi.exception_handlers import request_validation_exception_handler
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
 from . import canonical
 from .access import Principal, check_patch_paths, project, require_scope, resolve_view
 from .auth import AuthProvider, DemoAuth, PublicOnlyAuth
-from .config import API_MAJOR, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, SCHEMA_VERSION
+from .config import API_CONTRACT_VERSION, API_MAJOR, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, SCHEMA_VERSION
 from .evidence import EvidenceWorker
+from .exchange import from_xml, to_xml
 from .index import ReadIndex
 from .ledger.base import LedgerAdapter
 from .ledger.memory import InMemoryLedger
@@ -29,10 +47,15 @@ def _correlation(supplied: str | None) -> str:
     return supplied or str(uuid.uuid4())
 
 
+def _request_correlation(request: Request) -> str:
+    """Reuse the identifier the middleware minted, so one request has exactly one."""
+    existing = getattr(request.state, "correlation_id", None)
+    return existing or _correlation(request.headers.get("x-correlation-id"))
+
+
 def _scoped_key(principal: Principal, key: str | None, operation: str, resource: str) -> str | None:
     if key is None:
         return None
-    import json
     return json.dumps([principal.subject, principal.organisation_id, principal.role, operation, resource, key])
 
 
@@ -48,13 +71,18 @@ def create_app(
     worker = EvidenceWorker(store=store, ledger=ledger)
 
     app = FastAPI(
-        title="Generic Digital Product Passport API",
-        version=SCHEMA_VERSION,
+        title="SORT4CIRC Digital Product Passport API",
+        version=API_CONTRACT_VERSION,
         license_info={
             "name": "Creative Commons Attribution 4.0 International",
             "url": "https://creativecommons.org/licenses/by/4.0/",
         },
-        description="Educational public-profile API with synthetic examples. No project deployment or legal conformity is represented.",
+        description=(
+            "The /v1 exchange API of the SORT4CIRC DPP implementation profile. Application "
+            "and body-validation errors use RFC 9457 problem details with a reason code from "
+            "spec/reason-codes.json. Examples are synthetic; no deployment or legal conformity "
+            "is represented."
+        ),
     )
     provider = auth_provider or (DemoAuth() if os.environ.get("DPP_DEMO_AUTH") == "1" else PublicOnlyAuth())
 
@@ -67,7 +95,7 @@ def create_app(
 
     @app.exception_handler(DppError)
     async def _dpp_error_handler(request: Request, exc: DppError) -> JSONResponse:
-        correlation = _correlation(request.headers.get("x-correlation-id"))
+        correlation = _request_correlation(request)
         return JSONResponse(
             status_code=exc.http_status,
             content=exc.problem(instance=str(request.url.path), correlation_id=correlation),
@@ -75,11 +103,91 @@ def create_app(
             headers={"X-Correlation-Id": correlation},
         )
 
+    @app.exception_handler(RequestValidationError)
+    async def _request_validation_error_handler(request: Request, exc: RequestValidationError) -> Response:
+        """Body-level validation failures use the profile's problem format, not FastAPI's.
+
+        Path, query and header validation keep framework behaviour: only a malformed or
+        schema-invalid *body* is a profile payload error.
+        """
+        errors = exc.errors()
+        if not errors or any(not error.get("loc") or error["loc"][0] != "body" for error in errors):
+            return await request_validation_exception_handler(request, exc)
+        correlation = _request_correlation(request)
+        problem = DppError(
+            "S4C-PAYLOAD-SCHEMA-INVALID",
+            "request body failed schema validation",
+            fields=["body"],
+        ).problem(instance=str(request.url.path), correlation_id=correlation)
+        return JSONResponse(
+            status_code=422,
+            content=problem,
+            media_type="application/problem+json",
+            headers={"X-Correlation-Id": correlation},
+        )
+
     @app.middleware("http")
     async def _correlate(request: Request, call_next: Callable) -> Response:
         correlation = _correlation(request.headers.get("x-correlation-id"))
+        request.state.correlation_id = correlation
+
+        # XML in: validate against the released XSD, then hand JSON to the route.
+        if request.headers.get("content-type", "").split(";", 1)[0].strip().lower() == "application/xml":
+            try:
+                payload = from_xml(await request.body())
+            except Exception as exc:  # XSD/profile failures use the stable payload contract
+                problem = DppError(
+                    "S4C-PAYLOAD-SCHEMA-INVALID",
+                    f"XML request failed XSD or profile validation: {exc}",
+                    fields=["body"],
+                ).problem(instance=str(request.url.path), correlation_id=correlation)
+                return JSONResponse(
+                    status_code=422,
+                    content=problem,
+                    media_type="application/problem+json",
+                    headers={"X-Correlation-Id": correlation},
+                )
+            body = json.dumps(payload, separators=(",", ":")).encode("utf-8")
+            request._body = body  # noqa: SLF001 - normalise XML before FastAPI body parsing
+            request.scope["headers"] = [
+                (name, value)
+                for name, value in request.scope["headers"]
+                if name not in {b"content-type", b"content-length"}
+            ] + [(b"content-type", b"application/json"), (b"content-length", str(len(body)).encode())]
+
         response = await call_next(request)
         response.headers["X-Correlation-Id"] = correlation
+
+        # XML out: only for a whole passport record, never for a projection or problem.
+        accept = request.headers.get("accept", "").lower()
+        if (
+            "application/xml" in accept
+            and 200 <= response.status_code < 300
+            and response.headers.get("content-type", "").startswith("application/json")
+        ):
+            body = b"".join([chunk async for chunk in response.body_iterator])
+            document = json.loads(body)
+            required = {
+                "dppId", "schemaVersion", "recordVersion", "status", "createdAt", "updatedAt",
+                "responsibleOperatorId", "identity", "product", "materialObservations",
+            }
+            if required <= document.keys():
+                headers = dict(response.headers)
+                headers.pop("content-length", None)
+                headers.pop("content-type", None)
+                headers["Vary"] = "Accept"
+                return Response(
+                    content=to_xml(document),
+                    status_code=response.status_code,
+                    headers=headers,
+                    media_type="application/xml",
+                )
+            return Response(
+                content=body,
+                status_code=response.status_code,
+                headers=dict(response.headers),
+                media_type=response.media_type,
+            )
         return response
 
     def principal_from_request(request: Request) -> Principal:

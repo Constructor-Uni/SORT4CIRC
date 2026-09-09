@@ -108,8 +108,8 @@ change them **together**, or the representations diverge.
 1. **Schema** — [`spec/schemas/dpp-1.0.0.schema.json`](../spec/schemas/dpp-1.0.0.schema.json)
 2. **Vocabularies** — add terms rather than redefining existing ones; retire with
    `deprecated` + `replacedBy`; bind new coded fields in `FIELD_VOCABULARIES`
-3. **XSD** — [`spec/mappings/dpp-1.0.0.xsd`](../spec/mappings/dpp-1.0.0.xsd)
-4. **Ontology** — [`spec/ontology/sort4circ-1.0.0.ttl`](../spec/ontology/sort4circ-1.0.0.ttl)
+3. **XSD** — [`spec/schemas/dpp-1.0.0.xsd`](../spec/schemas/dpp-1.0.0.xsd)
+4. **Ontology** — [`spec/ontology/sort4circ-1.0.1.ttl`](../spec/ontology/sort4circ-1.0.1.ttl)
 5. **Mapping** — a row per new exchange path in
    [`spec/mappings/dpp-mapping-1.0.0.json`](../spec/mappings/dpp-mapping-1.0.0.json), then
    regenerate the CSV

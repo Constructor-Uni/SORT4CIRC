@@ -1,53 +1,61 @@
 {
-  "dppId": "urn:example:dpp:000001",
+  "dppId": "urn:sort4circ:dpp:000001",
   "schemaVersion": "1.0.0",
   "recordVersion": 1,
   "status": "active",
-  "createdAt": "2042-02-11T08:00:00Z",
-  "updatedAt": "2042-02-13T10:30:00Z",
-  "responsibleOperatorId": "urn:example:org:manufacturer-a",
+  "createdAt": "2026-06-18T11:00:00Z",
+  "updatedAt": "2026-08-10T09:12:44Z",
+  "responsibleOperatorId": "urn:sort4circ:org:brand-a",
   "identity": {
     "granularity": "item",
-    "itemId": "urn:example:item:000001",
-    "epc": "urn:example:carrier:000001",
-    "sampleId": "SYNTH-0001"
+    "itemId": "urn:sort4circ:item:000001",
+    "epc": "urn:epc:id:sgtin:0614141.112345.400",
+    "sampleId": "TXHO-WP3-B01-001"
   },
   "product": {
-    "articleClass": "homeTextileFlat",
-    "fabricConstruction": "woven",
-    "colourPrimary": "light",
-    "technicalFlags": []
+    "articleClass": "upperBodyKnitwear",
+    "fabricConstruction": "knitted",
+    "colourPrimary": "dark",
+    "technicalFlags": [
+      "carbonBlackPresent",
+      "hardPointZipMetal"
+    ]
   },
   "materialObservations": [
     {
-      "observationId": "urn:example:observation:000001-cotton",
-      "fibreType": "cotton",
-      "percentage": 62,
-      "percentageBasis": "declaredLabel",
+      "observationId": "urn:sort4circ:obs:000001",
+      "fibreType": "polyester",
+      "percentage": 95,
+      "percentageBasis": "mass",
       "valueStatus": "supplied",
-      "method": "supplierDeclaration",
-      "sourceOrganisationId": "urn:example:org:manufacturer-a",
-      "observedAt": "2042-02-12T09:00:00Z"
+      "method": "labQuantitativeIso1833",
+      "sourceOrganisationId": "urn:sort4circ:org:txho",
+      "observedAt": "2026-06-18T11:02:10Z"
     },
     {
-      "observationId": "urn:example:observation:000001-flax",
-      "fibreType": "flax",
-      "percentage": 38,
-      "percentageBasis": "declaredLabel",
+      "observationId": "urn:sort4circ:obs:000002",
+      "fibreType": "elastane",
+      "percentage": 5,
+      "percentageBasis": "mass",
       "valueStatus": "supplied",
-      "method": "supplierDeclaration",
-      "sourceOrganisationId": "urn:example:org:manufacturer-a",
-      "observedAt": "2042-02-12T09:00:00Z"
+      "method": "labQuantitativeIso1833",
+      "sourceOrganisationId": "urn:sort4circ:org:txho",
+      "observedAt": "2026-06-18T11:02:10Z"
     },
     {
-      "observationId": "urn:example:observation:inspection-000001",
-      "fibreType": "cotton",
-      "percentage": 58,
-      "percentageBasis": "declaredLabel",
+      "observationId": "urn:sort4circ:obs:000114",
+      "fibreType": "polyester",
+      "percentage": 93.4,
+      "percentageBasis": "mass",
       "valueStatus": "supplied",
-      "method": "labelDeclaration",
-      "sourceOrganisationId": "urn:example:org:collector-a",
-      "observedAt": "2043-07-09T16:45:00Z"
+      "method": "nirSpectroscopy",
+      "sourceOrganisationId": "urn:sort4circ:org:pssr-a",
+      "sourceSystemId": "urn:sort4circ:system:nir-line-2",
+      "observedAt": "2026-08-10T09:14:01.902Z",
+      "confidence": {
+        "value": 0.87,
+        "scale": "unitInterval"
+      }
     }
   ]
 }

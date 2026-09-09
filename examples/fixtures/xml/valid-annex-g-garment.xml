@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<s4c:DigitalProductPassport xmlns:s4c="https://data.sort4circ.eu/vocabulary/" schemaVersion="1.0.0" dppId="urn:sort4circ:dpp:000001">
+  <s4c:RecordVersion>7</s4c:RecordVersion>
+  <s4c:Status>active</s4c:Status>
+  <s4c:CreatedAt>2026-06-18T11:00:00Z</s4c:CreatedAt>
+  <s4c:UpdatedAt>2026-08-10T09:12:44Z</s4c:UpdatedAt>
+  <s4c:ResponsibleOperatorId>urn:sort4circ:org:brand-a</s4c:ResponsibleOperatorId>
+  <s4c:Identity>
+    <s4c:Granularity>item</s4c:Granularity>
+    <s4c:ItemId>urn:sort4circ:item:000001</s4c:ItemId>
+    <s4c:Epc>urn:epc:id:sgtin:0614141.112345.400</s4c:Epc>
+    <s4c:SampleId>TXHO-WP3-B01-001</s4c:SampleId>
+  </s4c:Identity>
+  <s4c:Product>
+    <s4c:ArticleClass>upperBodyKnitwear</s4c:ArticleClass>
+    <s4c:FabricConstruction>knitted</s4c:FabricConstruction>
+    <s4c:ColourPrimary>dark</s4c:ColourPrimary>
+    <s4c:TechnicalFlags><s4c:TechnicalFlag>carbonBlackPresent</s4c:TechnicalFlag><s4c:TechnicalFlag>hardPointZipMetal</s4c:TechnicalFlag></s4c:TechnicalFlags>
+  </s4c:Product>
+  <s4c:MaterialObservations>
+    <s4c:MaterialObservation>
+      <s4c:ObservationId>urn:sort4circ:obs:000001</s4c:ObservationId><s4c:FibreType>polyester</s4c:FibreType><s4c:Percentage>95</s4c:Percentage><s4c:PercentageBasis>mass</s4c:PercentageBasis><s4c:ValueStatus>supplied</s4c:ValueStatus><s4c:Method>labQuantitativeIso1833</s4c:Method><s4c:SourceOrganisationId>urn:sort4circ:org:txho</s4c:SourceOrganisationId><s4c:ObservedAt>2026-06-18T11:02:10Z</s4c:ObservedAt>
+    </s4c:MaterialObservation>
+    <s4c:MaterialObservation>
+      <s4c:ObservationId>urn:sort4circ:obs:000002</s4c:ObservationId><s4c:FibreType>elastane</s4c:FibreType><s4c:Percentage>5</s4c:Percentage><s4c:PercentageBasis>mass</s4c:PercentageBasis><s4c:ValueStatus>supplied</s4c:ValueStatus><s4c:Method>labQuantitativeIso1833</s4c:Method><s4c:SourceOrganisationId>urn:sort4circ:org:txho</s4c:SourceOrganisationId><s4c:ObservedAt>2026-06-18T11:02:10Z</s4c:ObservedAt>
+    </s4c:MaterialObservation>
+  </s4c:MaterialObservations>
+</s4c:DigitalProductPassport>

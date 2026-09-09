@@ -13,8 +13,8 @@ across organisations. None of them is a prerequisite for creating a working DPP.
 | | Purpose | Asset | Validated by |
 | --- | --- | --- | --- |
 | **JSON** | The primary exchange representation | [`spec/schemas/dpp-1.0.0.schema.json`](../spec/schemas/dpp-1.0.0.schema.json) | JSON Schema 2020-12, plus vocabulary and cross-field rules |
-| **XML** | Exchange with XML-native stacks | [`spec/mappings/dpp-1.0.0.xsd`](../spec/mappings/dpp-1.0.0.xsd) | XSD 1.1, including assertions |
-| **RDF/OWL** | The shared semantic model | [`spec/ontology/sort4circ-1.0.0.ttl`](../spec/ontology/sort4circ-1.0.0.ttl) | The ontology, checked with `rdflib` |
+| **XML** | Exchange with XML-native stacks | [`spec/schemas/dpp-1.0.0.xsd`](../spec/schemas/dpp-1.0.0.xsd) | XSD 1.1, including assertions |
+| **RDF/OWL** | The shared semantic model | [`spec/ontology/sort4circ-1.0.1.ttl`](../spec/ontology/sort4circ-1.0.1.ttl) | The ontology, checked with `rdflib` |
 
 JSON Schema remains the normative JSON validation path. The XSD is a projection of it, not
 a second source of truth: where they could disagree, the JSON Schema wins.

@@ -1,10 +1,15 @@
-"""Deterministic JSON, XML and RDF projections for mapping package 1.0.0.
+"""RDF projection and access to the term-level mapping package 1.0.0.
 
-JSON remains the normative exchange representation.  XML is decoded with the
-normative JSON Schema so scalar types are never guessed. RDF carries
-ontology-backed semantic triples and a canonical ``rdf:JSON`` snapshot for
-lossless transport reversal. The snapshot is not a direct semantic mapping
-and is classified separately by the mapping package.
+JSON is the normative exchange representation. The mapping package
+``spec/mappings/dpp-mapping-1.0.0.json`` is the normative term-level mapping: one row
+per schema-defined path, giving the JSON path, the XML path and the RDF property.
+
+There is one XML serialiser, not two. ``json_to_xml`` and ``xml_to_json`` delegate to
+:mod:`sort4circ_dpp.exchange`, which implements the published XML profile in the
+``https://data.sort4circ.eu/vocabulary/`` namespace and validates against the released
+XSD 1.1. This module owns the RDF projection: ontology-backed semantic triples plus a
+canonical ``rdf:JSON`` snapshot for lossless transport reversal. The snapshot is not a
+direct semantic mapping and is classified separately by the mapping package.
 """
 
 from __future__ import annotations
@@ -13,11 +18,14 @@ import json
 import xml.etree.ElementTree as ET
 from typing import Any
 
-from .config import SCHEMA_DIR
+from .config import MAPPING_DIR, SCHEMA_DIR
 from .validation import validate_payload
 
 SCHEMA_PATH = SCHEMA_DIR / "dpp-1.0.0.schema.json"
-XML_NAMESPACE = "https://data.sort4circ.eu/dpp/1.0.0"
+MAPPING_PATH = MAPPING_DIR / "dpp-mapping-1.0.0.json"
+
+#: One namespace for both XML and RDF, as published.
+XML_NAMESPACE = "https://data.sort4circ.eu/vocabulary/"
 RDF_NAMESPACE = "https://data.sort4circ.eu/vocabulary/"
 
 ARRAY_ITEM_NAMES = {
@@ -73,60 +81,23 @@ def _encode_xml(parent: ET.Element, value: Any, node: dict[str, Any], schema: di
     parent.text = _text(value)
 
 
+def mapping_package() -> dict[str, Any]:
+    """The normative term-level mapping package."""
+    return json.loads(MAPPING_PATH.read_text(encoding="utf-8"))
+
+
 def json_to_xml(payload: dict[str, Any]) -> bytes:
-    """Validate and serialize a DPP without dropping optional information."""
-    validate_payload(payload)
-    schema = _schema()
-    ET.register_namespace("dpp", XML_NAMESPACE)
-    root = ET.Element(f"{{{XML_NAMESPACE}}}dpp", {"mappingVersion": "1.0.0"})
-    _encode_xml(root, payload, schema, schema)
-    return ET.tostring(root, encoding="utf-8", xml_declaration=True)
+    """Serialise to the published XML profile. Single serialiser: see ``exchange``."""
+    from .exchange import to_xml
 
-
-def _decode_scalar(text: str | None, node: dict[str, Any]) -> Any:
-    value = "" if text is None else text
-    kind = node.get("type")
-    if kind == "integer":
-        return int(value)
-    if kind == "number":
-        return json.loads(value)
-    if kind == "boolean":
-        if value not in {"true", "false"}:
-            raise ValueError(f"invalid XML boolean {value!r}")
-        return value == "true"
-    return value
-
-
-def _decode_xml(element: ET.Element, node: dict[str, Any], schema: dict[str, Any]) -> Any:
-    node = _resolve(node, schema)
-    if node.get("type") == "object":
-        result: dict[str, Any] = {}
-        properties = node.get("properties", {})
-        for name, child_schema in properties.items():
-            child = element.find(f"{{{XML_NAMESPACE}}}{name}")
-            if child is not None:
-                result[name] = _decode_xml(child, child_schema, schema)
-        return result
-    if node.get("type") == "array":
-        item_name = ARRAY_ITEM_NAMES.get(element.tag.rsplit("}", 1)[-1], "item")
-        return [
-            _decode_xml(child, node["items"], schema)
-            for child in element.findall(f"{{{XML_NAMESPACE}}}{item_name}")
-        ]
-    return _decode_scalar(element.text, node)
+    return to_xml(payload)
 
 
 def xml_to_json(document: bytes | str) -> dict[str, Any]:
-    """Decode the versioned XML representation and validate the resulting JSON."""
-    root = ET.fromstring(document)
-    if root.tag != f"{{{XML_NAMESPACE}}}dpp":
-        raise ValueError("not a SORT4CIRC DPP 1.0.0 XML document")
-    if root.get("mappingVersion") != "1.0.0":
-        raise ValueError("unsupported or missing XML mappingVersion")
-    schema = _schema()
-    result = _decode_xml(root, schema, schema)
-    validate_payload(result)
-    return result
+    """Parse the published XML profile back to canonical JSON."""
+    from .exchange import from_xml
+
+    return from_xml(document)
 
 
 def _uri(namespace: str, token: str):

@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://data.sort4circ.eu/governance/en18223-deviation/1.0.0",
+  "title": "SORT4CIRC EN 18223 deviation record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "recordType", "standard", "affectedClauses", "deviationScope", "reason",
+    "fieldLevelMapping", "consequences", "preparedBy", "recommendation",
+    "approvedBy", "decisionDate", "decisionDeadline", "status",
+    "closureEvidence", "affectedDeliverables", "notification"
+  ],
+  "properties": {
+    "recordType": { "const": "standardsDeviation" },
+    "standard": { "const": "EN 18223:2026" },
+    "affectedClauses": {
+      "type": "array", "minItems": 3, "uniqueItems": true,
+      "items": { "enum": ["Clause 5", "Annex A", "Annex B"] }
+    },
+    "deviationScope": { "type": "string", "minLength": 1 },
+    "reason": { "type": "string", "minLength": 1 },
+    "fieldLevelMapping": { "type": "array", "minItems": 1, "items": { "type": "object" } },
+    "consequences": {
+      "type": "object", "additionalProperties": false,
+      "required": ["conformity", "exploitation"],
+      "properties": {
+        "conformity": { "type": "string", "minLength": 1 },
+        "exploitation": { "type": "string", "minLength": 1 }
+      }
+    },
+    "preparedBy": { "$ref": "#/$defs/person" },
+    "recommendation": { "type": "string", "minLength": 1 },
+    "approvedBy": { "oneOf": [{ "$ref": "#/$defs/person" }, { "type": "null" }] },
+    "decisionDate": { "type": ["string", "null"], "format": "date" },
+    "decisionDeadline": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["open", "closed"] },
+    "closureEvidence": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "affectedDeliverables": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "notification": {
+      "type": "object", "additionalProperties": false,
+      "required": ["recipient", "notifiedAt"],
+      "properties": {
+        "recipient": { "type": "string" },
+        "notifiedAt": { "type": ["string", "null"], "format": "date" }
+      }
+    }
+  },
+  "allOf": [{
+    "if": { "properties": { "status": { "const": "closed" } }, "required": ["status"] },
+    "then": {
+      "properties": {
+        "approvedBy": { "$ref": "#/$defs/person" },
+        "decisionDate": { "type": "string", "format": "date" },
+        "closureEvidence": { "minItems": 1 },
+        "notification": { "properties": { "notifiedAt": { "type": "string", "format": "date" } } }
+      }
+    }
+  }],
+  "$defs": {
+    "person": {
+      "type": "object", "additionalProperties": false,
+      "required": ["individualId", "name", "role"],
+      "properties": {
+        "individualId": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "role": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

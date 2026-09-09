@@ -1,0 +1,21 @@
+{
+  "$id": "https://data.sort4circ.eu/vocabulary/confidence-scale/1.0.0",
+  "name": "confidence-scale",
+  "version": "1.0.0",
+  "released": "2026-08-10",
+  "owner": "Constructor University, SORT4CIRC WP4",
+  "terms": [
+    {
+      "token": "unitInterval",
+      "definition": "Real value in the closed interval 0 to 1.",
+      "deprecated": false,
+      "replacedBy": null
+    },
+    {
+      "token": "percent",
+      "definition": "Value from 0 to 100.",
+      "deprecated": false,
+      "replacedBy": null
+    }
+  ]
+}

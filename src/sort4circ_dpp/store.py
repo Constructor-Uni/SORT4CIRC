@@ -1,7 +1,18 @@
 """In-memory passport versions, append-only records and a simulated outbox.
 
-Updates and queue entries share an in-process lock. No durable storage or
-restart recovery is provided; the example does not model a project deployment.
+The reference store is process-local and in-memory. It is deliberately simple
+so the invariants stay visible; a production deployment replaces it with a
+durable database while keeping the same invariants, which are:
+
+* every accepted write increments ``recordVersion`` and retains the prior version;
+* material observations, lifecycle events, sorting decisions and integrity
+  entries are append only;
+* at most one carrier binding per passport is in the ``commissioned`` state;
+* an identifier is never reassigned to a different product;
+* the passport update and its evidence-queue entry commit together, through the
+  transactional outbox, or neither commits.
+
+No durable storage or restart recovery is provided here, and no deployment is modelled.
 """
 
 from __future__ import annotations
