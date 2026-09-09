@@ -4,7 +4,7 @@ Format follows Keep a Changelog. Two version numbers are tracked separately:
 the **repository release** (this file's headings) and the **SORT4CIRC DPP
 implementation profile** version carried by the artefacts under `spec/`.
 
-## [1.3.0] - unreleased
+## [1.3.0] - 2026-09-09
 
 Repository release 1.3.0 implements the SORT4CIRC DPP implementation profile
 **1.0.0**. This release changes the documentation, tooling, packaging and tests.

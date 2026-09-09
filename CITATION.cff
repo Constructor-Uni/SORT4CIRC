@@ -14,6 +14,7 @@ abstract: >-
   examples and identifiers are synthetic or demonstrative.
 type: software
 version: 1.3.0
+date-released: 2026-09-09
 # date-released: set this to the actual release date in the tagging commit.
 # Left unset deliberately: no provisional or invented date is recorded here.
 authors:
