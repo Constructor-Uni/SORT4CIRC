@@ -72,8 +72,8 @@ covers the record field by field.
 
 ## Versioning
 
-**Repository release:** v1.3.0<br>
-**DPP implementation profile:** 1.0.0
+**Repository release: v1.3.0**<br>
+**DPP implementation profile: 1.0.0**
 
 Individual specification assets may carry compatible patch versions.
 
@@ -100,13 +100,17 @@ constrain the implementation technology of an adopting system.
 ### Normative scope
 
 Normative statements are normative **within the SORT4CIRC DPP implementation profile**
-versioned in this repository. They apply only to conformance with that profile, and are
-not, and do not claim to be:
+versioned in this repository. They are normative only for conformance with the public profile
+defined and versioned here, and are not, and do not claim to be:
 
 - an official European Union specification or European Commission certification;
 - a CEN, CENELEC or EN standard;
 - an external conformity assessment or certification scheme;
 - legal advice, proof of ESPR conformity, or proof that a deployment is compliant.
+
+Accordingly, this repository does not constitute an official European Union specification,
+a European Commission certification, a CEN or CENELEC certification, legal advice, proof of
+ESPR conformity, or proof that a deployment is legally compliant.
 
 [Traceability](docs/traceability.md) records, for each requirement area, whether a rule
 derives from a legal obligation, a standards-profile requirement, a SORT4CIRC
@@ -219,3 +223,10 @@ repository. See [CITATION.cff](CITATION.cff) for citation and
 [Traceability](docs/traceability.md) for requirement-level provenance.
 
 Attribution does not identify or validate any deployed system.
+
+## Funding
+
+Funded by the European Union under Horizon Europe grant agreement number 101181988.
+Views and opinions expressed are however those of the author(s) only and do not
+necessarily reflect those of the European Union or the granting authority. Neither the
+European Union nor the granting authority can be held responsible for them.
