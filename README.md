@@ -3,6 +3,12 @@
 A practical technical specification and Python reference implementation for building a
 textile Digital Product Passport (DPP), using the SORT4CIRC DPP implementation profile.
 
+<p align="center">
+  <img src="docs/assets/sort4circ-hero-dark.svg"
+       alt="SORT4CIRC textile Digital Product Passport workflow: a garment enters a conveyor, pauses beneath a UHF RFID read zone for one EPC capture, resolves to a passport record holding independently retained laboratory and near-infrared observations, passes a versioned routing decision into fibre sorting, and is anchored asynchronously for integrity."
+       width="100%">
+</p>
+
 If you are asking *"I want to create a textile DPP for my organisation from scratch —
 where do I start, what do I need to implement, and how do I test that I did it
 correctly?"*, this repository is the answer to that question.
