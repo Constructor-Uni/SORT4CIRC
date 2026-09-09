@@ -20,6 +20,16 @@ Synthetic example. Not SORT4CIRC project data.
 
 The deterministic factory invents fictional woven home textiles, organisations, identifiers, observations and lifecycle events. No original records or benchmark results are converted into synthetic data. Values are illustrative and do not represent measurements.
 
+Example identifiers use the reserved `urn:example:` and `https://example.org/` namespaces and fictional dates. The single exception is the Annex G reference example, which retains its published `urn:sort4circ:` identifiers and its `TXHO-WP3-B01-001` sample label so that the repository reproduces the published reference record and its canonical digest exactly. Those values are themselves synthetic.
+
+## Non-attribution
+
+Examples, fixtures and demonstration identifiers must not be interpreted as descriptions of any consortium partner's commercial activity, material intake, production processes, operational performance or capabilities. Confidential partner data, personal data, credentials, API keys, private keys, pilot-operational information, raw industrial datasets and security-sensitive deployment configuration are outside the scope of publication.
+
+## Validity and factual truth
+
+A record that validates against the profile is a well-formed record. Validity establishes conformance with the schema, vocabularies and cross-field rules of the profile. It is not evidence that any claim contained in the record is factually true.
+
 ## Architecture neutrality
 
 The repository demonstrates replaceable repository, authentication and integrity responsibilities. The ledger interface and memory adapter are generic examples. No network, validator, contract, signing or industrial-control recipe is provided.
