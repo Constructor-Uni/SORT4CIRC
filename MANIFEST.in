@@ -3,6 +3,7 @@ global-exclude *
 include .dockerignore
 include .editorconfig
 include .gitattributes
+include .github/CODEOWNERS
 include .github/ISSUE_TEMPLATE/bug_report.yml
 include .github/ISSUE_TEMPLATE/spec_question.yml
 include .github/PULL_REQUEST_TEMPLATE.md

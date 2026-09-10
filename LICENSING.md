@@ -23,6 +23,7 @@ The software and configuration grant is in [LICENSE](LICENSE).
 | .dockerignore, .editorconfig, .gitattributes, .gitignore | Container, editor and repository tooling configuration |
 | .github/workflows/** | CI and automation workflows |
 | .github/ISSUE_TEMPLATE/** | Structured issue-form configuration |
+| .github/CODEOWNERS | Review ownership configuration |
 | .github/dependabot.yml | Dependency update automation configuration |
 | docker/** | Container build and example service configuration |
 | LICENSE | Apache-2.0 grant and software copyright notice |

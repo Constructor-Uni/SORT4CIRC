@@ -27,6 +27,10 @@ remains at 1.0.0.
   `SECURITY.md` and `docs/versioning-and-migration.md`, and that it stays distinct from the
   DPP implementation profile version. The versions already agreed; the check makes future
   drift fail rather than ship.
+- `.github/CODEOWNERS` naming `@Constructor-Uni/sort4circ-wp4` as owner of the repository,
+  with explicit rules for `spec/**`, `public-release-policy.json`, `LICENSING.md` and
+  `.github/workflows/**`. The entries gate a merge only once branch protection on the
+  default branch requires review from code owners.
 - `CODE_OF_CONDUCT.md`, the Contributor Covenant 2.1. Conduct reports use the private
   channel already described in `SECURITY.md`; no separate conduct mailbox is created and
   no contact address is invented. Linked from `README.md` and `CONTRIBUTING.md`.
