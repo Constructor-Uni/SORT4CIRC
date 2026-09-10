@@ -90,3 +90,8 @@ standard, an external certification, or legal conformity.
 [Regulatory context](regulatory-context.md) states the limits;
 [Traceability](traceability.md) separates legal obligations from standards-profile
 requirements, project-scope requirements and engineering decisions.
+
+## Funding
+
+Funded by the European Union under Horizon Europe grant agreement number 101181988.
+The full statement and disclaimer are in the [README](../README.md#funding).
