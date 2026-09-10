@@ -10,6 +10,7 @@
     ".github/PULL_REQUEST_TEMPLATE.md",
     ".github/dependabot.yml",
     ".github/workflows/ci.yml",
+    ".github/workflows/dependabot-manifest.yml",
     ".github/workflows/release.yml",
     ".gitignore",
     "CHANGELOG.md",

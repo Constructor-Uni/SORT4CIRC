@@ -1,0 +1,84 @@
+name: Dependabot manifest
+
+# MANIFEST.sha256 records a digest for every file in the public release policy, so any
+# content change leaves it stale and tests/test_manifest.py fails with "manifest digest
+# mismatch". Dependabot cannot run the generator, so every dependency update that touches
+# a tracked file (a workflow pin, the constraints file) arrives red for a reason that has
+# nothing to do with the dependency.
+#
+# This regenerates the manifests on Dependabot branches and commits them back. The digest
+# check in verify_tree is deliberately left alone: the invariant still holds everywhere,
+# it is just satisfied automatically here.
+#
+# Three properties are enforced rather than assumed:
+#
+#   1. Only the two manifests may change. If regeneration touches anything else the job
+#      fails without committing. A job holding contents: write on a dependency branch must
+#      not be able to carry an unrelated edit into the pull request.
+#   2. No dependency code runs. verify_files.py and tools/verify_public_release.py import
+#      only the standard library, so nothing is installed and nothing from the branch's
+#      changed dependency set is executed by this job.
+#   3. Checks re-run on the new commit. A GITHUB_TOKEN push creates no workflow run, so the
+#      pull request head would otherwise carry no checks at all and never become mergeable.
+#      workflow_dispatch is the documented exception to that rule, so CI is dispatched
+#      against the branch after the push and reports against the new head.
+#
+# GITHUB_TOKEN only. No personal access token, no app token, no repository secret.
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  manifest:
+    name: Regenerate the public manifest
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # commit the regenerated manifests back to the pull request branch
+      actions: write    # dispatch CI so the new head commit gets its own check runs
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+
+      - name: Regenerate the manifests
+        id: regenerate
+        run: |
+          python verify_files.py --write
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "stale=false" >> "$GITHUB_OUTPUT"
+            echo "The manifests were already current; nothing to commit."
+            exit 0
+          fi
+          unexpected="$(git status --porcelain -- ':(exclude)MANIFEST.in' ':(exclude)MANIFEST.sha256')"
+          if [ -n "$unexpected" ]; then
+            echo "::error::Regeneration changed files other than MANIFEST.in and MANIFEST.sha256; refusing to commit."
+            printf '%s\n' "$unexpected"
+            exit 1
+          fi
+          echo "stale=true" >> "$GITHUB_OUTPUT"
+          git status --porcelain
+
+      - name: Commit the manifests to the pull request branch
+        if: steps.regenerate.outputs.stale == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- MANIFEST.in MANIFEST.sha256
+          git commit -m "Regenerate the public manifest for the dependency update"
+          git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
+
+      - name: Dispatch CI so the new commit is checked
+        if: steps.regenerate.outputs.stale == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run ci.yml --ref "${{ github.event.pull_request.head.ref }}"
+          echo "Manifests regenerated and committed. CI dispatched against the new head."

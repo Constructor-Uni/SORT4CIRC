@@ -9,6 +9,7 @@ include .github/ISSUE_TEMPLATE/spec_question.yml
 include .github/PULL_REQUEST_TEMPLATE.md
 include .github/dependabot.yml
 include .github/workflows/ci.yml
+include .github/workflows/dependabot-manifest.yml
 include .github/workflows/release.yml
 include .gitignore
 include CHANGELOG.md
