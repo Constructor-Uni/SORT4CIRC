@@ -90,7 +90,7 @@ The following categories are distinct and should not be conflated.
 | Path | Contents | Status |
 | --- | --- | --- |
 | `spec/` | The SORT4CIRC DPP implementation profile: JSON Schema, controlled vocabularies, RDF/OWL ontology, JSON/XML/RDF mappings, XSD, OpenAPI contract, SPARQL conformance queries, governance schemas, access matrix, reason codes | **Normative within this profile** |
-| `src/sort4circ_dpp/` | Reference software implementing the profile | Illustrative: one implementation approach |
+| `src/sort4circ_dpp/` | Reference software implementing the profile. `_spec/` inside it is a byte-identical packaging copy of the runtime-required subset of `spec/` (schemas, vocabularies, access matrix, reason codes), so an installed wheel resolves the profile without a source checkout. `spec/` is authoritative and is the tree to edit; CI and `tests/test_packaged_resources.py` verify the copy matches it byte for byte | Illustrative: one implementation approach |
 | `examples/` | Synthetic worked examples with valid and deliberately invalid fixtures | Illustrative |
 | `tests/`, `tools/` | Validation, contract and conformance resources, with generators and checkers | Executable evidence |
 | `docs/` | Implementation guidance organised by implementation task | Explanatory |
@@ -217,7 +217,9 @@ the required steps are recorded in that file.
 
 ## Provenance
 
-This repository is the technical output of the SORT4CIRC Horizon Europe project. The
+This repository is the technical output of the SORT4CIRC Horizon Europe project
+([sort4circ.eu](https://sort4circ.eu), grant agreement 101181988 on
+[CORDIS](https://cordis.europa.eu/project/id/101181988)). The
 specification it publishes originates in project deliverable D4.3, *DPP Development
 Guidelines*; the machine-readable profile versioned in this repository is its
 authoritative form, and the deliverable document is not required in order to use the
