@@ -40,6 +40,13 @@ remains at 1.0.0.
   `tests/test_public_release.py`.
 - Removed a self-contradiction in `CITATION.cff`, where `date-released` was set while an
   adjacent comment stated that no date had been recorded.
+- The CI conformance job uploaded an empty artefact. `tools/conformance_report.py` writes a
+  file only when given `--output`, so the upload step never found `conformance-report.json`
+  and warned rather than failing. The job now passes `--output` and the upload step sets
+  `if-no-files-found: error`, so a missing report fails instead of passing quietly.
+- Every GitHub Actions pin now carries a trailing version comment. `actions/checkout` and
+  `actions/setup-python` were pinned to bare commit SHAs, which left `.github/dependabot.yml`
+  unable to keep the SHA and its version comment in step as it documents.
 - Completed the `httpx2` pin set in `constraints-py311-py312-py313.txt`. `httpx2==2.12.0`
   was pinned without its own dependencies, leaving `httpcore2` and `truststore` free to
   resolve; both are now pinned so CI builds stay reproducible.
