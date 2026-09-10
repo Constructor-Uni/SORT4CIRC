@@ -13,7 +13,8 @@ name: Publish
 #      in repository secrets.
 #
 # workflow_dispatch allows a TestPyPI dry run, and a build-only run that uploads
-# nowhere, without cutting a release.
+# nowhere, without cutting a release. The input defaults to `none`, so accepting the
+# defaults builds and verifies without uploading anywhere.
 
 on:
   release:
@@ -23,7 +24,7 @@ on:
       target:
         description: Where to upload the verified distributions
         type: choice
-        default: testpypi
+        default: none
         options:
           - none
           - testpypi
