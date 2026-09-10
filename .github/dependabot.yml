@@ -18,6 +18,12 @@ updates:
     # applies-to: version-updates leaves security advisories ungrouped so they still
     # arrive individually.
     groups:
+      # Listed first: Dependabot puts a dependency in the first group it matches.
+      # pydantic pins its core with `pydantic-core==`, so bumping one without the other
+      # is unresolvable. They move as a unit, at any update type.
+      pydantic:
+        applies-to: version-updates
+        patterns: ["pydantic", "pydantic-core"]
       python-safe:
         applies-to: version-updates
         patterns: ["*"]
