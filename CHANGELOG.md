@@ -15,6 +15,13 @@ remains at 1.0.0.
 
 - EU funding statement in `README.md`, recording Horizon Europe grant agreement number
   101181988 and the standard disclaimer of Union responsibility.
+- European Union emblem at `docs/assets/eu-emblem.svg`, displayed in the README funding
+  section. Article 17.2 of the Horizon Europe grant agreement requires the emblem
+  alongside the funding statement and the disclaimer. The file is the unmodified
+  full-colour SVG from the European Union's official visual identity downloads.
+- A reserved-rights section in `LICENSING.md` for third-party material that carries
+  neither component grant, and a guard in `tests/test_licensing.py` asserting that no
+  component grant is claimed over the emblem.
 - Named software copyright notice in `LICENSE`, replacing the unfilled Apache appendix
   placeholder. The software copyright holder is Constructor University gGmbH.
 

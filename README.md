@@ -193,9 +193,10 @@ repository.
 | --- | --- |
 | Software, tests, tools, build, CI and container configuration | **Apache-2.0**, see [LICENSE](LICENSE) |
 | Documentation, specifications, schemas, vocabularies, ontology, mappings, OpenAPI, JSON fixtures, repository prose and metadata | **CC BY 4.0**, see [LICENSE-DOCS](LICENSE-DOCS) |
+| The European Union emblem, `docs/assets/eu-emblem.svg` | Reproduced under the European Union's emblem usage rules; **not** covered by either grant |
 
 The per-path coverage map is [LICENSING.md](LICENSING.md); every published file has an
-explicit component scope. Package metadata declares the combined distribution as
+explicit scope, including reserved-rights material that carries neither grant. Package metadata declares the combined distribution as
 `Apache-2.0 AND CC-BY-4.0`. Third-party dependencies retain their own licences. This
 repository neither redistributes nor relicenses any external standards document.
 
@@ -229,6 +230,8 @@ repository. See [CITATION.cff](CITATION.cff) for citation and
 Attribution does not identify or validate any deployed system.
 
 ## Funding
+
+<img src="docs/assets/eu-emblem.svg" alt="Flag of the European Union" width="120">
 
 Funded by the European Union under Horizon Europe grant agreement number 101181988.
 Views and opinions expressed are however those of the author(s) only and do not

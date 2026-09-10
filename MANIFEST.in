@@ -27,6 +27,7 @@ include docker/Dockerfile
 include docker/compose.example.yml
 include docs/api.md
 include docs/architecture.md
+include docs/assets/eu-emblem.svg
 include docs/assets/sort4circ-hero-dark.svg
 include docs/benchmarks/README.md
 include docs/benchmarks/anchor-selftest.json

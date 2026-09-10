@@ -54,6 +54,17 @@ Synthetic example. Not SORT4CIRC project data.
 
 The licence of a generator does not determine the licence of its output. The executable OpenAPI generator is Apache-2.0; the generated OpenAPI specification is CC BY 4.0. Its licence metadata comes from the application definition, never from a stale previously generated file. Likewise, MANIFEST.in is build configuration, while MANIFEST.sha256 is generated non-code metadata.
 
+## Reserved-rights material
+
+The file below carries neither component grant. It is third-party material reproduced under
+the rights holder's own usage rules, and this repository makes no licence grant over it. A row
+naming an exact path here overrides the directory patterns above, so the file does not inherit
+the grant of the directory it happens to sit in.
+
+| Directory or file | Coverage |
+| --- | --- |
+| docs/assets/eu-emblem.svg | Emblem of the European Union. Owned by the European Union, obtained unmodified from the European Union's official visual identity downloads, and reproduced to acknowledge Horizon Europe funding as the grant agreement requires. Governed by the European Union's emblem usage rules, **not** by this repository's Apache-2.0 or CC BY 4.0 grants. Reuse, including any modified or derivative use, must follow those rules and must not imply European Union endorsement |
+
 ## Distributions and generated files
 
 The Python distribution includes Apache-2.0 software and CC BY 4.0 specifications. Package metadata uses Apache-2.0 AND CC-BY-4.0 to describe this combined distribution; the per-file map above controls component scope. Bundled sort4circ_dpp/spec/** resources retain the CC BY 4.0 grant of their source spec/** files.
@@ -62,7 +73,7 @@ Both grants and this coverage notice accompany source and wheel distributions. C
 
 ## Coverage status
 
-Every file in `public-release-policy.json` matches exactly one scope in the tables above, and `tests/test_licensing.py` asserts that. New public files must be assigned an explicit component scope when added to the release policy.
+Every file in `public-release-policy.json` resolves to exactly one scope in the tables above, and `tests/test_licensing.py` asserts that. Where a row names an exact path it overrides the directory patterns that also cover the file, which is how reserved-rights material keeps its own terms instead of inheriting a component grant. New public files must be assigned an explicit scope when added to the release policy.
 
 The generated OpenAPI document is a specification asset and carries the CC BY 4.0 grant, consistent with the rest of `spec/`. This resolves the earlier conflict between the OpenAPI's own licence metadata and the declared specification licence.
 

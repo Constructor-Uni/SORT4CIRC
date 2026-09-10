@@ -28,6 +28,7 @@
     "docker/compose.example.yml",
     "docs/api.md",
     "docs/architecture.md",
+    "docs/assets/eu-emblem.svg",
     "docs/assets/sort4circ-hero-dark.svg",
     "docs/benchmarks/README.md",
     "docs/benchmarks/anchor-selftest.json",
