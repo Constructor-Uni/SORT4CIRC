@@ -38,6 +38,12 @@ remains at 1.0.0.
 
 ### Changed
 
+- The funding disclaimer in `README.md`, `CITATION.cff` and `docs/index.md` now names the
+  granting authority, the European Research Executive Agency (REA), as the Horizon Europe
+  template requires, in place of the generic wording used previously. The grant agreement
+  number is unchanged.
+- `README.md` records that Constructor University Bremen gGmbH coordinates the project. No
+  partner or beneficiary list is published.
 - `LICENSING.md` now states the current licensing position, that the software component is
   licensed under Apache-2.0 and that Apache-2.0 is the licence in force, in place of
   narrating an earlier licence change and its reversal.

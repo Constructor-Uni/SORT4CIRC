@@ -93,5 +93,7 @@ requirements, project-scope requirements and engineering decisions.
 
 ## Funding
 
-Funded by the European Union under Horizon Europe grant agreement number 101181988.
-The full statement and disclaimer are in the [README](../README.md#funding).
+Funded by the European Union under Grant Agreement No 101181988. Views and opinions
+expressed are however those of the author(s) only and do not necessarily reflect those of
+the European Union or the European Research Executive Agency (REA). Neither the European
+Union nor the granting authority can be held responsible for them.

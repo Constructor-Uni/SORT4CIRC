@@ -12,7 +12,10 @@ abstract: >-
   version numbers are independent. The specification originates in SORT4CIRC Horizon
   Europe project deliverable D4.3, "DPP Development Guidelines". All distributed
   examples and identifiers are synthetic or demonstrative. Funded by the European
-  Union under Horizon Europe grant agreement number 101181988.
+  Union under Grant Agreement No 101181988. Views and opinions expressed are
+  however those of the author(s) only and do not necessarily reflect those of the
+  European Union or the European Research Executive Agency (REA). Neither the
+  European Union nor the granting authority can be held responsible for them.
 type: software
 version: 1.3.1
 date-released: 2026-09-09

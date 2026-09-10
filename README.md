@@ -220,7 +220,8 @@ the required steps are recorded in that file.
 
 This repository is the technical output of the SORT4CIRC Horizon Europe project
 ([sort4circ.eu](https://sort4circ.eu), grant agreement 101181988 on
-[CORDIS](https://cordis.europa.eu/project/id/101181988)). The
+[CORDIS](https://cordis.europa.eu/project/id/101181988)), coordinated by Constructor
+University Bremen gGmbH. The
 specification it publishes originates in project deliverable D4.3, *DPP Development
 Guidelines*; the machine-readable profile versioned in this repository is its
 authoritative form, and the deliverable document is not required in order to use the
@@ -233,7 +234,7 @@ Attribution does not identify or validate any deployed system.
 
 <img src="docs/assets/eu-emblem.svg" alt="Flag of the European Union" width="120">
 
-Funded by the European Union under Horizon Europe grant agreement number 101181988.
-Views and opinions expressed are however those of the author(s) only and do not
-necessarily reflect those of the European Union or the granting authority. Neither the
-European Union nor the granting authority can be held responsible for them.
+Funded by the European Union under Grant Agreement No 101181988. Views and opinions
+expressed are however those of the author(s) only and do not necessarily reflect those of
+the European Union or the European Research Executive Agency (REA). Neither the European
+Union nor the granting authority can be held responsible for them.
