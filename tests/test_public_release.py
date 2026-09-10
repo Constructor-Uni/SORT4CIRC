@@ -116,6 +116,29 @@ def test_documentation_states_profile_scope_and_owner_actions():
     for name in ("examples/README.md", "examples/fixtures/README.md"):
         assert "Synthetic example. Not SORT4CIRC project data." in (ROOT / name).read_text()
 
+def test_release_version_agrees_across_the_repository():
+    """One release version, stated in many places, and never conflated with the profile."""
+    import re
+    import tomllib
+
+    from sort4circ_dpp.config import PROFILE_VERSION, RELEASE_VERSION
+
+    def read(name):
+        return (ROOT / name).read_text(encoding="utf-8")
+
+    assert tomllib.loads(read("pyproject.toml"))["project"]["version"] == RELEASE_VERSION
+    assert f"version: {RELEASE_VERSION}" in read("CITATION.cff").splitlines()
+    assert re.search(r"^## \[([^\]]+)\]", read("CHANGELOG.md"), re.M)[1] == RELEASE_VERSION
+    assert f"**Repository release: v{RELEASE_VERSION}**" in read("README.md")
+    assert f"Repository release **{RELEASE_VERSION}** (current)" in read("SECURITY.md")
+    assert f"Repository release v{RELEASE_VERSION} implements" in read("docs/versioning-and-migration.md")
+
+    assert f"**DPP implementation profile: {PROFILE_VERSION}**" in read("README.md")
+    assert RELEASE_VERSION != PROFILE_VERSION, "the two version lines are deliberately independent"
+    # cff-version is the Citation File Format version, not this repository's release.
+    assert "cff-version: 1.2.0" in read("CITATION.cff")
+
+
 def test_full_release_cli_requires_private_rules(capsys):
     from tools.verify_public_release import main
     assert main([]) == 1

@@ -22,6 +22,11 @@ remains at 1.0.0.
 - A reserved-rights section in `LICENSING.md` for third-party material that carries
   neither component grant, and a guard in `tests/test_licensing.py` asserting that no
   component grant is claimed over the emblem.
+- A guard in `tests/test_public_release.py` asserting that the repository release version
+  agrees across `pyproject.toml`, `CITATION.cff`, the `CHANGELOG.md` heading, `README.md`,
+  `SECURITY.md` and `docs/versioning-and-migration.md`, and that it stays distinct from the
+  DPP implementation profile version. The versions already agreed; the check makes future
+  drift fail rather than ship.
 - `CODE_OF_CONDUCT.md`, the Contributor Covenant 2.1. Conduct reports use the private
   channel already described in `SECURITY.md`; no separate conduct mailbox is created and
   no contact address is invented. Linked from `README.md` and `CONTRIBUTING.md`.
