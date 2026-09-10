@@ -1,5 +1,7 @@
 # SORT4CIRC DPP Development Guidelines
 
+[![CI](https://github.com/Constructor-Uni/SORT4CIRC/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Constructor-Uni/SORT4CIRC/actions/workflows/ci.yml?query=branch%3Amain) [![Licence: Apache-2.0 AND CC-BY-4.0](https://img.shields.io/badge/licence-Apache--2.0%20AND%20CC--BY--4.0-blue)](LICENSING.md) [![Python 3.11 | 3.12 | 3.13](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue)](pyproject.toml)
+
 A technical specification and implementation toolkit for developing interoperable textile
 Digital Product Passports. The repository provides machine-readable schemas, controlled
 vocabularies, semantic models, interoperability mappings, API specifications, validation
