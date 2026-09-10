@@ -12,6 +12,20 @@ updates:
       - dependencies
     commit-message:
       prefix: "deps"
+    # One grouped pull request per week instead of one per package. Every pip bump
+    # edits constraints-py311-py312-py313.txt and, through it, MANIFEST.sha256, so
+    # ungrouped siblings serialise behind each other once a branch must be current.
+    # applies-to: version-updates leaves security advisories ungrouped so they still
+    # arrive individually.
+    groups:
+      python-safe:
+        applies-to: version-updates
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+      python-major:
+        applies-to: version-updates
+        patterns: ["*"]
+        update-types: ["major"]
 
   # Workflow actions are pinned to commit SHAs. Dependabot updates the SHA and the
   # trailing version comment together, which keeps the pinning intact.
@@ -25,3 +39,14 @@ updates:
       - ci
     commit-message:
       prefix: "ci"
+    # Majors are kept apart from minor and patch bumps: a single incompatible action
+    # major would otherwise block the safe updates travelling with it.
+    groups:
+      actions-safe:
+        applies-to: version-updates
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+      actions-major:
+        applies-to: version-updates
+        patterns: ["*"]
+        update-types: ["major"]
