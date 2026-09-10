@@ -210,6 +210,8 @@ the required steps are recorded in that file.
 - [CONTRIBUTING.md](CONTRIBUTING.md): installation, testing, linting, fixture addition,
   safe modification of specification assets, and material that must not appear in a
   contribution.
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md): Contributor Covenant 2.1, and the private
+  channel used for conduct reports.
 - [SECURITY.md](SECURITY.md): private vulnerability reporting.
 - [PUBLICATION_BOUNDARY.md](PUBLICATION_BOUNDARY.md) and
   [docs/public-release.md](docs/public-release.md): publication scope, and the

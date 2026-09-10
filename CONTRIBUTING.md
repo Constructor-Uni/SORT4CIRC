@@ -3,6 +3,9 @@
 Contributions of generic DPP concepts, corrections, documentation improvements and
 independently synthetic examples are welcome.
 
+Participation is governed by the [Code of Conduct](CODE_OF_CONDUCT.md), which uses the same
+private reporting channel as [SECURITY.md](SECURITY.md).
+
 ## Rule 1 — nothing real, ever
 
 **Contributions must not include:**

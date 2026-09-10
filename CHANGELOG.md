@@ -22,6 +22,9 @@ remains at 1.0.0.
 - A reserved-rights section in `LICENSING.md` for third-party material that carries
   neither component grant, and a guard in `tests/test_licensing.py` asserting that no
   component grant is claimed over the emblem.
+- `CODE_OF_CONDUCT.md`, the Contributor Covenant 2.1. Conduct reports use the private
+  channel already described in `SECURITY.md`; no separate conduct mailbox is created and
+  no contact address is invented. Linked from `README.md` and `CONTRIBUTING.md`.
 - Named software copyright notice in `LICENSE`, replacing the unfilled Apache appendix
   placeholder. The software copyright holder is Constructor University gGmbH.
 

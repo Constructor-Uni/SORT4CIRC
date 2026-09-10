@@ -47,6 +47,7 @@ The documentation/specification grant and attribution are in [LICENSE-DOCS](LICE
 | examples/**/*.json, examples/**/*.xml, examples/**/*.md | Non-code synthetic fixtures and example documentation |
 | README.md, CHANGELOG.md, CONTRIBUTING.md, SECURITY.md, PUBLICATION_BOUNDARY.md, LICENSING.md | Repository-root prose and documentation |
 | CITATION.cff, MANIFEST.sha256 | Non-code citation and generated integrity metadata |
+| CODE_OF_CONDUCT.md | Contributor Covenant 2.1, reproduced under its own CC BY 4.0 licence with the upstream contact placeholder filled in and a repository reporting note appended. Attribution to the Contributor Covenant is retained in the file |
 | .github/PULL_REQUEST_TEMPLATE.md | Non-code contribution documentation |
 | LICENSE-DOCS | Documentation/specification grant and attribution notice |
 

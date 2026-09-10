@@ -12,6 +12,7 @@ include .github/workflows/release.yml
 include .gitignore
 include CHANGELOG.md
 include CITATION.cff
+include CODE_OF_CONDUCT.md
 include CONTRIBUTING.md
 include LICENSE
 include LICENSE-DOCS
