@@ -35,6 +35,9 @@ remains at 1.0.0.
   `tests/test_public_release.py`.
 - Removed a self-contradiction in `CITATION.cff`, where `date-released` was set while an
   adjacent comment stated that no date had been recorded.
+- Completed the `httpx2` pin set in `constraints-py311-py312-py313.txt`. `httpx2==2.12.0`
+  was pinned without its own dependencies, leaving `httpcore2` and `truststore` free to
+  resolve; both are now pinned so CI builds stay reproducible.
 - Corrected the statement in `LICENSING.md` about the scope of the coverage map: the
   repository's Git history is public, and the map makes no licence grant over material
   reachable only through earlier commits.
