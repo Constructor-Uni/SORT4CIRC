@@ -3,13 +3,17 @@ global-exclude *
 include .dockerignore
 include .editorconfig
 include .gitattributes
+include .github/CODEOWNERS
 include .github/ISSUE_TEMPLATE/bug_report.yml
 include .github/ISSUE_TEMPLATE/spec_question.yml
 include .github/PULL_REQUEST_TEMPLATE.md
+include .github/dependabot.yml
 include .github/workflows/ci.yml
+include .github/workflows/release.yml
 include .gitignore
 include CHANGELOG.md
 include CITATION.cff
+include CODE_OF_CONDUCT.md
 include CONTRIBUTING.md
 include LICENSE
 include LICENSE-DOCS
@@ -25,6 +29,7 @@ include docker/Dockerfile
 include docker/compose.example.yml
 include docs/api.md
 include docs/architecture.md
+include docs/assets/eu-emblem.svg
 include docs/assets/sort4circ-hero-dark.svg
 include docs/benchmarks/README.md
 include docs/benchmarks/anchor-selftest.json

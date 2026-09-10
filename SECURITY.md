@@ -4,11 +4,11 @@
 
 | Release | Supported |
 | --- | --- |
-| Repository release **1.3.0** (current), implementing DPP profile **1.0.0** | Yes — security reports are accepted and addressed on this line |
-| 1.2.0 and earlier repository releases | No — upgrade to 1.3.0 before reporting |
+| Repository release **1.3.1** (current), implementing DPP profile **1.0.0** | Yes — security reports are accepted and addressed on this line |
+| 1.3.0 and earlier repository releases | No, upgrade to 1.3.1 before reporting |
 
 There is one supported line at a time. Fixes are made on the current repository release;
-there is no backport policy for earlier releases. Note that the repository version (1.3.0)
+there is no backport policy for earlier releases. Note that the repository version (1.3.1)
 and the normative DPP implementation profile version (1.0.0) are separate numbers — see
 [docs/versioning-and-migration.md](docs/versioning-and-migration.md#two-version-numbers).
 

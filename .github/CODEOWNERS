@@ -1,0 +1,20 @@
+# Review ownership for this repository.
+#
+# GitHub requests a review from the owning team on any pull request touching a
+# matching path. These entries only gate a merge once branch protection on the
+# default branch requires review from code owners, which is a repository setting
+# and not something this file can enable.
+#
+# The team must exist in the Constructor-Uni organisation and hold write access on
+# this repository. GitHub ignores an entry naming a team that does not exist, or
+# that lacks write access, without reporting an error.
+
+* @Constructor-Uni/sort4circ-wp4
+
+# Specification assets, the publication allowlist, the licence coverage map, and the
+# workflows that build and publish releases. Later rules win in CODEOWNERS, so these
+# are listed after the global rule to keep them authoritative for their paths.
+spec/**                     @Constructor-Uni/sort4circ-wp4
+public-release-policy.json  @Constructor-Uni/sort4circ-wp4
+LICENSING.md                @Constructor-Uni/sort4circ-wp4
+.github/workflows/**        @Constructor-Uni/sort4circ-wp4

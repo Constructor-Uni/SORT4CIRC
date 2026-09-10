@@ -1,5 +1,7 @@
 # SORT4CIRC DPP Development Guidelines
 
+[![CI](https://github.com/Constructor-Uni/SORT4CIRC/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Constructor-Uni/SORT4CIRC/actions/workflows/ci.yml?query=branch%3Amain) [![Licence: Apache-2.0 AND CC-BY-4.0](https://img.shields.io/badge/licence-Apache--2.0%20AND%20CC--BY--4.0-blue)](LICENSING.md) [![Python 3.11 | 3.12 | 3.13](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue)](pyproject.toml)
+
 A technical specification and implementation toolkit for developing interoperable textile
 Digital Product Passports. The repository provides machine-readable schemas, controlled
 vocabularies, semantic models, interoperability mappings, API specifications, validation
@@ -72,8 +74,8 @@ covers the record field by field.
 
 ## Versioning
 
-**Repository release:** v1.3.0<br>
-**DPP implementation profile:** 1.0.0
+**Repository release: v1.3.1**<br>
+**DPP implementation profile: 1.0.0**
 
 Individual specification assets may carry compatible patch versions.
 
@@ -88,7 +90,7 @@ The following categories are distinct and should not be conflated.
 | Path | Contents | Status |
 | --- | --- | --- |
 | `spec/` | The SORT4CIRC DPP implementation profile: JSON Schema, controlled vocabularies, RDF/OWL ontology, JSON/XML/RDF mappings, XSD, OpenAPI contract, SPARQL conformance queries, governance schemas, access matrix, reason codes | **Normative within this profile** |
-| `src/sort4circ_dpp/` | Reference software implementing the profile | Illustrative: one implementation approach |
+| `src/sort4circ_dpp/` | Reference software implementing the profile. `_spec/` inside it is a byte-identical packaging copy of the runtime-required subset of `spec/` (schemas, vocabularies, access matrix, reason codes), so an installed wheel resolves the profile without a source checkout. `spec/` is authoritative and is the tree to edit; CI and `tests/test_packaged_resources.py` verify the copy matches it byte for byte | Illustrative: one implementation approach |
 | `examples/` | Synthetic worked examples with valid and deliberately invalid fixtures | Illustrative |
 | `tests/`, `tools/` | Validation, contract and conformance resources, with generators and checkers | Executable evidence |
 | `docs/` | Implementation guidance organised by implementation task | Explanatory |
@@ -100,13 +102,17 @@ constrain the implementation technology of an adopting system.
 ### Normative scope
 
 Normative statements are normative **within the SORT4CIRC DPP implementation profile**
-versioned in this repository. They apply only to conformance with that profile, and are
-not, and do not claim to be:
+versioned in this repository. They are normative only for conformance with the public profile
+defined and versioned here, and are not, and do not claim to be:
 
 - an official European Union specification or European Commission certification;
 - a CEN, CENELEC or EN standard;
 - an external conformity assessment or certification scheme;
 - legal advice, proof of ESPR conformity, or proof that a deployment is compliant.
+
+Accordingly, this repository does not constitute an official European Union specification,
+a European Commission certification, a CEN or CENELEC certification, legal advice, proof of
+ESPR conformity, or proof that a deployment is legally compliant.
 
 [Traceability](docs/traceability.md) records, for each requirement area, whether a rule
 derives from a legal obligation, a standards-profile requirement, a SORT4CIRC
@@ -187,9 +193,10 @@ repository.
 | --- | --- |
 | Software, tests, tools, build, CI and container configuration | **Apache-2.0**, see [LICENSE](LICENSE) |
 | Documentation, specifications, schemas, vocabularies, ontology, mappings, OpenAPI, JSON fixtures, repository prose and metadata | **CC BY 4.0**, see [LICENSE-DOCS](LICENSE-DOCS) |
+| The European Union emblem, `docs/assets/eu-emblem.svg` | Reproduced under the European Union's emblem usage rules; **not** covered by either grant |
 
 The per-path coverage map is [LICENSING.md](LICENSING.md); every published file has an
-explicit component scope. Package metadata declares the combined distribution as
+explicit scope, including reserved-rights material that carries neither grant. Package metadata declares the combined distribution as
 `Apache-2.0 AND CC-BY-4.0`. Third-party dependencies retain their own licences. This
 repository neither redistributes nor relicenses any external standards document.
 
@@ -203,6 +210,8 @@ the required steps are recorded in that file.
 - [CONTRIBUTING.md](CONTRIBUTING.md): installation, testing, linting, fixture addition,
   safe modification of specification assets, and material that must not appear in a
   contribution.
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md): Contributor Covenant 2.1, and the private
+  channel used for conduct reports.
 - [SECURITY.md](SECURITY.md): private vulnerability reporting.
 - [PUBLICATION_BOUNDARY.md](PUBLICATION_BOUNDARY.md) and
   [docs/public-release.md](docs/public-release.md): publication scope, and the
@@ -211,7 +220,10 @@ the required steps are recorded in that file.
 
 ## Provenance
 
-This repository is the technical output of the SORT4CIRC Horizon Europe project. The
+This repository is the technical output of the SORT4CIRC Horizon Europe project
+([sort4circ.eu](https://sort4circ.eu), grant agreement 101181988 on
+[CORDIS](https://cordis.europa.eu/project/id/101181988)), coordinated by Constructor
+University Bremen gGmbH. The
 specification it publishes originates in project deliverable D4.3, *DPP Development
 Guidelines*; the machine-readable profile versioned in this repository is its
 authoritative form, and the deliverable document is not required in order to use the
@@ -219,3 +231,12 @@ repository. See [CITATION.cff](CITATION.cff) for citation and
 [Traceability](docs/traceability.md) for requirement-level provenance.
 
 Attribution does not identify or validate any deployed system.
+
+## Funding
+
+<img src="docs/assets/eu-emblem.svg" alt="Flag of the European Union" width="120">
+
+Funded by the European Union under Grant Agreement No 101181988. Views and opinions
+expressed are however those of the author(s) only and do not necessarily reflect those of
+the European Union or the European Research Executive Agency (REA). Neither the European
+Union nor the granting authority can be held responsible for them.

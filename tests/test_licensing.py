@@ -46,12 +46,17 @@ def test_distribution_declares_both_component_licences_and_ships_the_scope_map()
 def test_every_public_file_has_exactly_one_documented_licence_scope():
     import fnmatch
 
+    scopes = {
+        "## Apache-2.0 coverage": "Apache-2.0",
+        "## CC BY 4.0 coverage": "CC-BY-4.0",
+        "## Reserved-rights material": "reserved",
+    }
     document = (ROOT / "LICENSING.md").read_text()
     rules = []
     current = None
     for line in document.splitlines():
         if line.startswith("## "):
-            current = {"## Apache-2.0 coverage": "Apache-2.0", "## CC BY 4.0 coverage": "CC-BY-4.0"}.get(line)
+            current = scopes.get(line)
         if current and line.startswith("| ") and not line.startswith(("| Directory", "| ---")):
             patterns = line.split("|")[1].strip().split(", ")
             rules.extend((pattern, current) for pattern in patterns)
@@ -60,4 +65,19 @@ def test_every_public_file_has_exactly_one_documented_licence_scope():
         matches = [(pattern, licence) for pattern, licence in rules
                    if fnmatch.fnmatchcase(name, pattern)
                    or fnmatch.fnmatchcase(name, pattern.replace("**/", ""))]
-        assert len(matches) == 1, f"public coverage needs review: {name}"
+        # A row naming one exact path overrides the directory patterns that also cover it, so
+        # reserved-rights material keeps its own terms rather than inheriting the grant of the
+        # directory it sits in. Everything else must match exactly one scope and no more.
+        named = [match for match in matches if "*" not in match[0]]
+        assert len(named or matches) == 1, f"public coverage needs review: {name}"
+
+
+def test_the_eu_emblem_is_not_claimed_under_either_component_grant():
+    """The emblem is EU-owned; neither Apache-2.0 nor CC BY 4.0 may be asserted over it."""
+    emblem = ROOT / "docs/assets/eu-emblem.svg"
+    assert emblem.exists(), "the funding acknowledgement requires the emblem file"
+    coverage = (ROOT / "LICENSING.md").read_text()
+    row = next(line for line in coverage.splitlines() if line.startswith("| docs/assets/eu-emblem.svg |"))
+    assert "Emblem of the European Union" in row
+    assert "**not** by this repository's Apache-2.0 or CC BY 4.0 grants" in row
+    assert "docs/assets/eu-emblem.svg" in json.loads((ROOT / "public-release-policy.json").read_text())["files"]

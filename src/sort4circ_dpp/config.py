@@ -46,7 +46,7 @@ QUERY_DIR = _child(SPEC_DIR, "queries")
 GOVERNANCE_DIR = _child(SPEC_DIR, "governance")
 
 #: Version of this repository, package and GitHub release.
-RELEASE_VERSION = "1.3.0"
+RELEASE_VERSION = "1.3.1"
 
 #: Versions of the normative profile artefacts, not of this package. These are versioned
 #: per asset: the ontology carries an additive patch the other assets do not share.
