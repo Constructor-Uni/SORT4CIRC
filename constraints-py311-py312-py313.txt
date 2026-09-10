@@ -38,5 +38,5 @@ typing-extensions==4.16.0
 typing-inspection==0.4.3
 uvicorn==0.52.1
 watchfiles==1.2.0
-websockets==17.0.1
+websockets==17.1
 xmlschema==4.3.2
